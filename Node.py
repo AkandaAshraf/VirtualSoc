@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.sparse import dok_matrix
+import DNA as d
 
 
 
@@ -17,13 +18,12 @@ class Node:
         return  A
 
 
-    def __init__(self):
+    def __init__(self, DNA):
         self.connections = []
+        self.degree = 0
         self.ID = Node.nodeCount
-        Node.nodeCount +=1
-
-
-
+        self.DNA = DNA
+        Node.nodeCount += 1
 
 
     def __del__(self):
@@ -32,15 +32,16 @@ class Node:
     def __add__(self, other):
         self.connections.append(other)
         Node.edgeCount += 0.5
-        Node.adjMatDict[self.ID,other.ID]=1
+        Node.adjMatDict[self.ID, other.ID] = 1
+        self.degree += 1
 
 
 
 
 class NodeSocial(Node):
 
-    def __init__(self, age, gender, location, **kwargs):
-        super(NodeSocial,self).__init__()
+    def __init__(self, age, gender, location,DNA, **kwargs):
+        super(NodeSocial,self).__init__(DNA)
         self.age = age
         self.gender = gender
         self.location = location
@@ -63,9 +64,9 @@ class NodeSocial(Node):
 
 
 
-A = NodeSocial(age=23,gender='M',location=(215,111))
-B = NodeSocial(age=77, gender='F',location=(2,1251))
-C = NodeSocial(age=23,gender='M',location=(215,111))
+A = NodeSocial(age=23,gender='M',location=(215,111),DNA = d.DNA())
+B = NodeSocial(age=77, gender='F',location=(2,1251),DNA = d.DNA())
+C = NodeSocial(age=23,gender='M',location=(215,111),DNA = d.DNA())
 
 # A = NodeSocial(age=29, gender='F',location=(2,1251))
 
