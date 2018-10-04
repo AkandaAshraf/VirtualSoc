@@ -7,10 +7,10 @@ from PetriDish import *
 
 
 
-listOfNodes  = PetriDish.createSimpleNodes(PetriDish,numberOfNodes=5,nodeType=Node,DNA=DNA('random'))
+listOfNodes  = PetriDish.createSimpleNodes(PetriDish,numberOfNodes=2,nodeType=Node,DNA=DNA('random'))
 
 
-SocialiserObj = randomSocial()
+SocialiserObj = randomSocial(p=1)
 
 SocialiserObj.simpleRandomSocialiser(listOfNodes)
 
