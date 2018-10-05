@@ -6,9 +6,9 @@ class PetriDish:
     def __init__(self):
         pass
 
-    def createSimpleNodes(self, numberOfNodes, nodeType, DNA):
+    def createSimpleNodes(self, numberOfNodes, nodeType, DNA,Graph):
 
-        return [ nodeType(DNA) for i in range(numberOfNodes)]
+        return [ nodeType(DNA,Graph=Graph) for i in range(numberOfNodes)]
 
 
 
