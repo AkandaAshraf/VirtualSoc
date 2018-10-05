@@ -20,13 +20,15 @@ from Networks import *
 #
 # adj = Node.adj(Node)
 
-G1 = RandomGraph(10,0.5)
+G1 = RandomGraph(4,0.5)
 
-G2 = RandomGraph(5,0.8)
+G2 = RandomGraph(4,0.8, undirected=False)
 
 
-adj = G2.A(undirected=True,dense=False)
-adjDir = G2.A(undirected=False,dense=False)
+adj1 = G1.A()
+
+
+adj2 = G2.A()
 
 
 a = 2+ 3

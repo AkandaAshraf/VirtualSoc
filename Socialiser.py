@@ -41,7 +41,7 @@ class randomSocial:
 
 
 
-    def simpleRandomSocialiserSingleEdgeSelfConnectedUndirected(self, nodes):
+    def simpleRandomSocialiserSingleEdgeSelfConnected(self, nodes):
 
         for node1 in nodes:
             if node1.DNA.value == 'random':

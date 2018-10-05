@@ -43,8 +43,12 @@ class Node:
                 other.connectionsObj.append(self)
                 other.connectionsID.append(self.ID)
                 self.Graph.edgeCount += 0.5
+
                 self.outDegree += 1
+                self.inDegree += 1
+
                 other.inDegree += 1
+                other.outDegree += 1
 
                 self.Graph.adjMatDict[self.ID, other.ID] = 1
                 self.Graph.adjMatDict[other.ID, self.ID] = 1

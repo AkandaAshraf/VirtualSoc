@@ -20,32 +20,32 @@ class Graph:
         self.E = self.adjMatDict
         self.undirected = undirected
 
-    def A(self,undirected=False, dense=False):
-        if not undirected and not dense:
-            adj = dok_matrix((self.nodeCount, self.nodeCount),dtype=np.int)
-            for key1,key2 in self.adjMatDict:
-                if self.adjMatDict[key1,key2] is not None:
-                    adj[key1,key2] = 1
-            return adj
-        elif not undirected and dense:
-            adj = dok_matrix((self.nodeCount, self.nodeCount), dtype=np.int)
-            for key1, key2 in self.adjMatDict:
-                if self.adjMatDict[key1,key2] is not None:
-                    adj[key1,key2] = 1
-            return adj.todense()
-        elif undirected and not dense:
-            adj = dok_matrix((self.nodeCount, self.nodeCount), dtype=np.int)
-            for key1, key2 in self.adjMatDict:
-                if self.adjMatDict[key1, key2] is not None:
-                    adj[key1, key2] = 1
-            return  adj + adj.T.multiply(adj.T > adj) - adj.multiply(adj.T > adj)
+    def A(self):
 
-        elif undirected and dense:
-            adj = dok_matrix((self.nodeCount, self.nodeCount), dtype=np.int)
-            for key1, key2 in self.adjMatDict:
-                if self.adjMatDict[key1, key2] is not None:
-                    adj[key1, key2] = 1
-            return  (adj + adj.T.multiply(adj.T > adj) - adj.multiply(adj.T > adj)).todense()
+        adj = dok_matrix((self.nodeCount, self.nodeCount),dtype=np.int)
+        for key1,key2 in self.adjMatDict:
+            if self.adjMatDict[key1,key2] is not None:
+                adj[key1,key2] = 1
+        return adj
+        # elif not undirected and dense:
+        #     adj = dok_matrix((self.nodeCount, self.nodeCount), dtype=np.int)
+        #     for key1, key2 in self.adjMatDict:
+        #         if self.adjMatDict[key1,key2] is not None:
+        #             adj[key1,key2] = 1
+        #     return adj.todense()
+        # elif undirected and not dense:
+        #     adj = dok_matrix((self.nodeCount, self.nodeCount), dtype=np.int)
+        #     for key1, key2 in self.adjMatDict:
+        #         if self.adjMatDict[key1, key2] is not None:
+        #             adj[key1, key2] = 1
+        #     return  adj + adj.T.multiply(adj.T > adj) - adj.multiply(adj.T > adj)
+        #
+        # elif undirected and dense:
+        #     adj = dok_matrix((self.nodeCount, self.nodeCount), dtype=np.int)
+        #     for key1, key2 in self.adjMatDict:
+        #         if self.adjMatDict[key1, key2] is not None:
+        #             adj[key1, key2] = 1
+        #     return  (adj + adj.T.multiply(adj.T > adj) - adj.multiply(adj.T > adj)).todense()
 
 
 
@@ -78,20 +78,21 @@ class Graph:
 
 class RandomGraph(Graph):
 
-    def __init__(self,n,p,type='gnp'):
+    def __init__(self,n,p,type='gnp',undirected=True):
         super(RandomGraph,self).__init__()
         self.type =type
         self.p = p
+        self.undirected =undirected
         Dish = PetriDish()
         self.N = Dish.createSimpleNodes(numberOfNodes=n, nodeType=Node, DNA=DNA('random'), Graph=self)
         self.SocialiserObj = randomSocial(graph=self,p=p)
-        self.SocialiserObj.simpleRandomSocialiserSingleEdgeSelfConnectedUndirected(self.N)
+        self.SocialiserObj.simpleRandomSocialiserSingleEdgeSelfConnected(self.N)
         # self.E = Node.adjMatDict
         # self.A = Node.adj(Node)
         self.Ncount = len(self.N)
         # self.Ecount = Node.edgeCount
-    def A(self, undirected=False, dense=False):
-        return super().A(undirected, dense)
+    def A(self):
+        return super().A()
 
 
 
