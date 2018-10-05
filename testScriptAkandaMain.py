@@ -20,9 +20,9 @@ from Networks import *
 #
 # adj = Node.adj(Node)
 
-G1 = RandomGraph(4,0.5)
+G1 = RandomGraph(10,0.5)
 
-G2 = RandomGraph(4,0.8, undirected=False)
+G2 = RandomGraph(10,0.8, undirected=False)
 
 
 adj1 = G1.A()

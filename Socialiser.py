@@ -5,11 +5,11 @@ import concurrent.futures
 class randomSocial:
 
 
-    def __init__(self,graph, p=0.5,selfConncetions=True):
+    def __init__(self,graph, p=0.5):
 
         self.p = p
         self.graph = graph
-        self.selfConncetions = selfConncetions
+        # self.selfConncetions = selfConncetions
 
     def simpleRandomSocialiserMultipleEdgesSelfConnectedDirected(self, nodes):
 
@@ -20,7 +20,7 @@ class randomSocial:
                         if node1 is not node2:
                             node1+node2
                         else:
-                            if not node1.selfConnected and self.selfConncetions:
+                            if not node1.selfConnected and self.graph.selfConncetions:
                                  node1+node1
 
     def simpleRandomSocialiserSingleEdgeSelfConnectedDirected(self, nodes):
@@ -35,13 +35,13 @@ class randomSocial:
                                 # self.graph.adjMatDict[node1.ID, node2.ID] = 1
 
                             else:
-                                if not node1.selfConnected and self.selfConncetions:
+                                if not node1.selfConnected and self.graph.selfConncetions:
                                     node1 + node1
 
 
 
 
-    def simpleRandomSocialiserSingleEdgeSelfConnected(self, nodes):
+    def simpleRandomSocialiserSingleEdge(self, nodes):
 
         for node1 in nodes:
             if node1.DNA.value == 'random':
@@ -54,7 +54,7 @@ class randomSocial:
                                 # self.graph.adjMatDict[node2.ID, node1.ID] = 1
 
                             else:
-                                if not node1.selfConnected and self.selfConncetions:
+                                if not node1.selfConnected and self.graph.selfConncetions:
                                     node1 + node1
 
 

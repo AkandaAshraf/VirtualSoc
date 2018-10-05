@@ -13,12 +13,13 @@ import collections
 
 class Graph:
 
-    def __init__(self,undirected=True):
+    def __init__(self, undirected=True, selfConncetions=False):
         self.nodeCount = 0
         self.edgeCount = 0
         self.adjMatDict = collections.defaultdict(lambda: None)
         self.E = self.adjMatDict
         self.undirected = undirected
+        self.selfConncetions=selfConncetions
 
     def A(self):
 
@@ -78,15 +79,14 @@ class Graph:
 
 class RandomGraph(Graph):
 
-    def __init__(self,n,p,type='gnp',undirected=True):
-        super(RandomGraph,self).__init__()
+    def __init__(self, n, p, type='gnp', undirected=True, selfConncetions=False):
+        super(RandomGraph,self).__init__(undirected, selfConncetions)
         self.type =type
         self.p = p
-        self.undirected =undirected
         Dish = PetriDish()
         self.N = Dish.createSimpleNodes(numberOfNodes=n, nodeType=Node, DNA=DNA('random'), Graph=self)
         self.SocialiserObj = randomSocial(graph=self,p=p)
-        self.SocialiserObj.simpleRandomSocialiserSingleEdgeSelfConnected(self.N)
+        self.SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
         # self.E = Node.adjMatDict
         # self.A = Node.adj(Node)
         self.Ncount = len(self.N)
