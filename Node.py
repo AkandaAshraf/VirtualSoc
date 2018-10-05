@@ -35,20 +35,45 @@ class Node:
 
     def __add__(self, other):
 
-        if not self.Graph.checkSelfConnection(self,other):
-            if not self.Graph.checkSameEntryAdj(self, other):
+        if self.Graph.undirected:
+            if not self.Graph.checkSelfConnection(self, other):
+
+                self.connectionsObj.append(other)
+                self.connectionsID.append(other.ID)
+                other.connectionsObj.append(self)
+                other.connectionsID.append(self.ID)
+                self.Graph.edgeCount += 0.5
+                self.outDegree += 1
+                other.inDegree += 1
+
                 self.Graph.adjMatDict[self.ID, other.ID] = 1
+                self.Graph.adjMatDict[other.ID, self.ID] = 1
+
+
+            else:
+                self.selfConnected = True
+                self.selfConnectionsNumber +=1
+
+                self.Graph.edgeCount += 0.5
+
+        elif not self.Graph.undirected:
+
+            if not self.Graph.checkSelfConnection(self, other):
+
                 self.connectionsObj.append(other)
                 self.connectionsID.append(other.ID)
                 self.Graph.edgeCount += 0.5
                 self.outDegree += 1
                 other.inDegree += 1
 
-        else:
-            self.selfConnected = True
-            self.selfConnectionsNumber +=1
-            self.Graph.adjMatDict[self.ID, other.ID] = 1
+                self.Graph.adjMatDict[self.ID, other.ID] = 1
 
+
+            else:
+                self.selfConnected = True
+                self.selfConnectionsNumber += 1
+
+                self.Graph.edgeCount += 0.5
 
 
 class NodeSocial(Node):
