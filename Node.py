@@ -46,6 +46,7 @@ class Node:
         else:
             self.selfConnected = True
             self.selfConnectionsNumber +=1
+            Node.adjMatDict[self.ID, other.ID] = 1
 
 
 
@@ -91,21 +92,5 @@ def checkSelfConnection(node1, node2):
     else:
         return False
 
-#
-# A = NodeSocial(age=23,gender='M',location=(215,111),DNA = d)
-# B = NodeSocial(age=77, gender='F',location=(2,1251),DNA = d.DNA())
-# C = NodeSocial(age=23,gender='M',location=(215,111),DNA = d.DNA())
-#
-# # A = NodeSocial(age=29, gender='F',location=(2,1251))
-#
-# A+C
-# C+A
-#
-#
-# adj = NodeSocial.adj(NodeSocial)
-# adj_dense = adj.todense()
-# a = 0
-#
-#
-#
+
 
