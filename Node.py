@@ -54,7 +54,7 @@ class Node:
 class NodeSocial(Node):
 
     def __init__(self, age, gender, location, DNA, Graph, **kwargs):
-        super(NodeSocial,self).__init__(DNA,Graph)
+        super(NodeSocial, self).__init__(DNA,Graph)
         self.age = age
         self.gender = gender
         self.location = location
@@ -64,10 +64,10 @@ class NodeSocial(Node):
                 self.features[key] = value
 
     def __del__(self):
-        super(NodeSocial,self).__del__()
+        super(NodeSocial, self).__del__()
 
     def __add__(self, other):
-        super(NodeSocial,self).__add__(other)
+        super(NodeSocial, self).__add__(other)
 
 
 

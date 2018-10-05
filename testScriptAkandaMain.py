@@ -25,5 +25,9 @@ G1 = RandomGraph(10,0.5)
 G2 = RandomGraph(5,0.8)
 
 
+adj = G2.A(undirected=True,dense=False)
+adjDir = G2.A(undirected=False,dense=False)
+
+
 a = 2+ 3
 
