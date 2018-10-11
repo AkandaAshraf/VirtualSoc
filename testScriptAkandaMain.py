@@ -20,6 +20,7 @@ from Networks import *
 #
 # adj = Node.adj(Node)
 
+
 G1 = RandomGraph(10, 0.5)
 
 G2 = RandomSocialGraph(labelSplit=[5,10])

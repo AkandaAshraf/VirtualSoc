@@ -95,10 +95,11 @@ class RandomGraph(Graph):
 class RandomSocialGraph(Graph):
 
 
-    def __init__(self, labelSplit, exploreProbablity=0.9, n='auto', dna='auto', p=None, undirected=True, selfConncetions=False):
+    def __init__(self, labelSplit, exploreProbablity=0.9,percentageOfConnectionNodes=20 ,n='auto', dna='auto', p=None, undirected=True, selfConncetions=False):
         super(RandomSocialGraph, self).__init__(undirected, selfConncetions)
         self.dna =dna
         self.p = exploreProbablity
+        self.percentageOfConnectionNodes = percentageOfConnectionNodes
         # Dish = PetriDish()
         self.N = []
 
@@ -114,7 +115,7 @@ class RandomSocialGraph(Graph):
                 self.N = [*self.N, *tempN]
         self.Ncount = len(self.N)
 
-        self.SocialiserObj = randomSocialwithDNA(graph=self, p=self.p)
+        self.SocialiserObj = randomSocialwithDNA(graph=self, p=self.p,percentageOfConnectionNodes=self.percentageOfConnectionNodes)
         self.SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
 
     def A(self):

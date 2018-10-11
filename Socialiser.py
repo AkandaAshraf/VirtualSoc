@@ -64,10 +64,11 @@ class randomSocial:
 
 class randomSocialwithDNA:
 
-        def __init__(self, graph, p=0.5):
+        def __init__(self, graph,percentageOfConnectionNodes=20, p=0.5):
 
             self.p = p
             self.graph = graph
+            self.percentageOfConnectionNodes = percentageOfConnectionNodes
             # self.selfConncetions = selfConncetions
         class NodesScore:
             def __init__(self,node1,node2, score, graph):
@@ -110,7 +111,7 @@ class randomSocialwithDNA:
         #                             if not node1.selfConnected and self.graph.selfConncetions:
         #                                 node1 + node1
 
-        def simpleRandomSocialiserSingleEdge(self, nodes,percentageOfConnectionNodes=20):
+        def simpleRandomSocialiserSingleEdge(self, nodes):
             # nodes1 = []
             # nodes2 = []
             # scores = []
@@ -146,7 +147,7 @@ class randomSocialwithDNA:
             NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
 
             l = 0.0
-            stoppingLen = len(NodesScoreListOfObjectsSorted)*percentageOfConnectionNodes/100
+            stoppingLen = len(NodesScoreListOfObjectsSorted)*self.percentageOfConnectionNodes/100
             for  NodesScoreObj in NodesScoreListOfObjectsSorted:
 
                         if l>= stoppingLen:
