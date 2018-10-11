@@ -1,14 +1,12 @@
 from Node import *
 from DNA import *
 from Socialiser import *
-from PetriDish import *
+import PetriDish
 import collections
 import numpy as np
 from scipy.sparse import dok_matrix
 import warnings
 import collections
-
-
 
 
 class Graph:
@@ -72,27 +70,56 @@ class Graph:
         else:
             return False
 
-    # def A(self,undirected=False):
-    #     pass
+
     def edge_list(self):
         pass
 
+
 class RandomGraph(Graph):
 
+
     def __init__(self, n, p, type='gnp', undirected=True, selfConncetions=False):
-        super(RandomGraph,self).__init__(undirected, selfConncetions)
+        super(RandomGraph, self).__init__(undirected, selfConncetions)
         self.type =type
         self.p = p
-        Dish = PetriDish()
-        self.N = Dish.createSimpleNodes(numberOfNodes=n, nodeType=Node, DNA=DNA('random'), Graph=self)
-        self.SocialiserObj = randomSocial(graph=self,p=p)
+        # Dish = PetriDish()
+        self.N = PetriDish.createSimpleNodes(numberOfNodes=n, nodeType=Node, DNA=DNA('random'), Graph=self)
+        self.SocialiserObj = randomSocial(graph=self, p=p)
         self.SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
-        # self.E = Node.adjMatDict
-        # self.A = Node.adj(Node)
         self.Ncount = len(self.N)
-        # self.Ecount = Node.edgeCount
+
     def A(self):
         return super().A()
+
+
+class RandomSocialGraph(Graph):
+
+
+    def __init__(self,labelSplit, n='auto', dna='auto',p=None, undirected=True, selfConncetions=False):
+        super(RandomSocialGraph, self).__init__(undirected, selfConncetions)
+        self.dna =dna
+        # self.p = p
+        # Dish = PetriDish()
+        self.N = []
+
+        for i in range(0,len(labelSplit)):
+
+            if i ==0:
+                tempN = PetriDish.createSocialNodes(numberOfNodes=labelSplit[i], nodeType=NodeSocial, DNA=DNA(dna),commonLabel=i, Graph=self)
+                N = tempN
+
+            else:
+                tempN = PetriDish.createSocialNodes(numberOfNodes=labelSplit[i]-labelSplit[i-1], nodeType=NodeSocial,commonLabel=i, DNA=DNA(dna),
+                                               Graph=self)
+                N = [*N, *tempN]
+
+        self.SocialiserObj = randomSocial(graph=self, p=p)
+        self.SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
+        self.Ncount = len(self.N)
+
+    def A(self):
+        return super().A()
+
 
 
 

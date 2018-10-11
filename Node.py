@@ -71,11 +71,12 @@ class Node:
 
 class NodeSocial(Node):
 
-    def __init__(self, age, gender, location, DNA, Graph, **kwargs):
-        super(NodeSocial, self).__init__(DNA,Graph)
+    def __init__(self, age, gender, location, label, DNA, Graph, **kwargs):
+        super(NodeSocial, self).__init__(DNA, Graph)
         self.age = age
         self.gender = gender
         self.location = location
+        self.label =label
         self.features = {}
         if kwargs is not None:
             for key, value in kwargs.items():

@@ -14,7 +14,7 @@ class randomSocial:
     def simpleRandomSocialiserMultipleEdgesSelfConnectedDirected(self, nodes):
 
         for node1 in nodes:
-            if node1.DNA.value=='random':
+            if node1.DNA.value == 'random':
                 for node2 in nodes:
                     if 1.0-self.p <= np.random.uniform(low=0.0, high=1.0, size=None):
                         if node1 is not node2:

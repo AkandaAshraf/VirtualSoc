@@ -20,15 +20,16 @@ from Networks import *
 #
 # adj = Node.adj(Node)
 
-G1 = RandomGraph(10,0.5)
+G1 = RandomGraph(10, 0.5)
 
-G2 = RandomGraph(10,0.8, undirected=False)
+G2 = RandomSocialGraph(labelSplit=[5,10])
 
 
 adj1 = G1.A()
 
 
 adj2 = G2.A()
+
 
 
 a = 2+ 3
