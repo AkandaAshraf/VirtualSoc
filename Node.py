@@ -88,6 +88,24 @@ class NodeSocial(Node):
     def __add__(self, other):
         super(NodeSocial, self).__add__(other)
 
+    def getScore(self, other):
+
+        ageDiff = abs(self.age - other.age)*self.DNA.value[1]
+
+        if self.DNA.value[0] ==0:
+            ageDiff = -1*ageDiff
+        locationDiff = abs(self.age- other.age)*self.DNA.value[3]
+
+        if self.DNA.value[2] ==0:
+            locationDiff = -1*locationDiff
+
+        genderDiff = abs(self.age- other.age)*self.DNA.value[5]
+
+        if self.DNA.value[4] == 0:
+            genderDiff = -1 * genderDiff
+
+        return ageDiff + locationDiff + genderDiff
+
 
 
 

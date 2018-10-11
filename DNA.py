@@ -24,6 +24,7 @@ class DNA:
 
 
 
+
     def getDnaType(self, *args, **kwargs):
         if self.value == 'random':
             print('Random')
