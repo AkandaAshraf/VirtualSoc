@@ -69,6 +69,19 @@ class randomSocialwithDNA:
             self.p = p
             self.graph = graph
             # self.selfConncetions = selfConncetions
+        class NodesScore:
+            def __init__(self,node1,node2, score, graph):
+                self.node1 = node1
+                self.node2 = node2
+                self.score = score
+                self.graph = graph
+
+            def addNodes(self):
+                if not self.graph.checkSameEntryAdj(self.node1, self.node2,
+                                                    warning=False) and not self.graph.checkSameEntryAdj(self.node2,
+                                                                                                        self.node1,
+                                                                                                        warning=False):
+                       self.node1 + self.node2
 
         # def simpleRandomSocialiserMultipleEdgesSelfConnectedDirected(self, nodes):
         #
@@ -101,8 +114,9 @@ class randomSocialwithDNA:
             # nodes1 = []
             # nodes2 = []
             # scores = []
-            #
-            nodeScoreDict = {}
+            # #
+            # nodeScoreDict = {}
+            NodesScoreListOfObjects = []
 
 
             for node1 in nodes:
@@ -114,7 +128,13 @@ class randomSocialwithDNA:
                                     # nodes1.append(node1)
                                     # nodes2.append(node2)
 
-                                    nodeScoreDict[node1,node2] = node1.getScore(node2)+node2.getScore(node1)
+                                    NodesScoreListOfObjects.append(self.NodesScore(node1=node1,node2=node2,score=node1.getScore(node2)+node2.getScore(node1),graph=self.graph))
+                                    #
+                                    # nodeScoreDict[node1,node2] = node1.getScore(node2)+node2.getScore(node1)
+                                    #
+                                    # nodeScore.append(node1.getScore(node2) + node2.getScore(node1), node1, node2)
+                                    # # nodeScore.append(node1)
+                                    # nodeScore.append(node2)
 
                                     # self.graph.adjMatDict[node1.ID, node2.ID] = 1
                                     # self.graph.adjMatDict[node2.ID, node1.ID] = 1
@@ -122,19 +142,17 @@ class randomSocialwithDNA:
                                 # else:
                                 #     if not node1.selfConnected and self.graph.selfConncetions:
                                 #         node1 + node1
-            nodeScoreDictSorted = sorted(nodeScoreDict.items(), key=operator.itemgetter(1), reverse=True)
+
+            NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
 
             l = 0.0
-            stoppingLen = len(nodeScoreDictSorted)*percentageOfConnectionNodes/100
-            for node1,node2 in nodeScoreDictSorted:
-                if not self.graph.checkSameEntryAdj(node1, node2,
-                                                    warning=False) and not self.graph.checkSameEntryAdj(node2,
-                                                                                                        node1,
-                                                                                                        warning=False):
+            stoppingLen = len(NodesScoreListOfObjectsSorted)*percentageOfConnectionNodes/100
+            for  NodesScoreObj in NodesScoreListOfObjectsSorted:
+
                         if l>= stoppingLen:
                             break
                         else:
-                            node1+node2
+                            NodesScoreObj.addNodes()
                         l +=1
 
 
