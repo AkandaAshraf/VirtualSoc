@@ -21,9 +21,9 @@ from Networks import *
 # adj = Node.adj(Node)
 
 
-G1 = RandomGraph(10, 0.5)
+G1 = RandomGraph(10, 0.5,undirected=False)
 
-G2 = RandomSocialGraph(labelSplit=[5,10])
+G2 = RandomSocialGraph(labelSplit=[50,100],percentageOfConnectionNodes=1)
 
 
 adj1 = G1.A()

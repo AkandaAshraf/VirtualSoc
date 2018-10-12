@@ -30,13 +30,13 @@ class randomSocial:
                 for node2 in nodes:
                     if not self.graph.checkSameEntryAdj(node1, node2,warning=False):
                         if 1.0 - self.p <= np.random.uniform(low=0.0, high=1.0, size=None):
-                            if node1 is not node2:
+                            # if node1 is not node2:
                                 node1 + node2
                                 # self.graph.adjMatDict[node1.ID, node2.ID] = 1
-
-                            else:
-                                if not node1.selfConnected and self.graph.selfConncetions:
-                                    node1 + node1
+                            #
+                            # else:
+                            #     if not node1.selfConnected and self.graph.selfConncetions:
+                            #         node1 + node1
 
 
 
@@ -46,16 +46,16 @@ class randomSocial:
         for node1 in nodes:
             if node1.DNA.value == 'random':
                 for node2 in nodes:
-                    if not self.graph.checkSameEntryAdj(node1, node2, warning=False) and not self.graph.checkSameEntryAdj(node2, node1, warning=False):
+                    if not self.graph.checkSameEntryAdj(node1, node2, warning=False) or not self.graph.checkSameEntryAdj(node2, node1, warning=False):
                         if 1.0 - self.p <= np.random.uniform(low=0.0, high=1.0, size=None):
                             if node1 is not node2:
                                 node1 + node2
                                 # self.graph.adjMatDict[node1.ID, node2.ID] = 1
                                 # self.graph.adjMatDict[node2.ID, node1.ID] = 1
-
-                            else:
-                                if not node1.selfConnected and self.graph.selfConncetions:
-                                    node1 + node1
+                            #
+                            # else:
+                            #     if not node1.selfConnected and self.graph.selfConncetions:
+                            #         node1 + node1
 
 
     def simpleRandomSocialiserThreaded(self, nodes):
@@ -79,7 +79,7 @@ class randomSocialwithDNA:
 
             def addNodes(self):
                 if not self.graph.checkSameEntryAdj(self.node1, self.node2,
-                                                    warning=False) and not self.graph.checkSameEntryAdj(self.node2,
+                                                    warning=False) or not self.graph.checkSameEntryAdj(self.node2,
                                                                                                         self.node1,
                                                                                                         warning=False):
                        self.node1 + self.node2

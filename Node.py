@@ -42,7 +42,7 @@ class Node:
                 self.connectionsID.append(other.ID)
                 other.connectionsObj.append(self)
                 other.connectionsID.append(self.ID)
-                self.Graph.edgeCount += 0.5
+                self.Graph.edgeCount += 1
 
                 self.outDegree += 1
                 self.inDegree += 1
