@@ -31,8 +31,8 @@ class Graph:
 
         else:
             adj = dok_matrix((nodeCount, nodeCount),dtype=np.int)
-            for key1,key2 in self.externalAdjDict:
-                if self.externalAdjDict[key1, key2] is not None:
+            for key1,key2 in externalAdjDict:
+                if externalAdjDict[key1, key2] is not None:
                     adj[key1,key2] = 1
             return adj
 
