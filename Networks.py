@@ -104,9 +104,6 @@ class RandomGraph(Graph):
 
 class RandomSocialGraph(Graph):
 
-
-
-
     def __init__(self, labelSplit, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True):
         super(RandomSocialGraph, self).__init__(undirected, selfConncetions)
         self.DNA = []
@@ -157,10 +154,16 @@ class RandomSocialGraph(Graph):
                                       connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes, DNA=DNA,
                                       DNAmutationIntensity=intensity, mutatePreference=mutatePreference,
                                       mutatePreferenceProbability=mutatePreferenceProbability, edgeCount=self.edgeCount))
+    def socialiseAgain(self,explorationProbability=0.9, connectionPercentageWithMatchedNodes=20):
+        self.p =  explorationProbability
+        self.percentageOfConnectionNodes = connectionPercentageWithMatchedNodes
+          
+        __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
+        __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
 
     class __EvolutionHistory():
         def __init__(self,adjMat,explorationProbability,connectionPercentageWithMatchedNodes,DNA,DNAmutationIntensity,mutatePreference,mutatePreferenceProbability,edgeCount):
-
+            # deep copy all historical information
             self.adjMat = copy.deepcopy(adjMat)
             self.explorationProbability = copy.deepcopy(explorationProbability)
             self.connectionPercentageWithMatchedNodes = copy.deepcopy(connectionPercentageWithMatchedNodes)
@@ -169,19 +172,6 @@ class RandomSocialGraph(Graph):
             self.mutatePreference = copy.deepcopy(mutatePreference)
             self.mutatePreferenceProbability = copy.deepcopy(mutatePreferenceProbability)
             self.edgeCount = copy.deepcopy(edgeCount)
-
-
-
-
-
-
-
-
-
-            pass
-
-
-
 
 
     def __getNodes(self):
