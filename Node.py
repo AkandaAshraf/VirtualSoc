@@ -79,10 +79,10 @@ class NodeSocial(Node):
         self.label =label
         ### add all the features in the following list
 
-        self.features = [self.age,self.gender,self.location]
+        self.features = [self.age, self.gender, self.location]
         if kwargs is not None:
-            for key, value in kwargs.items():
-                self.features[key] = value
+            for value in kwargs.items():
+                self.features.append(value)
 
     def __del__(self):
         super(NodeSocial, self).__del__()
@@ -91,22 +91,31 @@ class NodeSocial(Node):
         super(NodeSocial, self).__add__(other)
 
     def getScore(self, other):
+        i=0
 
-        ageDiff = abs(self.age - other.age)*self.DNA.value[1]
+        sumScore = 0
 
-        if self.DNA.value[0] ==0:
-            ageDiff = -1*ageDiff
-        locationDiff = abs(self.age- other.age)*self.DNA.value[3]
+        for featureSelf in self.features:
+              featDiff = abs(featureSelf - other.features[i]) * self.DNA.value[i+1]
+              if self.DNA.value[i] == 0:
+                  featDiff = -1 * featDiff
+              sumScore = sumScore + featDiff
 
-        if self.DNA.value[2] ==0:
-            locationDiff = -1*locationDiff
+        # ageDiff = abs(self.age - other.age)*self.DNA.value[1]
+        #
+        # if self.DNA.value[0] ==0:
+        #     ageDiff = -1*ageDiff
+        # locationDiff = abs(self.age- other.age)*self.DNA.value[3]
+        #
+        # if self.DNA.value[2] ==0:
+        #     locationDiff = -1*locationDiff
+        #
+        # genderDiff = abs(self.age- other.age)*self.DNA.value[5]
+        #
+        # if self.DNA.value[4] == 0:
+        #     genderDiff = -1 * genderDiff
 
-        genderDiff = abs(self.age- other.age)*self.DNA.value[5]
-
-        if self.DNA.value[4] == 0:
-            genderDiff = -1 * genderDiff
-
-        return ageDiff + locationDiff + genderDiff
+        return sumScore
 
 
 
