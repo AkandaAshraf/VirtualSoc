@@ -104,21 +104,28 @@ class RandomSocialGraph(Graph):
         self.N = []
 
         for i in range(0,len(labelSplit)):
-
-            self.DNA.append(DNA(dna))
+            # we will gen using createSocialNodesThreeFeatures which has three features thus len =3
+            self.DNA.append(DNA(dna, len=3))
 
             if i ==0:
-                tempN = PetriDish.createSocialNodes(numberOfNodes=labelSplit[i], nodeType=NodeSocial, DNA=self.DNA[-1],commonLabel=i, Graph=self)
+                tempN = PetriDish.createSocialNodesThreeFeatures(numberOfNodes=labelSplit[i], nodeType=NodeSocial, DNA=self.DNA[-1],commonLabel=i, Graph=self)
                 self.N = tempN
 
             else:
-                tempN = PetriDish.createSocialNodes(numberOfNodes=labelSplit[i]-labelSplit[i-1], nodeType=NodeSocial,commonLabel=i, DNA=self.DNA[-1],
+                tempN = PetriDish.createSocialNodesThreeFeatures(numberOfNodes=labelSplit[i]-labelSplit[i-1], nodeType=NodeSocial,commonLabel=i, DNA=self.DNA[-1],
                                                Graph=self)
                 self.N = [*self.N, *tempN]
         self.Ncount = len(self.N)
 
         __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
         __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
+
+
+    def mutateDNA(self,intensity):
+
+        for dna in self.DNA:
+            dna.mutateDNA(intensity=intensity)
+
 
     def __getNodes(self):
         pass

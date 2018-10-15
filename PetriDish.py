@@ -10,7 +10,7 @@ def createSimpleNodes( numberOfNodes, nodeType, DNA, Graph):
 
         return [ nodeType(DNA,Graph=Graph) for i in range(numberOfNodes)]
 
-def createSocialNodes( numberOfNodes, nodeType, DNA,commonLabel, Graph):
+def createSocialNodesThreeFeatures( numberOfNodes, nodeType, DNA,commonLabel, Graph):
 
          age = np.random.randint(18, high=65, size=numberOfNodes)
          gender = np.random.randint(0, high=1, size=numberOfNodes)
