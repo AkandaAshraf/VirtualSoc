@@ -84,8 +84,8 @@ class RandomGraph(Graph):
         self.p = p
         # Dish = PetriDish()
         self.N = PetriDish.createSimpleNodes(numberOfNodes=n, nodeType=Node, DNA=DNA('random'), Graph=self)
-        self.SocialiserObj = randomSocial(graph=self, p=p)
-        self.SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
+        __SocialiserObj = randomSocial(graph=self, p=p)
+        __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
         self.Ncount = len(self.N)
 
     def A(self):
@@ -95,28 +95,35 @@ class RandomGraph(Graph):
 class RandomSocialGraph(Graph):
 
 
-    def __init__(self, labelSplit, exploreProbablity=0.9,percentageOfConnectionNodes=20 ,n='auto', dna='auto', p=None, undirected=True, selfConncetions=False):
+    def __init__(self, labelSplit, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 ,n='auto', dna='auto', p=None, undirected=True, selfConncetions=False):
         super(RandomSocialGraph, self).__init__(undirected, selfConncetions)
-        self.dna =dna
-        self.p = exploreProbablity
-        self.percentageOfConnectionNodes = percentageOfConnectionNodes
+        self.DNA = []
+        self.p = explorationProbability
+        self.percentageOfConnectionNodes = connectionPercentageWithMatchedNodes
         # Dish = PetriDish()
         self.N = []
 
         for i in range(0,len(labelSplit)):
 
+            self.DNA.append(DNA(dna))
+
             if i ==0:
-                tempN = PetriDish.createSocialNodes(numberOfNodes=labelSplit[i], nodeType=NodeSocial, DNA=DNA(dna),commonLabel=i, Graph=self)
+                tempN = PetriDish.createSocialNodes(numberOfNodes=labelSplit[i], nodeType=NodeSocial, DNA=self.DNA[-1],commonLabel=i, Graph=self)
                 self.N = tempN
 
             else:
-                tempN = PetriDish.createSocialNodes(numberOfNodes=labelSplit[i]-labelSplit[i-1], nodeType=NodeSocial,commonLabel=i, DNA=DNA(dna),
+                tempN = PetriDish.createSocialNodes(numberOfNodes=labelSplit[i]-labelSplit[i-1], nodeType=NodeSocial,commonLabel=i, DNA=self.DNA[-1],
                                                Graph=self)
                 self.N = [*self.N, *tempN]
         self.Ncount = len(self.N)
 
-        self.SocialiserObj = randomSocialwithDNA(graph=self, p=self.p,percentageOfConnectionNodes=self.percentageOfConnectionNodes)
-        self.SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
+        __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
+        __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
+
+    def __getNodes(self):
+        pass
+
+
 
     def A(self):
         return super().A()

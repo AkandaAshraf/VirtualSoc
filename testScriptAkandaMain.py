@@ -23,7 +23,11 @@ from Networks import *
 
 G1 = RandomGraph(10, 0.5,undirected=False)
 
-G2 = RandomSocialGraph(labelSplit=[50,100],percentageOfConnectionNodes=1)
+G2 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3)
+
+G3 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.1)
+
+G4 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.01)
 
 
 adj1 = G1.A()
