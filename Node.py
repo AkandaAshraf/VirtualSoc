@@ -77,7 +77,9 @@ class NodeSocial(Node):
         self.gender = gender
         self.location = location
         self.label =label
-        self.features = {}
+        ### add all the features in the following list
+
+        self.features = [self.age,self.gender,self.location]
         if kwargs is not None:
             for key, value in kwargs.items():
                 self.features[key] = value

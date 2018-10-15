@@ -35,7 +35,8 @@ adj1 = G1.A()
 
 adj2 = G2.A()
 
-G2.mutateDNA(intensity=0.5)
+G2.mutateDNAandSocialiseAgain(intensity=0.5)
+
 
 a = 2+ 3
 

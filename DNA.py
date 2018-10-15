@@ -22,7 +22,7 @@ class DNA:
 
         return dnaValue
 
-    def mutateDNA(self,mutatePreference=False,mutatePreferenceProbability=True,intensity=0.1):
+    def mutateDNA(self,mutatePreference,mutatePreferenceProbability,intensity=0.1):
 
         l = len(self.value)
         preferenceMutationCount = 0

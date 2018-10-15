@@ -7,6 +7,7 @@ import numpy as np
 from scipy.sparse import dok_matrix
 import warnings
 import collections
+import copy
 
 
 class Graph:
@@ -95,13 +96,20 @@ class RandomGraph(Graph):
 class RandomSocialGraph(Graph):
 
 
-    def __init__(self, labelSplit, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 ,n='auto', dna='auto', p=None, undirected=True, selfConncetions=False):
+
+
+    def __init__(self, labelSplit, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 ,n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True):
         super(RandomSocialGraph, self).__init__(undirected, selfConncetions)
         self.DNA = []
         self.p = explorationProbability
         self.percentageOfConnectionNodes = connectionPercentageWithMatchedNodes
         # Dish = PetriDish()
         self.N = []
+
+        if keepHistory:
+             self.evolutionHistory = []
+
+
 
         for i in range(0,len(labelSplit)):
             # we will gen using createSocialNodesThreeFeatures which has three features thus len =3
@@ -120,11 +128,48 @@ class RandomSocialGraph(Graph):
         __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
         __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
 
+        if keepHistory:
+          self.evolutionHistory.append(self.EvolutionHistory(adjMat=self.adjMatDict,explorationProbability=explorationProbability,connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes,DNA=DNA,DNAmutationIntensity='birthDNA',mutatePreference='birthDNA',mutatePreferenceProbability='birthDNA',edgeCount=self.edgeCount))
 
-    def mutateDNA(self,intensity):
+
+    def mutateDNAandSocialiseAgain(self,intensity,mutatePreference=False, mutatePreferenceProbability=True, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20):
 
         for dna in self.DNA:
-            dna.mutateDNA(intensity=intensity)
+            dna.mutateDNA(intensity=intensity,mutatePreference=mutatePreference, mutatePreferenceProbability=mutatePreferenceProbability)
+
+        __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
+        __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
+
+        self.evolutionHistory.append(
+            self.EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=explorationProbability,
+                                  connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes, DNA=DNA,
+                                  DNAmutationIntensity=intensity, mutatePreference=mutatePreference,
+                                  mutatePreferenceProbability=mutatePreferenceProbability, edgeCount=self.edgeCount))
+
+    class EvolutionHistory():
+        def __init__(self,adjMat,explorationProbability,connectionPercentageWithMatchedNodes,DNA,DNAmutationIntensity,mutatePreference,mutatePreferenceProbability,edgeCount):
+
+            self.adjMat = copy.deepcopy(adjMat)
+            self.explorationProbability = copy.deepcopy(explorationProbability)
+            self.connectionPercentageWithMatchedNodes = copy.deepcopy(connectionPercentageWithMatchedNodes)
+            self.DNA = copy.deepcopy(DNA)
+            self.DNAmutationIntensity = copy.deepcopy(DNAmutationIntensity)
+            self.mutatePreference = copy.deepcopy(mutatePreference)
+            self.mutatePreferenceProbability = copy.deepcopy(mutatePreferenceProbability)
+            self.edgeCount = copy.deepcopy(edgeCount)
+
+
+
+
+
+
+
+
+
+            pass
+
+
+
 
 
     def __getNodes(self):
