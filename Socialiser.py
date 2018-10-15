@@ -70,7 +70,7 @@ class randomSocialwithDNA:
             self.graph = graph
             self.percentageOfConnectionNodes = percentageOfConnectionNodes
             # self.selfConncetions = selfConncetions
-        class NodesScore:
+        class __NodesScore:
             def __init__(self,node1,node2, score, graph):
                 self.node1 = node1
                 self.node2 = node2
@@ -129,7 +129,7 @@ class randomSocialwithDNA:
                                     # nodes1.append(node1)
                                     # nodes2.append(node2)
 
-                                    NodesScoreListOfObjects.append(self.NodesScore(node1=node1,node2=node2,score=node1.getScore(node2)+node2.getScore(node1),graph=self.graph))
+                                    NodesScoreListOfObjects.append(self.__NodesScore(node1=node1, node2=node2, score=node1.getScore(node2) + node2.getScore(node1), graph=self.graph))
                                     #
                                     # nodeScoreDict[node1,node2] = node1.getScore(node2)+node2.getScore(node1)
                                     #

@@ -4,12 +4,14 @@ import warnings
 
 class DNA:
 
-    def __init__(self, value='random',len=5, *args, **kwargs):
+    def __init__(self, value='random', len=5, *args, **kwargs):
         self.value = value
+        self.nodes = 'not assigned!'
+
         if self.value== 'auto':
               self.value = self.__autoGenDNA(len=len)
 
-    def __autoGenDNA(self,len = 10):
+    def __autoGenDNA(self, len = 10):
         dnaValue = []
         for i in range(1,len+1) :
             rand1 = np.random.uniform(low=0.0, high=1.0, size=None)
@@ -22,7 +24,7 @@ class DNA:
 
         return dnaValue
 
-    def mutateDNA(self,mutatePreference,mutatePreferenceProbability,intensity=0.1):
+    def mutateDNA(self, mutatePreference, mutatePreferenceProbability,intensity=0.1):
 
         l = len(self.value)
         preferenceMutationCount = 0
@@ -58,6 +60,8 @@ class DNA:
             print('Mutation detected! (doesn\'t have a valid DNA)')
         return self.value
 
+    def _assignedNodes(self, nodes):
+         self.nodes = nodes
 
     def __str__(self):
         print(self.value)
