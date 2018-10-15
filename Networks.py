@@ -20,13 +20,22 @@ class Graph:
         self.undirected = undirected
         self.selfConncetions=selfConncetions
 
-    def A(self):
+    def A(self, externalAdjDict = None, nodeCount=None):
 
-        adj = dok_matrix((self.nodeCount, self.nodeCount),dtype=np.int)
-        for key1,key2 in self.adjMatDict:
-            if self.adjMatDict[key1,key2] is not None:
-                adj[key1,key2] = 1
-        return adj
+        if externalAdjDict is None:
+            adj = dok_matrix((self.nodeCount, self.nodeCount),dtype=np.int)
+            for key1,key2 in self.adjMatDict:
+                if self.adjMatDict[key1,key2] is not None:
+                    adj[key1,key2] = 1
+            return adj
+
+        else:
+            adj = dok_matrix((nodeCount, nodeCount),dtype=np.int)
+            for key1,key2 in self.externalAdjDict:
+                if self.externalAdjDict[key1, key2] is not None:
+                    adj[key1,key2] = 1
+            return adj
+
         # elif not undirected and dense:
         #     adj = dok_matrix((self.nodeCount, self.nodeCount), dtype=np.int)
         #     for key1, key2 in self.adjMatDict:
