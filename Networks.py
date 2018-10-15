@@ -98,7 +98,7 @@ class RandomGraph(Graph):
         __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
         self.Ncount = len(self.N)
 
-    def A(self):
+    def A(self, externalAdjDict = None, nodeCount=None):
         return super().A()
 
 
@@ -154,10 +154,10 @@ class RandomSocialGraph(Graph):
                                       connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes, DNA=DNA,
                                       DNAmutationIntensity=intensity, mutatePreference=mutatePreference,
                                       mutatePreferenceProbability=mutatePreferenceProbability, edgeCount=self.edgeCount))
-    def socialiseAgain(self,explorationProbability=0.9, connectionPercentageWithMatchedNodes=20):
-        self.p =  explorationProbability
+    def socialiseAgain(self, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20):
+        self.p = explorationProbability
         self.percentageOfConnectionNodes = connectionPercentageWithMatchedNodes
-          
+
         __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
         __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
 
@@ -173,13 +173,10 @@ class RandomSocialGraph(Graph):
             self.mutatePreferenceProbability = copy.deepcopy(mutatePreferenceProbability)
             self.edgeCount = copy.deepcopy(edgeCount)
 
-
     def __getNodes(self):
         pass
 
-
-
-    def A(self):
+    def A(self, externalAdjDict = None, nodeCount=None):
         return super().A()
 
 
