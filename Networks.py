@@ -19,6 +19,9 @@ class Graph:
         self.E = self.adjMatDict
         self.undirected = undirected
         self.selfConncetions=selfConncetions
+        self.evolutionHistory = []
+        self.N = []
+
 
     def A(self, externalAdjDict = None, nodeCount=None):
 
@@ -80,6 +83,19 @@ class Graph:
         else:
             return False
 
+    #
+    # class __EvolutionHistory():
+    #     def __init__(self,adjMat,explorationProbability,connectionPercentageWithMatchedNodes,DNA,DNAmutationIntensity,mutatePreference,mutatePreferenceProbability,edgeCount):
+    #         # deep copy all historical information
+    #         self.adjMat = copy.deepcopy(adjMat)
+    #         self.explorationProbability = copy.deepcopy(explorationProbability)
+    #         self.connectionPercentageWithMatchedNodes = copy.deepcopy(connectionPercentageWithMatchedNodes)
+    #         self.DNA = copy.deepcopy(DNA)
+    #         self.DNAmutationIntensity = copy.deepcopy(DNAmutationIntensity)
+    #         self.mutatePreference = copy.deepcopy(mutatePreference)
+    #         self.mutatePreferenceProbability = copy.deepcopy(mutatePreferenceProbability)
+    #         self.edgeCount = copy.deepcopy(edgeCount)
+
 
     def edge_list(self):
         pass
@@ -88,56 +104,79 @@ class Graph:
 class RandomGraph(Graph):
 
 
-    def __init__(self, n, p, type='gnp', undirected=True, selfConncetions=False):
+    def __init__(self, n, p, type='gnp', undirected=True, selfConncetions=False, keepHistory=True,labelSplit=None,dna=None):
         super(RandomGraph, self).__init__(undirected, selfConncetions)
         self.type =type
         self.p = p
+
         # Dish = PetriDish()
+
         self.N = PetriDish.createSimpleNodes(numberOfNodes=n, nodeType=Node, DNA=DNA('random'), Graph=self)
-        __SocialiserObj = randomSocial(graph=self, p=p)
-        __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
-        self.Ncount = len(self.N)
+        self.socialiseRandomGraph()
+
+        # __SocialiserObj = randomSocial(graph=self, p=p)
+        # __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
+        # Graph.nodeCount = len(self.N)
+        self.keepHistory = keepHistory
+
+        #
+        # if self.keepHistory:
+        #      self.evolutionHistory = []
+        #
+
+
+    def socialiseRandomGraph(self):
+        __SocialiserObj = randomSocial(graph=self, p=self.p)
+        __SocialiserObj.simpleRandomSocialiserSingleEdge()
+
+
+
+
 
     def A(self, externalAdjDict = None, nodeCount=None):
         return super().A()
 
 
+
+
+
 class RandomSocialGraph(Graph):
 
     def __init__(self, labelSplit, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True):
-        super(RandomSocialGraph, self).__init__(undirected, selfConncetions)
+        super(RandomSocialGraph, self).__init__(undirected=undirected, selfConncetions=selfConncetions)
         self.DNA = []
+        self.dna =dna
+
         self.p = explorationProbability
         self.percentageOfConnectionNodes = connectionPercentageWithMatchedNodes
-        self.N = []
         self.keepHistory = keepHistory
+        self.labelSplit =labelSplit
 
-        if self.keepHistory:
-             self.evolutionHistory = []
-
-
-
-        for i in range(0,len(labelSplit)):
+        for i in range(0,len(self.labelSplit)):
             # we will gen using createSocialNodesThreeFeatures which has three features thus len =3
-            self.DNA.append(DNA(dna, len=3))
+            self.DNA.append(DNA(self.dna, len=3))
 
             if i ==0:
-                tempN = PetriDish.createSocialNodesThreeFeatures(numberOfNodes=labelSplit[i], nodeType=NodeSocial, DNA=self.DNA[-1],commonLabel=i, Graph=self)
+                tempN = PetriDish.createSocialNodesThreeFeatures(numberOfNodes=self.labelSplit[i], nodeType=NodeSocial, DNA=self.DNA[-1],commonLabel=i, Graph=self)
                 self.N = tempN
                 self.DNA[-1]._assignedNodes(tempN)
             else:
-                tempN = PetriDish.createSocialNodesThreeFeatures(numberOfNodes=labelSplit[i]-labelSplit[i-1], nodeType=NodeSocial,commonLabel=i, DNA=self.DNA[-1],
-                                               Graph=self)
+                tempN = PetriDish.createSocialNodesThreeFeatures(numberOfNodes=self.labelSplit[i]-self.labelSplit[i-1], nodeType=NodeSocial,commonLabel=i, DNA=self.DNA[-1],
+                                                   Graph=self)
                 self.N = [*self.N, *tempN]
                 self.DNA[-1]._assignedNodes(tempN)
 
-        self.Ncount = len(self.N)
+        self.socialiseRandomSocialGraph()
 
-        __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
-        __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
 
         if self.keepHistory:
           self.evolutionHistory.append(self.__EvolutionHistory(adjMat=self.adjMatDict,explorationProbability=explorationProbability,connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes,DNA=DNA,DNAmutationIntensity='birthDNA',mutatePreference='birthDNA',mutatePreferenceProbability='birthDNA',edgeCount=self.edgeCount))
+
+
+
+    def socialiseRandomSocialGraph(self):
+        __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
+        __SocialiserObj.simpleRandomSocialiserSingleEdge()
 
 
     def mutateDNAandSocialiseAgain(self,intensity,mutatePreference=False, mutatePreferenceProbability=True, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20):
@@ -146,7 +185,7 @@ class RandomSocialGraph(Graph):
             dna.mutateDNA(intensity=intensity,mutatePreference=mutatePreference, mutatePreferenceProbability=mutatePreferenceProbability)
 
         __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
-        __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
+        __SocialiserObj.simpleRandomSocialiserSingleEdge()
 
         if self.keepHistory:
             self.evolutionHistory.append(
@@ -154,12 +193,18 @@ class RandomSocialGraph(Graph):
                                       connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes, DNA=DNA,
                                       DNAmutationIntensity=intensity, mutatePreference=mutatePreference,
                                       mutatePreferenceProbability=mutatePreferenceProbability, edgeCount=self.edgeCount))
+
     def socialiseAgain(self, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20):
         self.p = explorationProbability
         self.percentageOfConnectionNodes = connectionPercentageWithMatchedNodes
 
         __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.p)
-        __SocialiserObj.simpleRandomSocialiserSingleEdge(self.N)
+        __SocialiserObj.simpleRandomSocialiserSingleEdge()
+        self.evolutionHistory.append(
+            self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=explorationProbability,
+                                    connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes, DNA=DNA,
+                                    DNAmutationIntensity='noMutationOccuredInThisStage', mutatePreference='noMutationOccuredInThisStage',
+                                    mutatePreferenceProbability='noMutationOccuredInThisStage', edgeCount=self.edgeCount))
 
     class __EvolutionHistory():
         def __init__(self,adjMat,explorationProbability,connectionPercentageWithMatchedNodes,DNA,DNAmutationIntensity,mutatePreference,mutatePreferenceProbability,edgeCount):

@@ -3,6 +3,7 @@ from scipy.sparse import dok_matrix
 import DNA as d
 import warnings
 import collections
+import copy
 
 
 class Node:
@@ -24,7 +25,7 @@ class Node:
         self.connectionsID = []
         self.outDegree = 0
         self.inDegree = 0
-        self.ID = self.Graph.nodeCount
+        self.ID = copy.deepcopy(self.Graph.nodeCount)
         self.DNA = DNA
         self.selfConnected=False
         self.selfConnectionsNumber = 0

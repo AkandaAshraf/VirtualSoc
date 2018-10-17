@@ -11,7 +11,7 @@ class DNA:
         if self.value== 'auto':
               self.value = self.__autoGenDNA(len=len)
 
-    def __autoGenDNA(self, len = 10):
+    def __autoGenDNA(self, len):
         dnaValue = []
         for i in range(1,len+1) :
             rand1 = np.random.uniform(low=0.0, high=1.0, size=None)
