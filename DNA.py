@@ -24,7 +24,7 @@ class DNA:
 
         return dnaValue
 
-    def mutateDNA(self, mutatePreference, mutatePreferenceProbability,intensity=0.1):
+    def mutateDNA(self, mutatePreference, mutatePreferenceProbability,intensity):
 
         l = len(self.value)
         preferenceMutationCount = 0
@@ -51,7 +51,7 @@ class DNA:
         if preferenceMutationCount>0 or probablityMutationCount > 0:
            warnings.warn("mutation occured in %s preference(s) and %s probablity(ies)!" % (preferenceMutationCount, probablityMutationCount))
         else:
-            warnings.warn("mutateDNA called but no mutation detected, try increasing intensity!")
+            warnings.warn("mutateDNA called but no mutation detected, try increasing intensity / changing mutatePreferenceProbability and/or mutatePreference = true!")
 
     def getDnaType(self, *args, **kwargs):
         if self.value == 'random':

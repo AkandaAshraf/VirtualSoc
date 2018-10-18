@@ -35,11 +35,10 @@ G2 = RandomSocialGraph(labelSplit=[2,4],connectionPercentageWithMatchedNodes=30,
 
 # adj2 = G2.A()
 
-G2.mutateDNAandSocialiseAgain(intensity=0.5)
-G2.mutateDNAandSocialiseAgain(intensity=0.5)
-G2.mutateDNAandSocialiseAgain(intensity=0.5)
-G2.mutateDNAandSocialiseAgain(intensity=0.5)
-G2.socialiseAgain()
+# G2.mutateDNA(mutationIntensity=0.8)
+G2.mutateDNAandSocialise(mutationIntensity=0.1)
+# G2.socialise()
+
 adj2 = G2.A()
 
 
