@@ -154,6 +154,7 @@ class RandomSocialGraph(Graph):
         self.mutationIntensity = 0.5
         self.mutatePreference = False
         self.mutatePreferenceProbability= True
+        self._birthDNA = True
 
         for i in range(0,len(self.labelSplit)):
             # we will gen using createSocialNodesThreeFeatures which has three features thus len =3
@@ -172,9 +173,9 @@ class RandomSocialGraph(Graph):
         self.socialise()
 
 
-        if self.keepHistory:
-          self.evolutionHistory.append(self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=explorationProbability, connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes, DNA=DNA,
-                                                               mutationIntensity='birthDNA', mutatePreference='birthDNA', mutatePreferenceProbability='birthDNA', edgeCount=self.edgeCount))
+        # if self.keepHistory:
+        #   self.evolutionHistory.append(self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=explorationProbability, connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes, DNA=DNA,
+        #                                                        mutationIntensity='birthDNA', mutatePreference='birthDNA', mutatePreferenceProbability='birthDNA', edgeCount=self.edgeCount))
 
     #
     #
@@ -252,12 +253,25 @@ class RandomSocialGraph(Graph):
 
         __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability)
         __SocialiserObj.simpleRandomSocialiserSingleEdge()
-        if self.keepHistory:
+
+        if not self._birthDNA:
+                self.evolutionHistory.append(
+                    self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=self.explorationProbability,
+                                            connectionPercentageWithMatchedNodes=self.percentageOfConnectionNodes,
+                                            DNA=DNA,
+                                            mutationIntensity='noMutationOccuredInThisStage',
+                                            mutatePreference='noMutationOccuredInThisStage',
+                                            mutatePreferenceProbability='noMutationOccuredInThisStage',
+                                            edgeCount=self.edgeCount))
+
+        else:
             self.evolutionHistory.append(
                 self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=self.explorationProbability,
                                         connectionPercentageWithMatchedNodes=self.percentageOfConnectionNodes, DNA=DNA,
-                                        mutationIntensity='noMutationOccuredInThisStage', mutatePreference='noMutationOccuredInThisStage',
-                                        mutatePreferenceProbability='noMutationOccuredInThisStage', edgeCount=self.edgeCount))
+                                        mutationIntensity='birthDNA', mutatePreference='birthDNA',
+                                        mutatePreferenceProbability='birthDNA', edgeCount=self.edgeCount))
+        self._birthDNA = False
+
 
     class __EvolutionHistory():
         def __init__(self, adjMat, explorationProbability, connectionPercentageWithMatchedNodes, DNA, mutationIntensity, mutatePreference, mutatePreferenceProbability, edgeCount):
