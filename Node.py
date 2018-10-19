@@ -72,7 +72,7 @@ class Node:
 
 class NodeSocial(Node):
 
-    def __init__(self, age, gender, location, label, DNA, Graph, additionalFeatures=None):
+    def __init__(self, label, DNA, Graph, additionalFeatures=None, age=None, gender=None, location=None):
         super(NodeSocial, self).__init__(DNA, Graph)
         self.features = []
         if age is not None:

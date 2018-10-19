@@ -24,7 +24,7 @@ import numpy as np
 
 # G1 = RandomGraph(10, 0.5,undirected=False)
 
-G2 = RandomSocialGraphAdvanced(labelSplit=[20,40],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,additionalFeatureLen=3, npDistFunc='np.random.randint(18, high=80)')
+G2 = RandomSocialGraphAdvanced(labelSplit=[20,40],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=3, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'])
 #
 # G3 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.1)
 #
