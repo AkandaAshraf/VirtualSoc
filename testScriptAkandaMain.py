@@ -3,6 +3,7 @@ from DNA import *
 from Socialiser import *
 from PetriDish import *
 from Networks import *
+import numpy as np
 
 
 #
@@ -23,7 +24,7 @@ from Networks import *
 
 # G1 = RandomGraph(10, 0.5,undirected=False)
 
-G2 = RandomSocialGraph(labelSplit=[20,40],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3)
+G2 = RandomSocialGraphAdvanced(labelSplit=[20,40],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,additionalFeatureLen=3, npDistFunc='np.random.randint(18, high=80)')
 #
 # G3 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.1)
 #
@@ -40,6 +41,17 @@ G2.mutateDNAandSocialise(mutationIntensity=0.1)
 G2.socialise()
 
 adj2 = G2.A()
+# np.random.beta()
+test = ['np.random.beta(5,1)','binomial(10,0.5)']
+
+#
+# m = globals()['np.random']()
+# func = getattr(m, 'beta')
+# func('5,1')
+
+e = eval(test[0])
+
+
 
 
 

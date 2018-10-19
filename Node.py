@@ -72,17 +72,27 @@ class Node:
 
 class NodeSocial(Node):
 
-    def __init__(self, age, gender, location, label, DNA, Graph, **kwargs):
+    def __init__(self, age, gender, location, label, DNA, Graph, additionalFeatures=None):
         super(NodeSocial, self).__init__(DNA, Graph)
-        self.age = age
-        self.gender = gender
-        self.location = location
+        self.features = []
+        if age is not None:
+            self.age = age
+            self.features.append(age)
+        if gender is not None:
+            self.gender = gender
+            self.features.append(gender)
+
+        if gender is not None:
+             self.location = location
+             self.features.append(location)
+
+
         self.label =label
         ### add all the features in the following list
 
-        self.features = [self.age, self.gender, self.location]
-        if kwargs is not None:
-            for value in kwargs.items():
+        # self.features = [self.age, self.gender, self.location]
+        if additionalFeatures is not None:
+            for value in additionalFeatures:
                 self.features.append(value)
 
     def __del__(self):

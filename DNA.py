@@ -51,8 +51,7 @@ class DNA:
         if preferenceMutationCount>0 or probablityMutationCount > 0:
            warnings.warn("mutation occured in %s preference(s) and %s probablity(ies)!" % (preferenceMutationCount, probablityMutationCount))
         else:
-            warnings.warn("mutateDNA called but "
-                          " mutation detected, try increasing intensity / changing mutatePreferenceProbability and/or mutatePreference = true!")
+            warnings.warn("mutateDNA called but mutation detected, try increasing intensity / changing mutatePreferenceProbability and/or mutatePreference = true!")
 
     def getDnaType(self, *args, **kwargs):
         if self.value == 'random':
