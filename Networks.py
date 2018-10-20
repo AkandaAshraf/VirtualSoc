@@ -296,7 +296,7 @@ class RandomSocialGraph(Graph):
 
 class RandomSocialGraphAdvanced(Graph):
 
-    def __init__(self, labelSplit, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0):
+    def __init__(self, labelSplit, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True):
         super(RandomSocialGraphAdvanced, self).__init__(undirected=undirected, selfConncetions=selfConncetions)
         self.DNA = []
         self.dna =dna
@@ -315,25 +315,26 @@ class RandomSocialGraphAdvanced(Graph):
         self.npDistFunc= npDistFunc
 
 
-        #
-        # for i in range(0,len(self.labelSplit)):
-        #     # we will gen using createSocialNodesThreeFeatures which has three features thus len =3
-        #     self.DNA.append(DNA(self.dna, len=3))
-        #
-        #     if i ==0:
-        #         tempN = PetriDish.createSocialNodesNFeatures(numberOfNodes=self.labelSplit[i], nodeType=NodeSocial, DNA=self.DNA[-1], commonLabel=i, Graph=self,additionalFeatureLen=self.additionalFeatureLen,npDistFunc=self.npDistFunc,addTraidtionalFeatures=self.addTraidtionalFeatures)
-        #         self.N = tempN
-        #         self.DNA[-1]._assignedNodes(tempN)
-        #     else:
-        #         tempN = PetriDish.createSocialNodesNFeatures(numberOfNodes=self.labelSplit[i]-self.labelSplit[i-1], nodeType=NodeSocial, commonLabel=i, DNA=self.DNA[-1],
-        #                                                      Graph=self, additionalFeatureLen=self.additionalFeatureLen,npDistFunc=self.npDistFunc,addTraidtionalFeatures=self.addTraidtionalFeatures)
-        #         self.N = [*self.N, *tempN]
-        #         self.DNA[-1]._assignedNodes(tempN)
+        if not genFeaturesFromSameDistforAllLabel:
+            for i in range(0,len(self.labelSplit)):
+                # we will gen using createSocialNodesThreeFeatures which has three features thus len =3
+                self.DNA.append(DNA(self.dna, len=3))
 
-        self.N=PetriDish.createSocialNodesNFeaturesSameDist(numberOfNodes=self.labelSplit[-1], nodeType=NodeSocial, dna=self.dna, Graph=self, additionalFeatureLen=self.additionalFeatureLen,
+                if i ==0:
+                    tempN = PetriDish.createSocialNodesNFeatures(numberOfNodes=self.labelSplit[i], nodeType=NodeSocial, DNA=self.DNA[-1], commonLabel=i, Graph=self,additionalFeatureLen=self.additionalFeatureLen,npDistFunc=self.npDistFunc,addTraidtionalFeatures=self.addTraidtionalFeatures)
+                    self.N = tempN
+                    self.DNA[-1]._assignedNodes(tempN)
+                else:
+                    tempN = PetriDish.createSocialNodesNFeatures(numberOfNodes=self.labelSplit[i]-self.labelSplit[i-1], nodeType=NodeSocial, commonLabel=i, DNA=self.DNA[-1],
+                                                                 Graph=self, additionalFeatureLen=self.additionalFeatureLen,npDistFunc=self.npDistFunc,addTraidtionalFeatures=self.addTraidtionalFeatures)
+                    self.N = [*self.N, *tempN]
+                    self.DNA[-1]._assignedNodes(tempN)
+
+        else:
+            self.N=PetriDish.createSocialNodesNFeaturesSameDist(numberOfNodes=self.labelSplit[-1], nodeType=NodeSocial, dna=self.dna, Graph=self, additionalFeatureLen=self.additionalFeatureLen,
                                            addTraidtionalFeatures=self.addTraidtionalFeatures, npDistFunc=self.npDistFunc, labelSplit=self.labelSplit)
-
-        self.socialise()
+        if socialiseOnCreation:
+            self.socialise()
 
 
         # if self.keepHistory:
