@@ -100,7 +100,39 @@ class randomSocialwithDNA(randomSocial):
 
 class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
-    def __init__(self,scaleFreeIntensity,pathLenghtIntensity ,graph, **kwargs):
-        super(randomSocialwithDNAadvanced, self).__init__(graph,percentageOfConnectionNodes=20, p=0.5)
+    def __init__(self,popularityPreferenceIntensity,mutualPreferenceIntensity,pathLenghtLimit,graph,percentageOfConnectionNodes, **kwargs):
+        super(randomSocialwithDNAadvanced, self).__init__(graph=graph,percentageOfConnectionNodes=percentageOfConnectionNodes, p=0.5)
+        self.popularityPreferenceIntensity = popularityPreferenceIntensity
+        self.mutualPreferenceIntensity = mutualPreferenceIntensity
+        self.mutualPreferenceIntensity = mutualPreferenceIntensity
+        self.pathLenghtLimit = pathLenghtLimit
+
+    def simpleRandomSocialiserSingleEdge(self):
+
+        NodesScoreListOfObjects = []
+        nodes = self.graph.N
+
+        for node1 in nodes:
+            for node2 in nodes:
+
+                if 1.0 - self.p <= np.random.uniform(low=0.0, high=1.0, size=None):
+                    if node1 is not node2:
+                        NodesScoreListOfObjects.append(self.__NodesScore(node1=node1, node2=node2,
+                                                                         score=node1.getScore(node2) + node2.getScore(
+                                                                             node1), graph=self.graph))
+
+        NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
+
+        l = 0.0
+        stoppingLen = len(NodesScoreListOfObjectsSorted) * self.percentageOfConnectionNodes / 100
+        for NodesScoreObj in NodesScoreListOfObjectsSorted:
+
+            if l >= stoppingLen:
+                break
+            else:
+                NodesScoreObj.addNodes()
+            l += 1
+
+
 
 

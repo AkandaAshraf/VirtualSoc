@@ -76,7 +76,7 @@ def createSocialNodesNFeatures(numberOfNodes, nodeType, DNA, commonLabel, Graph,
              return [nodeType( label=commonLabel, DNA=DNA, Graph=Graph, additionalFeatures=featuresNP[:, i]) for i in range(numberOfNodes)]
 
 def createSocialNodesNFeaturesSameDist(numberOfNodes, nodeType, dna, Graph, additionalFeatureLen,
-                                        addTraidtionalFeatures, npDistFunc,labelSplit):
+                                        addTraidtionalFeatures, npDistFunc,labelSplit,DnaObjType):
 
              featuresAgeGenderLocation = []
              features = []
@@ -123,7 +123,7 @@ def createSocialNodesNFeaturesSameDist(numberOfNodes, nodeType, dna, Graph, addi
              DNAlist = []
 
              for i in range(0, len(labelSplit)):
-                 DNAlist.append(DNA(dna, len=featureLen))
+                 DNAlist.append(DnaObjType(dna, len=featureLen))
 
                  if i ==0:
                      startingIndex = 0

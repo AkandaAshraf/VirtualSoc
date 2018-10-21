@@ -128,6 +128,36 @@ class NodeSocial(Node):
 
         return sumScore
 
+    def getScoreAdvanced(self, other):
+        i = 0
+
+        sumScore = 0
+
+        for featureSelf in self.features:
+            featDiff = abs(featureSelf - other.features[i]) * self.DNA.value[i + 1]
+            if self.DNA.value[i] == 0:
+                featDiff = -1 * featDiff
+            sumScore = sumScore + featDiff
+
+        # if self.DNA.
+
+        # ageDiff = abs(self.age - other.age)*self.DNA.value[1]
+        #
+        # if self.DNA.value[0] ==0:
+        #     ageDiff = -1*ageDiff
+        # locationDiff = abs(self.age- other.age)*self.DNA.value[3]
+        #
+        # if self.DNA.value[2] ==0:
+        #     locationDiff = -1*locationDiff
+        #
+        # genderDiff = abs(self.age- other.age)*self.DNA.value[5]
+        #
+        # if self.DNA.value[4] == 0:
+        #     genderDiff = -1 * genderDiff
+
+        return sumScore
+
+
 
 
 

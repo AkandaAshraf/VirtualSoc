@@ -332,7 +332,7 @@ class RandomSocialGraphAdvanced(Graph):
 
         else:
             self.N=PetriDish.createSocialNodesNFeaturesSameDist(numberOfNodes=self.labelSplit[-1], nodeType=NodeSocial, dna=self.dna, Graph=self, additionalFeatureLen=self.additionalFeatureLen,
-                                           addTraidtionalFeatures=self.addTraidtionalFeatures, npDistFunc=self.npDistFunc, labelSplit=self.labelSplit)
+                                           addTraidtionalFeatures=self.addTraidtionalFeatures, npDistFunc=self.npDistFunc, labelSplit=self.labelSplit,DnaObjType=DNAadvanced)
         if socialiseOnCreation:
             self.socialise()
 

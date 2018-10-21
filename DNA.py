@@ -7,11 +7,15 @@ class DNA:
     def __init__(self, value='random', len=5, *args, **kwargs):
         self.value = value
         self.nodes = 'not assigned!'
+        self.preferPopularity = None
+        self.preferShorterPath = None
+        self.preferPopularityIntensity = None
+        self.preferShorterPathIntensity = None
 
         if self.value== 'auto':
-              self.value = self.__autoGenDNA(len=len)
+              self.value = self._autoGenDNA(len=len)
 
-    def __autoGenDNA(self, len):
+    def _autoGenDNA(self, len):
         dnaValue = []
         for i in range(1,len+1) :
             rand1 = np.random.uniform(low=0.0, high=1.0, size=None)
@@ -56,8 +60,46 @@ class DNA:
     def getDnaType(self, *args, **kwargs):
         if self.value == 'random':
             print('Random')
-        else:
-            print('Mutation detected! (doesn\'t have a valid DNA)')
+        return self.value
+
+    def _assignedNodes(self, nodes):
+         self.nodes = nodes
+
+    def __str__(self):
+        print(self.value)
+
+
+
+class DNAadvanced(DNA):
+
+    def __init__(self, value='random', len=5,preferPopularity=True,preferShorterPath=True,preferPopularityIntensity=None,preferShorterPathIntensity=None, *args, **kwargs):
+        super(DNAadvanced, self).__init__(value=value, len=len)
+        self.value = value
+        self.nodes = 'not assigned!'
+        self.preferPopularity = preferPopularity
+        self.preferShorterPath = preferShorterPath
+        self.preferPopularityIntensity = preferPopularityIntensity
+        self.preferShorterPathIntensity = preferShorterPathIntensity
+
+        if self.value== 'auto':
+              self.value = self._autoGenDNA(len=len)
+
+
+    def _autoGenDNA(self, len):
+        if self.preferPopularity and self.preferPopularityIntensity is None:
+            self.preferPopularityIntensity = np.random.uniform(low=0.0, high=1.0, size=None)
+
+        if self.preferShorterPath and self.preferShorterPathIntensity is None:
+            self.preferShorterPathIntensity = np.random.uniform(low=0.0, high=1.0, size=None)
+
+        return super()._autoGenDNA(len=len)
+
+    def mutateDNA(self, mutatePreference, mutatePreferenceProbability,intensity):
+        super().mutateDNA(mutatePreference=mutatePreference, mutatePreferenceProbability=mutatePreferenceProbability,intensity=intensity)
+
+    def getDnaType(self, *args, **kwargs):
+        if self.value == 'random':
+            print('Random')
         return self.value
 
     def _assignedNodes(self, nodes):
