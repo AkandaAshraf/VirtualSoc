@@ -52,11 +52,15 @@ class randomSocialwithDNA(randomSocial):
         def __init__(self, graph,percentageOfConnectionNodes=20, p=0.5):
             super(randomSocialwithDNA, self).__init__(graph, p)
 
+            self.popularityPreferenceIntensity = None
+            self.mutualPreferenceIntensity = None
+            self.pathLenghtLimit = None
+
             # self.p = p
             # self.graph = graph
             self.percentageOfConnectionNodes = percentageOfConnectionNodes
             # self.selfConncetions = selfConncetions
-        class __NodesScore:
+        class _NodesScore:
             def __init__(self,node1,node2, score, graph):
                 self.node1 = node1
                 self.node2 = node2
@@ -82,7 +86,7 @@ class randomSocialwithDNA(randomSocial):
                             if 1.0 - self.p <= np.random.uniform(low=0.0, high=1.0, size=None):
                                 if node1 is not node2:
 
-                                    NodesScoreListOfObjects.append(self.__NodesScore(node1=node1, node2=node2, score=node1.getScore(node2) + node2.getScore(node1), graph=self.graph))
+                                    NodesScoreListOfObjects.append(self._NodesScore(node1=node1, node2=node2, score=node1.getScore(node2) + node2.getScore(node1), graph=self.graph))
 
             NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
 
@@ -104,7 +108,6 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
         super(randomSocialwithDNAadvanced, self).__init__(graph=graph,percentageOfConnectionNodes=percentageOfConnectionNodes, p=0.5)
         self.popularityPreferenceIntensity = popularityPreferenceIntensity
         self.mutualPreferenceIntensity = mutualPreferenceIntensity
-        self.mutualPreferenceIntensity = mutualPreferenceIntensity
         self.pathLenghtLimit = pathLenghtLimit
 
     def simpleRandomSocialiserSingleEdge(self):
@@ -117,9 +120,9 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
                 if 1.0 - self.p <= np.random.uniform(low=0.0, high=1.0, size=None):
                     if node1 is not node2:
-                        NodesScoreListOfObjects.append(self.__NodesScore(node1=node1, node2=node2,
-                                                                         score=node1.getScore(node2) + node2.getScore(
-                                                                             node1), graph=self.graph))
+                        NodesScoreListOfObjects.append(self._NodesScore(node1=node1, node2=node2,
+                                                                         score=node1.getScoreAdvanced(node2,popularityPreferenceIntensity=self.popularityPreferenceIntensity,mutualPreferenceIntensity=self.mutualPreferenceIntensity) + node2.getScoreAdvanced(
+                                                                             node1,popularityPreferenceIntensity=self.popularityPreferenceIntensity,mutualPreferenceIntensity=self.mutualPreferenceIntensity), graph=self.graph,))
 
         NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
 

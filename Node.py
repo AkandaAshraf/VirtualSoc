@@ -128,7 +128,7 @@ class NodeSocial(Node):
 
         return sumScore
 
-    def getScoreAdvanced(self, other):
+    def getScoreAdvanced(self, other,popularityPreferenceIntensity,mutualPreferenceIntensity):
         i = 0
 
         sumScore = 0
@@ -138,6 +138,7 @@ class NodeSocial(Node):
             if self.DNA.value[i] == 0:
                 featDiff = -1 * featDiff
             sumScore = sumScore + featDiff
+        sumScore = sumScore + popularityPreferenceIntensity*(other.outDegree+other.inDegree)
 
         # if self.DNA.
 

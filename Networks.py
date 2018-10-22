@@ -296,7 +296,7 @@ class RandomSocialGraph(Graph):
 
 class RandomSocialGraphAdvanced(Graph):
 
-    def __init__(self, labelSplit, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True):
+    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=1,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True):
         super(RandomSocialGraphAdvanced, self).__init__(undirected=undirected, selfConncetions=selfConncetions)
         self.DNA = []
         self.dna =dna
@@ -313,6 +313,10 @@ class RandomSocialGraphAdvanced(Graph):
         self.additionalFeatureLen= additionalFeatureLen
         self.addTraidtionalFeatures= addTraidtionalFeatures
         self.npDistFunc= npDistFunc
+        self.popularityPreferenceIntensity = popularityPreferenceIntensity
+        self.mutualPreferenceIntensity = mutualPreferenceIntensity
+        self.pathLenghtLimit = pathLenghtLimit
+
 
 
         if not genFeaturesFromSameDistforAllLabel:
@@ -397,7 +401,7 @@ class RandomSocialGraphAdvanced(Graph):
         for dna in self.DNA:
             dna.mutateDNA(intensity=self.mutationIntensity, mutatePreference=self.mutatePreference, mutatePreferenceProbability=self.mutatePreferenceProbability)
 
-        __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability)
+        __SocialiserObj = randomSocialwithDNAadvanced(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability,mutualPreferenceIntensity=self.mutualPreferenceIntensity,popularityPreferenceIntensity=self.popularityPreferenceIntensity,pathLenghtLimit=self.pathLenghtLimit)
         __SocialiserObj.simpleRandomSocialiserSingleEdge()
 
         if self.keepHistory:
@@ -415,7 +419,7 @@ class RandomSocialGraphAdvanced(Graph):
         if connectionPercentageWithMatchedNodes is not None:
              self.percentageOfConnectionNodes = connectionPercentageWithMatchedNodes
 
-        __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability)
+        __SocialiserObj = randomSocialwithDNAadvanced(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability,mutualPreferenceIntensity=self.mutualPreferenceIntensity,popularityPreferenceIntensity=self.popularityPreferenceIntensity,pathLenghtLimit=self.pathLenghtLimit)
         __SocialiserObj.simpleRandomSocialiserSingleEdge()
 
         if not self._birthDNA:
