@@ -4,6 +4,7 @@ from Socialiser import *
 from PetriDish import *
 from Networks import *
 import numpy as np
+import networkx as nx
 
 
 #
@@ -24,12 +25,13 @@ import numpy as np
 
 # G1 = RandomGraph(10, 0.5,undirected=False)
 
-G2 = RandomSocialGraphAdvanced(labelSplit=[1,2,3],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'])
+G2 = RandomSocialGraphAdvanced(labelSplit=[20,40,60],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'])
 #
 # G3 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.1)
 #
 # G4 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.01)
-
+adj2 = G2.A()
+Gx = nx.from_scipy_sparse_matrix(adj2)
 
 # adj1 = G1.A()
 

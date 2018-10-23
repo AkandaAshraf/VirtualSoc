@@ -7,6 +7,7 @@ import copy
 
 
 class Node:
+    ''' This is a root/parent class which creates objects with the basic structure of nodes. It does not have an features.'''
 
 
     # nodeCount = 0
@@ -20,6 +21,26 @@ class Node:
     #     return A
 
     def __init__(self, DNA, Graph):
+        '''
+        :param DNA: this filed refers to a DNA type object and also passed through the constructor(__init__()).  The is a reference type filed i.e. shallow copied
+        :param this field refers to a graph type object and passed through the constructor(__init__()).  The is a reference type filed i.e. shallow copied. The assumption is, all the nodes should belong to a graph. The graph type object would contain global properties of the network, such as an adjacency matrix. For more info, refer to the Graph class documentation
+
+        outDegree: and self.inDegree are degree counts and are not available to initialise through the constructor.  At instantiation, these two fileds are set to zero and incremented whenever a new connection is created the node object. For an undirected graph, both are incremented
+
+        ID:  this is the unique id of a Node object and automatically set from the self.Graph.nodeCount. This is deep copied and should not be set explicitly.
+
+        selfConnected: this is a binary True/False field defines if self-connection exists for a given node. The default value is False. Whenever a self-connection is created this is set to True.
+
+        ConnectionsNumber: this filed counts number of self-connection a node has.
+
+        Graph.nodeCount: this filed is referenced to the global Graph object's nodeCount field. Whenever a node is created this field is incremented.
+
+        connectionsObj: this is a list contains the reference to the connected node(s)' objects.
+
+        connectionsID: this is a list contains a list of the connected node(s)' id(s).
+
+        '''
+
         self.Graph = Graph
         self.connectionsObj = []
         self.connectionsID = []
@@ -32,9 +53,26 @@ class Node:
         self.Graph.nodeCount += 1
 
     def __del__(self):
+        '''
+        This function is built in special function which is called when an object is destroyed. When delete is called it also decreases the node count from the Graph object        :return: no return
+        '''
+
         self.Graph.nodeCount -= 1
 
     def __add__(self, other):
+        '''
+        This is a special function which is called when + operation is performed between two Node type objects.
+        This function builds a connection(s) between the nodes. If it's an undirected graph (if self.Graph.undirected) then when this is called it:
+        - increases outDegree and inDegree by 1
+        - puts a reference of the self and other object in both of them's connectionsObj  fields
+        - puts a value of the self and other object's label in both of them's connectionsID fields
+        - increases the referenced graph object's edge count through Graph.edgeCount
+        - puts the connection in the adjacency matrix in the referenced graph object's Graph.adjMatDict field.
+        For the case of an undirected graph (i.e. when self.Graph.undirected is false) the left side object of the + operator gets an out degree and the right side gets an in degree.
+        The Graph.edgeCount is incremented by 0.5 for each connection when it's directed (but for directed it's 1)
+        :param other: the other Node object to the right side of the + operator
+        :return: void
+        '''
 
         if self.Graph.undirected:
             # if not self.Graph.checkSelfConnection(self, other):
@@ -71,9 +109,32 @@ class Node:
 
 
 class NodeSocial(Node):
+    '''
+    This is a child class of class Node. Objects with this class type have features and can calculate score against another node
+    '''
+
 
     def __init__(self, label, DNA, Graph, additionalFeatures=None, age=None, gender=None, location=None):
+        '''
+
+        :param label: The label corresponds to the type of DNA object a NodeSocial object refers to.
+        The assumption here is, all the NodeSocial node's preference will be defined by their DNAs which gives the label of the preference.
+
+        :param DNA: same as parent class Node , inherited
+
+        :param Graph: same as parent class Node, inherited
+        :param additionalFeatures: If there are more features other than age, gender, location, the are passed as a list.
+        The default value is None
+        :param age: feature Age, integer. Default is None
+        :param gender: feature gender, integer 0 or 1. Default is None
+        :param location: feature gender, integer Default is None
+
+        The features filed creates a list of all the features including age, gender, location and additional features
+
+        '''
         super(NodeSocial, self).__init__(DNA, Graph)
+
+
         self.features = []
         if age is not None:
             self.age = age
@@ -96,12 +157,39 @@ class NodeSocial(Node):
                 self.features.append(value)
 
     def __del__(self):
+        '''
+        This simply calls the parent class method (no overriding)
+        :return: void
+        '''
         super(NodeSocial, self).__del__()
 
     def __add__(self, other):
+        '''
+        This simply calls the parent class method (no overriding)
+
+        :param other: see parent class's method
+        :return: void
+        '''
         super(NodeSocial, self).__add__(other)
 
     def getScore(self, other):
+        '''
+         This method calculates the score between two nodes to provide the likelihood of two nodes making a connection.
+         However, if the decision of connection depends on the socialiser object. The score is calculated based on the DNA and features.
+        The size of the DNA vector is twice the size of the feature vector.
+         For example, if features are F = [25,10,200] , DNA = [0, 0.5, 1, 0.5, 0, 0.8]  The first two value of DNA,
+         DNA[0,1]: 0, 0.5 correspond to the first feature F[0] : 25. The first value is a binary 0/1 called the preference and second is a weighting parameter.
+         In this example, 0 implies that difference between the feature value 25 and the other node's feature will be multiplied by -1.
+         Thus higher the difference is smaller the score will be.
+         That means this Node for the specific feature 25 will prefer someone with a similar feature.
+         Whereas, for the 2nd feature F[1]:10  the preference DNA is 1. Thus it will prefer someone with a different feature.
+         Because if it's 1 then we do not multiply with -1. Thus higher the difference between nodes bigger the score will be.
+         When called from the socialiser class, scores are calculated for both Nodes.
+         As for the weighting factor, We multiply it with the other node's feature before calculating the difference. The intuition is, the definition of differences or similarities is different to different people with different taste or preferences. And the preference is defined by the DNA which also corresponds to the label.
+
+        :param other: the other node.
+        :return:
+        '''
         i=0
 
         sumScore = 0
