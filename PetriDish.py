@@ -3,15 +3,34 @@ from DNA import *
 import Networks
 import numpy as np
 
-
+#All methods here are to generate Nodes
 
 
 def createSimpleNodes( numberOfNodes, nodeType, DNA, Graph):
+        '''
+        This method generate simplest type of Nodes. No features are added.
+        :param numberOfNodes: The total number of  nodes to be generated. Integer
+        :param nodeType: Class type of the Node, Node . Class name. Not to be passed as a string but the name only
+        :param DNA: The DNA object
+        :param Graph: Graph type object. All generated nodes must be contained within a graph to enable socialisation.
+        :return: list of Node type objects
+        '''
+
 
         return [ nodeType(DNA,Graph=Graph) for i in range(numberOfNodes)]
 
 def createSocialNodesThreeFeatures( numberOfNodes, nodeType, DNA,commonLabel, Graph):
+         '''
+         This method generates NodeSocial type of nodes with three basic auto-generated features.
 
+         :param numberOfNodes: numberOfNodes: The total number of  nodes to be generated. Integer
+         :param nodeType: The Node type must be NodeSocial or more advanced child class of Node but not Node. Class name. Not to be passed as a string but the name only
+         :param DNA:  The DNA object.
+         :param commonLabel: Label of the generated objects. EVery Node objects refers to one signle DNA object. And that DNA object defines label of the nodes. In this method label is not auto generated and must be
+         passed in this param.
+         :param Graph: Graph type object. All generated nodes must be contained within a graph to enable socialisation.
+         :return:  list of NodeSocial or more advanced type of objects
+         '''
          age = np.random.randint(18, high=65, size=numberOfNodes)
          gender = np.random.randint(0, high=2, size=numberOfNodes)
          location = np.random.randint(1, high=100, size=numberOfNodes)
@@ -26,6 +45,20 @@ def createSocialNodesThreeFeatures( numberOfNodes, nodeType, DNA,commonLabel, Gr
 
 
 def createSocialNodesNFeatures(numberOfNodes, nodeType, DNA, commonLabel, Graph, additionalFeatureLen, addTraidtionalFeatures, npDistFunc):
+         '''
+
+         :param numberOfNodes: The total number of  nodes to be generated. Integer
+         :param nodeType: The Node type must be NodeSocial or more advanced child class of Node but not Node. Class name. Not to be passed as a string but the name only
+         :param DNA: DNA object
+         :param commonLabel: Label of the generated objects. EVery Node objects refers to one signle DNA object. And that DNA object defines label of the nodes. In this method label is not auto generated and must be
+         passed in this param.
+         :param Graph: Graph type object. All generated nodes must be contained within a graph to enable socialisation.
+         :param additionalFeatureLen: Number of additional features other than age, gender, and location. Integer
+         :param addTraidtionalFeatures: Whether or not to add than age, gender, and location features by default. True/False
+         :param npDistFunc: Distribution of additional features. Usually a numpy method as a string. Do not define the size of the generated numbers. Include package name i.e. numpy/np. If it's not a numpy
+         method but if it's an user written method then make sure it contains an integer param named size which is used to get the number of random numbers.
+         :return:   list of NodeSocial or more advanced type of objects
+         '''
 
 
          featuresAgeGenderLocation = []
@@ -77,6 +110,22 @@ def createSocialNodesNFeatures(numberOfNodes, nodeType, DNA, commonLabel, Graph,
 
 def createSocialNodesNFeaturesSameDist(numberOfNodes, nodeType, dna, Graph, additionalFeatureLen,
                                         addTraidtionalFeatures, npDistFunc,labelSplit,DnaObjType):
+             '''
+
+             :param numberOfNodes: The total number of  nodes to be generated. Integer
+             :param nodeType: he Node type must be NodeSocial or more advanced child class of Node but not Node. Class name. Not to be passed as a string but the name only
+             :param dna: 'auto' , string. This is different from other methods of generating nodes. This is because here labels and DNA's are generated implicitly within the method.
+             :param Graph: Graph type object. All generated nodes must be contained within a graph to enable socialisation.
+             :param additionalFeatureLen:  Number of additional features other than age, gender, and location. Integer
+             :param addTraidtionalFeatures: Whether or not to add than age, gender, and location features by default. True/False
+             :param npDistFunc: Distribution of additional features. Usually a numpy method as a string. Do not define the size of the generated numbers. Include package name i.e. numpy/np. If it's not a numpy
+             method but if it's an user written method then make sure it contains an integer param named size which is used to get the number of random numbers.
+             :param labelSplit: the split of lablel passed as a vector or single integer number. For example, if it's [10 , 20, 30] then 30 nodes will be generated and first 10 nodes will have DNA object 1,
+             2nd snd DNA object and 3rd will have  DNA object 3. In this function DNA objects are auto generated and assigned. These DNA also correspond to the label of nodes. So, the first 10 Nodes will have
+             label 0, 2nd 10 label 1 , and finally 3rd 10 nodes will have label 2. If you want each node to have a distinct DNA and label then pass a vector such as [1,2,3,.....,28,29]
+             :param DnaObjType: DNA class name, DNA or any other advanced DNA class. Single name passed not as a string but name of the class
+             :return: list of NodeSocial or more advanced type of objects
+             '''
 
              featuresAgeGenderLocation = []
              features = []

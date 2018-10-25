@@ -188,7 +188,7 @@ class NodeSocial(Node):
          As for the weighting factor, We multiply it with the other node's feature before calculating the difference. The intuition is, the definition of differences or similarities is different to different people with different taste or preferences. And the preference is defined by the DNA which also corresponds to the label.
 
         :param other: the other node.
-        :return:
+        :return: void
         '''
         i=0
 
@@ -217,6 +217,35 @@ class NodeSocial(Node):
         return sumScore
 
     def getScoreAdvanced(self, other,popularityPreferenceIntensity,mutualPreferenceIntensity):
+        '''
+        This is same as getScore, except it considers degree of the Node.
+
+        This method calculates the score between two nodes to provide the likelihood of two nodes making a connection.
+         However, if the decision of connection depends on the socialiser object. The score is calculated based on the DNA and features.
+        The size of the DNA vector is twice the size of the feature vector.
+         For example, if features are F = [25,10,200] , DNA = [0, 0.5, 1, 0.5, 0, 0.8]  The first two value of DNA,
+         DNA[0,1]: 0, 0.5 correspond to the first feature F[0] : 25. The first value is a binary 0/1 called the preference and second is a weighting parameter.
+         In this example, 0 implies that difference between the feature value 25 and the other node's feature will be multiplied by -1.
+         Thus higher the difference is smaller the score will be.
+         That means this Node for the specific feature 25 will prefer someone with a similar feature.
+         Whereas, for the 2nd feature F[1]:10  the preference DNA is 1. Thus it will prefer someone with a different feature.
+         Because if it's 1 then we do not multiply with -1. Thus higher the difference between nodes bigger the score will be.
+         When called from the socialiser class, scores are calculated for both Nodes.
+         As for the weighting factor, We multiply it with the other node's feature before calculating the difference. The intuition is, the definition of differences or similarities is different to different people with different taste or preferences. And the preference is defined by the DNA which also corresponds to the label.
+
+
+
+
+        :param other:  other Node
+        :param popularityPreferenceIntensity: The parameter for preferential attachment. If it's 0 then degree of the given
+        Node and the other Node is not considered. If it's >0 then the degree of the other Other Node is weighted.
+        are not considered
+        :param mutualPreferenceIntensity: Not implemented
+        :return: void
+        '''
+
+
+
         i = 0
 
         sumScore = 0

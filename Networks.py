@@ -9,7 +9,6 @@ import warnings
 import collections
 import copy
 
-
 class Graph:
 
     def __init__(self, undirected=True, selfConncetions=False):
