@@ -3,6 +3,9 @@ import concurrent.futures
 import operator
 
 class randomSocial:
+    '''
+
+    '''
 
 
     def __init__(self,graph, p=0.5):
@@ -110,10 +113,14 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
         self.mutualPreferenceIntensity = mutualPreferenceIntensity
         self.pathLenghtLimit = pathLenghtLimit
 
+
+
+
     def simpleRandomSocialiserSingleEdge(self):
 
         NodesScoreListOfObjects = []
         nodes = self.graph.N
+
 
         for node1 in nodes:
             for node2 in nodes:
@@ -122,7 +129,7 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
                     if node1 is not node2:
                         NodesScoreListOfObjects.append(self._NodesScore(node1=node1, node2=node2,
                                                                          score=node1.getScoreAdvanced(node2,popularityPreferenceIntensity=self.popularityPreferenceIntensity,mutualPreferenceIntensity=self.mutualPreferenceIntensity) + node2.getScoreAdvanced(
-                                                                             node1,popularityPreferenceIntensity=self.popularityPreferenceIntensity,mutualPreferenceIntensity=self.mutualPreferenceIntensity), graph=self.graph,))
+                                                                             node1,popularityPreferenceIntensity=self.popularityPreferenceIntensity,mutualPreferenceIntensity=self.mutualPreferenceIntensity), graph=self.graph))
 
         NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
 
@@ -135,6 +142,14 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
             else:
                 NodesScoreObj.addNodes()
             l += 1
+
+
+        if self.mutualPreferenceIntensity is not None:
+                self.graph.adjPower(self.mutualPreferenceIntensity )
+
+
+
+
 
 
 

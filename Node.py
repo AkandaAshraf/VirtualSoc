@@ -216,7 +216,7 @@ class NodeSocial(Node):
 
         return sumScore
 
-    def getScoreAdvanced(self, other,popularityPreferenceIntensity,mutualPreferenceIntensity):
+    def getScoreAdvanced(self, other, popularityPreferenceIntensity, mutualPreferenceIntensity, multPopularityPreference=False,multMutualPreference=False):
         '''
         This is same as getScore, except it considers degree of the Node.
 
@@ -255,7 +255,36 @@ class NodeSocial(Node):
             if self.DNA.value[i] == 0:
                 featDiff = -1 * featDiff
             sumScore = sumScore + featDiff
-        sumScore = sumScore + popularityPreferenceIntensity*(other.outDegree+other.inDegree)
+        if multPopularityPreference:
+            sumScore = sumScore * popularityPreferenceIntensity * (other.outDegree + other.inDegree)
+        else:
+            sumScore = sumScore + popularityPreferenceIntensity*(other.outDegree+other.inDegree)
+
+
+        if self.Graph.Socialised:
+            if mutualPreferenceIntensity is not None:
+                i = 0
+                tempPath2 = 0
+                tempPath3 = 0
+                tempPath4 = 0
+
+                for mpi in mutualPreferenceIntensity:
+                    if i == 0:
+                        tempPath2 = self.Graph.adjP2[self.ID, other.ID]*mpi
+                    elif i ==1:
+                        tempPath3 = self.Graph.adjP3[self.ID, other.ID]*mpi
+                    elif i ==2:
+                        tempPath4 = self.Graph.adjP4[self.ID, other.ID]*mpi
+                    i +=1
+                if multMutualPreference:
+                    if tempPath2!=0:
+                        sumScore = sumScore * tempPath2
+                    if tempPath3 != 0:
+                        sumScore = sumScore * tempPath3
+                    if tempPath4 != 0:
+                        sumScore = sumScore * tempPath4
+                else:
+                    sumScore = sumScore + tempPath2 + tempPath3 + tempPath4
 
         # if self.DNA.
 

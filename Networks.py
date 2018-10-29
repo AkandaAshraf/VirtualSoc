@@ -5,6 +5,7 @@ import PetriDish
 import collections
 import numpy as np
 from scipy.sparse import dok_matrix
+from scipy.sparse import linalg
 import warnings
 import collections
 import copy
@@ -20,6 +21,10 @@ class Graph:
         self.selfConncetions=selfConncetions
         self.evolutionHistory = []
         self.N = []
+        self.adj = None
+        self.adjP2 = None
+        self.adjP3 = None
+        self.adjP4 = None
 
 
     def A(self, externalAdjDict = None, nodeCount=None):
@@ -29,6 +34,7 @@ class Graph:
             for key1,key2 in self.adjMatDict:
                 if self.adjMatDict[key1,key2] is not None:
                     adj[key1,key2] = 1
+                    self.adj = adj
             return adj
 
         else:
@@ -37,6 +43,26 @@ class Graph:
                 if externalAdjDict[key1, key2] is not None:
                     adj[key1,key2] = 1
             return adj
+
+    def adjPower(self,P):
+        if self.adj is None:
+            self.A()
+        i = 2
+        for p in P:
+             if i == 2:
+                 self.adjP2 = self.adj.dot(self.adj)
+             if i == 3:
+                 self.adjP3 = self.adj.dot(self.adj)
+             if i == 4:
+                 self.adjP4 = self.adj.dot(self.adj)
+             i +=1
+
+
+
+
+
+
+
 
         # elif not undirected and dense:
         #     adj = dok_matrix((self.nodeCount, self.nodeCount), dtype=np.int)
@@ -295,7 +321,7 @@ class RandomSocialGraph(Graph):
 
 class RandomSocialGraphAdvanced(Graph):
 
-    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=1,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True):
+    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=None,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True):
         super(RandomSocialGraphAdvanced, self).__init__(undirected=undirected, selfConncetions=selfConncetions)
         self.DNA = []
         self.dna =dna
@@ -315,6 +341,7 @@ class RandomSocialGraphAdvanced(Graph):
         self.popularityPreferenceIntensity = popularityPreferenceIntensity
         self.mutualPreferenceIntensity = mutualPreferenceIntensity
         self.pathLenghtLimit = pathLenghtLimit
+        self.Socialised = False
 
 
 
@@ -338,7 +365,6 @@ class RandomSocialGraphAdvanced(Graph):
                                            addTraidtionalFeatures=self.addTraidtionalFeatures, npDistFunc=self.npDistFunc, labelSplit=self.labelSplit,DnaObjType=DNAadvanced)
         if socialiseOnCreation:
             self.socialise()
-
 
         # if self.keepHistory:
         #   self.evolutionHistory.append(self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=explorationProbability, connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes, DNA=DNA,
@@ -409,6 +435,7 @@ class RandomSocialGraphAdvanced(Graph):
                                         connectionPercentageWithMatchedNodes=self.percentageOfConnectionNodes, DNA=DNA,
                                         mutationIntensity=self.mutationIntensity, mutatePreference=self.mutatePreference,
                                         mutatePreferenceProbability=self.mutatePreferenceProbability, edgeCount=self.edgeCount))
+        self.Socialised = True
 
     def socialise(self, explorationProbability=None, connectionPercentageWithMatchedNodes=None):
 
@@ -438,6 +465,8 @@ class RandomSocialGraphAdvanced(Graph):
                                         mutationIntensity='birthDNA', mutatePreference='birthDNA',
                                         mutatePreferenceProbability='birthDNA', edgeCount=self.edgeCount))
         self._birthDNA = False
+        self.Socialised = True
+
 
 
     class __EvolutionHistory():
