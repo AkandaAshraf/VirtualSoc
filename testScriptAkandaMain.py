@@ -5,6 +5,7 @@ from PetriDish import *
 from Networks import *
 import numpy as np
 import networkx as nx
+from Transfer import *
 
 
 #
@@ -45,8 +46,9 @@ G2.socialise()
 adj2 = G2.A()
 
 G2.writeFileA('D://testAdjFile.txt')
+
 G2.adjPower([2])
-G2.adjP2
+WriteToFile(G2).easySaveEverything('D:\\virtualSocTest')
 # np.random.beta()
 test = ['np.random.beta(5,1)','binomial(10,0.5)']
 
