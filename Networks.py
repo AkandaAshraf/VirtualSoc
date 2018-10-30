@@ -44,6 +44,13 @@ class Graph:
                     adj[key1,key2] = 1
             return adj
 
+    def writeFileA(self,filePath):
+        with open(filePath, 'w') as f:
+            for key1, key2 in self.adjMatDict:
+                if self.adjMatDict[key1, key2] is not None:
+                    f.write('%s,%s\n' % (key1, key2))
+
+
     def adjPower(self,P):
         if self.adj is None:
             self.A()

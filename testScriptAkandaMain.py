@@ -44,7 +44,7 @@ G2.socialise()
 
 adj2 = G2.A()
 
-
+G2.writeFileA('D://testAdjFile.txt')
 G2.adjPower([2])
 G2.adjP2
 # np.random.beta()
