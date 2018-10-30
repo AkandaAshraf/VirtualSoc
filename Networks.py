@@ -409,7 +409,7 @@ class RandomSocialGraphAdvanced(Graph):
                                         DNA=DNA,
                                         mutationIntensity=self.mutationIntensity, mutatePreference=self.mutatePreference,
                                         mutatePreferenceProbability=self.mutatePreferenceProbability,
-                                        edgeCount=self.edgeCount))
+                                        edgeCount=self.edgeCount, Graph=self))
 
     def mutateDNAandSocialise(self, mutationIntensity=None, mutatePreference=None, mutatePreferenceProbability=None, explorationProbability=None, connectionPercentageWithMatchedNodes=None):
 
@@ -441,7 +441,7 @@ class RandomSocialGraphAdvanced(Graph):
                 self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=self.explorationProbability,
                                         connectionPercentageWithMatchedNodes=self.percentageOfConnectionNodes, DNA=DNA,
                                         mutationIntensity=self.mutationIntensity, mutatePreference=self.mutatePreference,
-                                        mutatePreferenceProbability=self.mutatePreferenceProbability, edgeCount=self.edgeCount))
+                                        mutatePreferenceProbability=self.mutatePreferenceProbability, edgeCount=self.edgeCount, Graph=self))
         self.Socialised = True
 
     def socialise(self, explorationProbability=None, connectionPercentageWithMatchedNodes=None):
@@ -463,21 +463,21 @@ class RandomSocialGraphAdvanced(Graph):
                                             mutationIntensity='noMutationOccuredInThisStage',
                                             mutatePreference='noMutationOccuredInThisStage',
                                             mutatePreferenceProbability='noMutationOccuredInThisStage',
-                                            edgeCount=self.edgeCount))
+                                            edgeCount=self.edgeCount, Graph=self))
 
         else:
             self.evolutionHistory.append(
                 self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=self.explorationProbability,
                                         connectionPercentageWithMatchedNodes=self.percentageOfConnectionNodes, DNA=DNA,
                                         mutationIntensity='birthDNA', mutatePreference='birthDNA',
-                                        mutatePreferenceProbability='birthDNA', edgeCount=self.edgeCount))
+                                        mutatePreferenceProbability='birthDNA', edgeCount=self.edgeCount, Graph=self))
         self._birthDNA = False
         self.Socialised = True
 
 
 
     class __EvolutionHistory():
-        def __init__(self, adjMat, explorationProbability, connectionPercentageWithMatchedNodes, DNA, mutationIntensity, mutatePreference, mutatePreferenceProbability, edgeCount):
+        def __init__(self, adjMat, explorationProbability, connectionPercentageWithMatchedNodes, DNA, mutationIntensity, mutatePreference, mutatePreferenceProbability, edgeCount,Graph):
             # deep copy all historical information
             self.adjMat = copy.deepcopy(adjMat)
             self.explorationProbability = copy.deepcopy(explorationProbability)
@@ -487,6 +487,7 @@ class RandomSocialGraphAdvanced(Graph):
             self.mutatePreference = copy.deepcopy(mutatePreference)
             self.mutatePreferenceProbability = copy.deepcopy(mutatePreferenceProbability)
             self.edgeCount = copy.deepcopy(edgeCount)
+            self.Graph = copy.deepcopy(Graph)
 
     def __getNodes(self):
         pass
