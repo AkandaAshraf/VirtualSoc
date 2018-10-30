@@ -5,10 +5,11 @@ class WriteToFile:
         self.Graph = Graph
 
     def easySaveEverything(self,folderPath):
-        fileName = '\\nodesWithFeatures.csv'
-        if type(self.Graph) is RandomSocialGraphAdvanced:
+        fileNameNode = '\\nodesWithFeatures.csv'
+        fileGraphInfo = '\\graphInfo.csv'
 
-                with open(folderPath+fileName, 'w') as f:
+        if type(self.Graph) is RandomSocialGraphAdvanced:
+                with open(folderPath+fileNameNode, 'w') as f:
                     f.write('Id,label(DNA),inDegree,outDegree')
                     for i in range(len(self.Graph.N[0].features)):
                         f.write(',feat'+str(i))
@@ -18,6 +19,16 @@ class WriteToFile:
                         for feature in n.features:
                             f.write(',%s' % feature)
                         f.write('\n')
+                with open(folderPath+fileGraphInfo,'w') as f:
+                    f.write('Nodes,Edges,Features,keenness to connect (percentageOfConnectionNodes),keenness to explore (explorationProbability)')
+                    for i in range(len(self.Graph.labelSplit)):
+                        f.write(',labelSplit'+str(i))
+                    f.write('\n')
+
+                    f.write('%s,%s,%s,%s,%s'%(self.Graph.nodeCount, self.Graph.edgeCount, len(self.Graph.N[0].features), self.Graph.percentageOfConnectionNodes, self.Graph.explorationProbability))
+                    for ls in self.Graph.labelSplit:
+                        f.write(','+str(ls))
+
 
 
 
