@@ -258,7 +258,7 @@ class NodeSocial(Node):
         if multPopularityPreference:
             sumScore = sumScore * popularityPreferenceIntensity * (other.outDegree + other.inDegree)
         else:
-            sumScore = sumScore + popularityPreferenceIntensity*(other.outDegree+other.inDegree)
+            sumScore = sumScore + popularityPreferenceIntensity*(other.outDegree+other.inDegree)*self.DNA.preferPopularityIntensity
 
 
         if self.Graph.Socialised:
@@ -284,7 +284,7 @@ class NodeSocial(Node):
                     if tempPath4 != 0:
                         sumScore = sumScore * tempPath4
                 else:
-                    sumScore = sumScore + tempPath2 + tempPath3 + tempPath4
+                    sumScore = sumScore + (tempPath2 + tempPath3 + tempPath4)*self.DNA.preferShorterPathIntensity
 
         # if self.DNA.
 
