@@ -45,10 +45,12 @@ G2.socialise()
 
 adj2 = G2.A()
 
-G2.writeFileA('D://testAdjFile.txt')
+# G2.writeFileA('D://testAdjFile.txt')
 
 G2.adjPower([2])
-WriteToFile(G2).easySaveEverything('D:\\virtualSocTest')
+WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test1\\')
+WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test2\\')
+
 # np.random.beta()
 test = ['np.random.beta(5,1)','binomial(10,0.5)']
 

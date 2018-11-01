@@ -55,7 +55,7 @@ class WriteToFile:
         fileNameNode = '\\nodesWithFeatures.csv'
         fileGraphInfo = '\\graphInfo.csv'
         fileCurrentEdges = '\\edges.csv'
-        fileDNA = '\\dna.csv'
+        # fileDNA = '\\dna.csv'
         self.Graph.writeFileA(folderPath+fileCurrentEdges)
 
         if type(self.Graph) is RandomSocialGraph:
@@ -94,7 +94,7 @@ class WriteToFile:
                         f.write(',%s' % feature)
                     f.write('\n')
             info = []
-            if not self.Graph.keepHistory:
+            if  not self.Graph.keepHistory:
                 self.saveRandomSocialGraphAdvanced(folderPath)
                 # info.append({'mutationIntensity': self.Graph.mutationIntensity, 'mutatePreference': self.Graph.mutatePreference,
                 #              'mutatePreferenceProbability': self.Graph.mutatePreferenceProbability})
@@ -103,12 +103,12 @@ class WriteToFile:
                 i = 0
                 for evol in self.Graph.evolutionHistory:
                     os.mkdir(folderPath+'\\'+str(i))
-                    info.append({'i':i,'mutationIntensity':evol.mutationIntensity, 'mutatePreference':evol.mutatePreference, 'mutatePreferenceProbability':evol.mutatePreferenceProbability})
+                    info.append({'i':i,'mutationIntensity':evol.mutationIntensity, 'mutatePreference':evol.mutatePreference, 'mutatePreferenceProbability':evol.mutatePreferenceProbability,'edges':evol.edgeCount})
                     self.saveRandomSocialGraphAdvanced(graph=evol.Graph,folderPath=folderPath+'\\'+str(i))
                     i +=1
                 with open(folderPath + '\\info.txt', 'w') as f:
                  for fo in info:
-                       f.write('folder:'+ str(fo['i'])+' mutationIntensity: '+str(fo['mutationIntensity'])+' mutatePreference: '+str(fo['mutatePreference'])+' mutatePreferenceProbability: '+str(fo['mutatePreferenceProbability']))
+                       f.write('folder:'+ str(fo['i'])+' mutationIntensity: '+str(fo['mutationIntensity'])+' mutatePreference: '+str(fo['mutatePreference'])+' mutatePreferenceProbability: '+str(fo['mutatePreferenceProbability'])+' edges: '+str(fo['edges']))
                        f.write('\n')
 
 
