@@ -6,63 +6,28 @@ from Networks import *
 import numpy as np
 import networkx as nx
 from Transfer import *
+from HighLevel import*
+import sys
+sys.setrecursionlimit(1000000)
 
-
 #
-# listOfNodes = PetriDish.createSimpleNodes(PetriDish, numberOfNodes=10, nodeType=Node, DNA=DNA('random'))
+# G2 = RandomSocialGraphAdvanced(labelSplit=[100,300,600],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
 #
-#
-# SocialiserObj = randomSocial(p=0.5)
-#
-#     # executor = concurrent.futures.ProcessPoolExecutor(10)
-#
-#
-# SocialiserObj.simpleRandomSocialiser(listOfNodes)
-# # if __name__ == '__main__':
-# #
-#
-# adj = Node.adj(Node)
-
-
-# G1 = RandomGraph(10, 0.5,undirected=False)
-
-G2 = RandomSocialGraphAdvanced(labelSplit=[20,40,60],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
-#
-# G3 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.1)
-#
-# G4 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.01)
-adj2 = G2.A()
-Gx = nx.from_scipy_sparse_matrix(adj2)
-
-# adj1 = G1.A()
-
-
 # adj2 = G2.A()
-
-G2.mutateDNA(mutationIntensity=0.8)
-G2.mutateDNAandSocialise(mutationIntensity=0.5)
-G2.socialise()
-
-adj2 = G2.A()
-
-# G2.writeFileA('D://testAdjFile.txt')
-
-# G2.adjPower([2])
-# WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test2\\')
-
-# np.random.beta()
-test = ['np.random.beta(5,1)','binomial(10,0.5)']
-
+# Gx = nx.from_scipy_sparse_matrix(adj2)
+# G2.mutateDNA(mutationIntensity=0.8)
+# G2.mutateDNAandSocialise(mutationIntensity=0.5)
+# G2.socialise()
+# adj2 = G2.A()
+# test = ['np.random.beta(5,1)','binomial(10,0.5)']
+# e = eval(test[0])
+# np.linspace(0.1,1,10)
+# a = 2+ 3
 #
-# m = globals()['np.random']()
-# func = getattr(m, 'beta')
-# func('5,1')
-
-e = eval(test[0])
+#
 
 
-np.linspace(0.1,1,10)
+# popularityPreferenceIntensityV = np.arange(1, 10, 1)
+# popularityPreferenceIntensityV=popularityPreferenceIntensityV.tolist()
 
-
-a = 2+ 3
-
+simulateNetworksEasy('D:\\SimVirtualSoc\\')
