@@ -26,7 +26,7 @@ from Transfer import *
 
 # G1 = RandomGraph(10, 0.5,undirected=False)
 
-G2 = RandomSocialGraphAdvanced(labelSplit=[20,40,60],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],mutualPreferenceIntensity=[0.9])
+G2 = RandomSocialGraphAdvanced(labelSplit=[20,40,60],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
 #
 # G3 = RandomSocialGraph(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,explorationProbability=0.1)
 #
@@ -39,7 +39,7 @@ Gx = nx.from_scipy_sparse_matrix(adj2)
 
 # adj2 = G2.A()
 
-G2.mutateDNA(mutationIntensity=0.8,)
+G2.mutateDNA(mutationIntensity=0.8)
 G2.mutateDNAandSocialise(mutationIntensity=0.5)
 G2.socialise()
 
@@ -47,9 +47,8 @@ adj2 = G2.A()
 
 # G2.writeFileA('D://testAdjFile.txt')
 
-G2.adjPower([2])
-WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test1\\')
-WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test2\\')
+# G2.adjPower([2])
+# WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test2\\')
 
 # np.random.beta()
 test = ['np.random.beta(5,1)','binomial(10,0.5)']
@@ -62,7 +61,7 @@ test = ['np.random.beta(5,1)','binomial(10,0.5)']
 e = eval(test[0])
 
 
-
+np.linspace(0.1,1,10)
 
 
 a = 2+ 3
