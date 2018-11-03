@@ -30,4 +30,4 @@ sys.setrecursionlimit(1000000)
 # popularityPreferenceIntensityV = np.arange(1, 10, 1)
 # popularityPreferenceIntensityV=popularityPreferenceIntensityV.tolist()
 
-simulateNetworksEasy('D:\\SimVirtualSoc\\')
+simulateNetworksEasy('D:\\SimVirtualSoc2\\')
