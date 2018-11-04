@@ -487,7 +487,7 @@ class RandomSocialGraphAdvanced(Graph):
             self.mutatePreference = copy.deepcopy(mutatePreference)
             self.mutatePreferenceProbability = copy.deepcopy(mutatePreferenceProbability)
             self.edgeCount = copy.deepcopy(edgeCount)
-            self.Graph = Graph
+            self.Graph = copy.deepcopy(Graph)
 
     def __getNodes(self):
         pass
