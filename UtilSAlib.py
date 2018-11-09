@@ -9,6 +9,8 @@ import pandas as pd
 import multiprocessing
 import pickle as pk
 import pandas as pd
+from contextlib import redirect_stdout
+
 
 
 
@@ -53,10 +55,13 @@ def getSi(statsUniqueSorted,problemFolderPath):
     Si = {}
     problem = pk.load(open(problemFolderPath+'\\problemPickle.obj', 'rb'))
     # param_values = pd.read_csv(problemFolderPath+'\params', sep=',', header=None)
-
-    for i in range(2,len(list(statsUniqueSorted))-1):
-        Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
-        Si[list(statsUniqueSorted)[i]]=sobol.analyze(problem, np.asarray(Y), print_to_console=True)
+    with open(problemFolderPath+'//SoboltestOutput', 'w') as f:
+        with redirect_stdout(f):
+            for i in range(2,len(list(statsUniqueSorted))-1):
+                Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
+                print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
+                Si[list(statsUniqueSorted)[i]]=sobol.analyze(problem, np.asarray(Y), print_to_console=True)
 
     return Si
+# def saveSi(folderPath):
 

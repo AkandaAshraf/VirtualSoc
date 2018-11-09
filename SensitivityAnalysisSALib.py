@@ -10,6 +10,8 @@ import multiprocessing
 import pickle as pk
 import pandas as pd
 from UtilSAlib import *
+import matplotlib.plot as plt
+
 
 
 
@@ -69,6 +71,13 @@ if __name__ == '__main__':
    problemFolderPath = 'D:\\sensitivityAnalaysisVirtualSoc\\'
    statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSoc\\')
    Si = getSi(statsUniqueSorted,'D:\\sensitivityAnalaysisVirtualSoc\\')
-   Si['GlobalClusteringCoefficent']
+   # Si['GlobalClusteringCoefficent']
+   #
+   # with open('D://testOutput', 'w') as f:
+   #     for key, value in Si:
+   #        f.write()
+
+
+
    # Y = statsUniqueSorted[list(statsUniqueSorted)[3]]
    # Si = sobol.analyze(problem, np.asarray(Y), print_to_console=True)
