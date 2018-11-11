@@ -10,16 +10,15 @@ import multiprocessing
 import pickle as pk
 import pandas as pd
 from UtilSAlib import *
-import matplotlib.plot as plt
+# import matplotlib.plot as plt
 
 
 
 
 #
-# import sys
-# from multiprocessing import Pool
-# sys.setrecursionlimit(1000000)
-#
+import sys
+sys.setrecursionlimit(1000000)
+
 # def SalibPreprocessGetParamsForSobol(numberOfSamples,folderPathToSaveParamsAndProblem):
 #     #https://salib.readthedocs.io/en/latest/basics.html
 #     problem = {
@@ -50,7 +49,7 @@ import matplotlib.plot as plt
 #      print(p[0])
 if __name__ == '__main__':
 
-    #from here call the simulation methods
+    # # from here call the simulation methods
     # newParam_values=SalibPreprocessGetParamsForSobol()
     # pool = multiprocessing.Pool(processes=7)
     #
@@ -58,26 +57,23 @@ if __name__ == '__main__':
     #
     # print("Number of cpu : ", multiprocessing.cpu_count())
 
-   #test here ....
-   # problem = pk.load(open('D:\\sensitivityAnalaysisVirtualSoc\\problemPickle.obj','rb'))
-   # param_values  =pd.read_csv('D:\\sensitivityAnalaysisVirtualSoc\\params', sep=',',header=None)
-   # #
-   # # stats  =pd.read_csv('D:\\sensitivityAnalaysisVirtualSoc\\allStats.csv', sep=',',header='infer')
-   # # statsUnique = stats.drop_duplicates(list(stats)[1:])
-   # # statsUniqueSorted  = statsUnique.sort_values(list(stats)[0])
-   # #
-   # #
-   #
-   problemFolderPath = 'D:\\sensitivityAnalaysisVirtualSoc\\'
-   statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSoc\\')
-   Si = getSi(statsUniqueSorted,'D:\\sensitivityAnalaysisVirtualSoc\\')
-   # Si['GlobalClusteringCoefficent']
-   #
-   # with open('D://testOutput', 'w') as f:
-   #     for key, value in Si:
-   #        f.write()
+
+   # problemFolderPath = 'D:\\sensitivityAnalaysisVirtualSoc\\'
+   # statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSoc\\')
+   # Si = getSi(statsUniqueSorted,'D:\\sensitivityAnalaysisVirtualSoc\\')
+
+  param_valuesFast = SalibPreprocessGetParamsForFAST(1000,'D:\\sensitivityAnalaysisVirtualSocFAST\\')
+  param_valuesRBDFast = SalibPreprocessGetParamsForRBDFASTandDelta(1000, 'D:\\sensitivityAnalaysisVirtualSocRBDFAST\\')
+  param_valuesFF = SalibPreprocessGetParamsForFF('D:\\sensitivityAnalaysisVirtualFF\\')
+
+# simulateNetworksThreaded(param_values,folderPath='D:\\sensitivityAnalaysisVirtualSocFAST')
+
+  pool = multiprocessing.Pool(processes=8)
+
+  pool.map(simulateNetworksThreadedFAST, param_valuesFast)
+
+  pool.map(simulateNetworksThreadedRBDFAST, param_valuesRBDFast)
+
+  pool.map(simulateNetworksThreadedFF, param_valuesFF)
 
 
-
-   # Y = statsUniqueSorted[list(statsUniqueSorted)[3]]
-   # Si = sobol.analyze(problem, np.asarray(Y), print_to_console=True)

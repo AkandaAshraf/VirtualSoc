@@ -1,4 +1,12 @@
 from SALib.sample import saltelli
+from SALib.sample import fast_sampler
+from SALib.sample import latin
+from SALib.sample import morris
+from SALib.sample import ff
+
+
+
+
 from SALib.analyze import sobol
 from SALib.test_functions import Ishigami
 import numpy as np
@@ -43,8 +51,107 @@ def SalibPreprocessGetParamsForSobol(numberOfSamples,folderPathToSaveParamsAndPr
                newline='\n', header='', footer='', comments='# ', encoding=None)
     return newParam_values
 
+def SalibPreprocessGetParamsForFAST(numberOfSamples, folderPathToSaveParamsAndProblem):
+        # https://salib.readthedocs.io/en/latest/basics.html
+        problem = {
+            'num_vars': 6,
+            'names': ['explorationProbabilityV', 'popularityPreferenceIntensityV',
+                      'connectionPercentageWithMatchedNodesV', 'mutualPreferenceIntensityV2',
+                      'mutualPreferenceIntensityV3', 'mutualPreferenceIntensityV4'],
+            'bounds': [[0.0, 1.0],
+                       [0.1, 10],
+                       [1, 80],
+                       [0.7, 0.9],
+                       [0.3, 0.6],
+                       [0.1, 0.2]]
+        }
+        pk.dump(problem, open(folderPathToSaveParamsAndProblem + '\problemPickle.obj', 'wb'))
+        param_values=fast_sampler.sample(problem, numberOfSamples, M=4)
+        l = len(param_values)
+        indices = np.arange(0, l)
+        indices = indices.reshape(l, 1)
+        newParam_values = np.concatenate((param_values, indices), axis=1)
+
+        np.savetxt(folderPathToSaveParamsAndProblem + '\\params', param_values, fmt='%.18e', delimiter=' ',
+                   newline='\n', header='', footer='', comments='# ', encoding=None)
+        return newParam_values
+
+def SalibPreprocessGetParamsForRBDFASTandDelta(numberOfSamples, folderPathToSaveParamsAndProblem):
+        # https://salib.readthedocs.io/en/latest/basics.html
+        problem = {
+            'num_vars': 6,
+            'names': ['explorationProbabilityV', 'popularityPreferenceIntensityV',
+                      'connectionPercentageWithMatchedNodesV', 'mutualPreferenceIntensityV2',
+                      'mutualPreferenceIntensityV3', 'mutualPreferenceIntensityV4'],
+            'bounds': [[0.0, 1.0],
+                       [0.1, 10],
+                       [1, 80],
+                       [0.7, 0.9],
+                       [0.3, 0.6],
+                       [0.1, 0.2]]
+        }
+        pk.dump(problem, open(folderPathToSaveParamsAndProblem + '\problemPickle.obj', 'wb'))
+        param_values=latin.sample(problem, numberOfSamples)
+        l = len(param_values)
+        indices = np.arange(0, l)
+        indices = indices.reshape(l, 1)
+        newParam_values = np.concatenate((param_values, indices), axis=1)
+
+        np.savetxt(folderPathToSaveParamsAndProblem + '\\params', param_values, fmt='%.18e', delimiter=' ',
+                   newline='\n', header='', footer='', comments='# ', encoding=None)
+        return newParam_values
+
+def SalibPreprocessGetParamsForFF(folderPathToSaveParamsAndProblem):
+        # https://salib.readthedocs.io/en/latest/basics.html
+        problem = {
+            'num_vars': 6,
+            'names': ['explorationProbabilityV', 'popularityPreferenceIntensityV',
+                      'connectionPercentageWithMatchedNodesV', 'mutualPreferenceIntensityV2',
+                      'mutualPreferenceIntensityV3', 'mutualPreferenceIntensityV4'],
+            'bounds': [[0.0, 1.0],
+                       [0.1, 10],
+                       [1, 80],
+                       [0.7, 0.9],
+                       [0.3, 0.6],
+                       [0.1, 0.2]]
+        }
+        pk.dump(problem, open(folderPathToSaveParamsAndProblem + '\problemPickle.obj', 'wb'))
+        param_values=ff.sample(problem)
+        l = len(param_values)
+        indices = np.arange(0, l)
+        indices = indices.reshape(l, 1)
+        newParam_values = np.concatenate((param_values, indices), axis=1)
+
+        np.savetxt(folderPathToSaveParamsAndProblem + '\\params', param_values, fmt='%.18e', delimiter=' ',
+                   newline='\n', header='', footer='', comments='# ', encoding=None)
+        return newParam_values
     # param_values1 = np.asmatrix(param_values)
 
+def SalibPreprocessGetParamsForMorris(numberOfSamples, folderPathToSaveParamsAndProblem):
+        # https://salib.readthedocs.io/en/latest/basics.html
+        problem = {
+            'num_vars': 6,
+            'names': ['explorationProbabilityV', 'popularityPreferenceIntensityV',
+                      'connectionPercentageWithMatchedNodesV', 'mutualPreferenceIntensityV2',
+                      'mutualPreferenceIntensityV3', 'mutualPreferenceIntensityV4'],
+            'bounds': [[0.0, 1.0],
+                       [0.1, 10],
+                       [1, 80],
+                       [0.7, 0.9],
+                       [0.3, 0.6],
+                       [0.1, 0.2]]
+        }
+        pk.dump(problem, open(folderPathToSaveParamsAndProblem + '\problemPickle.obj', 'wb'))
+        param_values=morris.sample(problem=problem, N=numberOfSamples,grid_jump=4)
+        l = len(param_values)
+        indices = np.arange(0, l)
+        indices = indices.reshape(l, 1)
+        newParam_values = np.concatenate((param_values, indices), axis=1)
+
+        np.savetxt(folderPathToSaveParamsAndProblem + '\\params', param_values, fmt='%.18e', delimiter=' ',
+                   newline='\n', header='', footer='', comments='# ', encoding=None)
+        return newParam_values
+    # param_values1 = np.asmatrix(param_values)
 def getCleanStats(folderPath):
     stats = pd.read_csv(folderPath+'\\allStats.csv', sep=',', header='infer')
     statsUnique = stats.drop_duplicates(list(stats)[1:])
@@ -55,8 +162,10 @@ def getSi(statsUniqueSorted,problemFolderPath):
     Si = {}
     problem = pk.load(open(problemFolderPath+'\\problemPickle.obj', 'rb'))
     # param_values = pd.read_csv(problemFolderPath+'\params', sep=',', header=None)
-    with open(problemFolderPath+'//SoboltestOutput', 'w') as f:
+    with open(problemFolderPath+'//SoboltestOutput.txt', 'w') as f:
         with redirect_stdout(f):
+            print('\n sensitivity analysis from total: '+str(len(statsUniqueSorted)) +' samples, details: https://salib.readthedocs.io/en/latest/api.html#sobol-sensitivity-analysis \n\n\n')
+
             for i in range(2,len(list(statsUniqueSorted))-1):
                 Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
                 print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
