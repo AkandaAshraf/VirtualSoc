@@ -62,18 +62,24 @@ if __name__ == '__main__':
    # statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSoc\\')
    # Si = getSi(statsUniqueSorted,'D:\\sensitivityAnalaysisVirtualSoc\\')
 
-  param_valuesFast = SalibPreprocessGetParamsForFAST(1000,'D:\\sensitivityAnalaysisVirtualSocFAST\\')
-  param_valuesRBDFast = SalibPreprocessGetParamsForRBDFASTandDelta(1000, 'D:\\sensitivityAnalaysisVirtualSocRBDFAST\\')
-  param_valuesFF = SalibPreprocessGetParamsForFF('D:\\sensitivityAnalaysisVirtualFF\\')
+  # param_valuesFast = SalibPreprocessGetParamsForFAST(1000,'D:\\sensitivityAnalaysisVirtualSocFAST\\')
+  # param_valuesRBDFast = SalibPreprocessGetParamsForRBDFASTandDelta(1000, 'D:\\sensitivityAnalaysisVirtualSocRBDFAST\\')
+#   param_valuesFF = SalibPreprocessGetParamsForFF('D:\\sensitivityAnalaysisVirtualFF\\')
+#
+# # simulateNetworksThreaded(param_values,folderPath='D:\\sensitivityAnalaysisVirtualSocFAST')
+#
+#   pool = multiprocessing.Pool(processes=7)
+#
+#   # pool.map(simulateNetworksThreadedFAST, param_valuesFast)
+#
+#   # pool.map(simulateNetworksThreadedRBDFAST, param_valuesRBDFast)
+#
+#   pool.map(simulateNetworksThreadedFF, param_valuesFF)
+#     statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSocFAST\\')
+#     Si = getSiFAST(statsUniqueSorted, 'D:\\sensitivityAnalaysisVirtualSocFAST\\')
 
-# simulateNetworksThreaded(param_values,folderPath='D:\\sensitivityAnalaysisVirtualSocFAST')
+    statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSocRBDFAST\\')
+    Si = getSiDelta(statsUniqueSorted, 'D:\\sensitivityAnalaysisVirtualSocRBDFAST\\')
 
-  pool = multiprocessing.Pool(processes=8)
-
-  pool.map(simulateNetworksThreadedFAST, param_valuesFast)
-
-  pool.map(simulateNetworksThreadedRBDFAST, param_valuesRBDFast)
-
-  pool.map(simulateNetworksThreadedFF, param_valuesFF)
 
 

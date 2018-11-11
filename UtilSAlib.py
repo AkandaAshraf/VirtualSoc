@@ -8,6 +8,11 @@ from SALib.sample import ff
 
 
 from SALib.analyze import sobol
+from SALib.analyze import rbd_fast
+from SALib.analyze import fast
+from SALib.analyze import delta
+
+
 from SALib.test_functions import Ishigami
 import numpy as np
 from HighLevelForSALib import *
@@ -170,6 +175,59 @@ def getSi(statsUniqueSorted,problemFolderPath):
                 Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
                 print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
                 Si[list(statsUniqueSorted)[i]]=sobol.analyze(problem, np.asarray(Y), print_to_console=True)
+
+    return Si
+
+def getSiFAST(statsUniqueSorted,problemFolderPath):
+    Si = {}
+    problem = pk.load(open(problemFolderPath+'\\problemPickle.obj', 'rb'))
+    # param_values = pd.read_csv(problemFolderPath+'\params', sep=',', header=None)
+    with open(problemFolderPath+'//FASTtestOutput.txt', 'w') as f:
+        with redirect_stdout(f):
+            print('\n sensitivity analysis from total: '+str(len(statsUniqueSorted)) +' samples, details: https://salib.readthedocs.io/en/latest/api.html#sobol-sensitivity-analysis \n\n\n')
+
+            for i in range(2,len(list(statsUniqueSorted))-1):
+                Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
+                print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
+                Si[list(statsUniqueSorted)[i]]=fast.analyze(problem, np.asarray(Y), print_to_console=True)
+
+    return Si
+
+
+def getSiRBDFAST(statsUniqueSorted,problemFolderPath):
+    Si = {}
+    problem = pk.load(open(problemFolderPath+'\\problemPickle.obj', 'rb'))
+    X = pd.read_csv(problemFolderPath+'\\params', sep=' ', header=None)
+    X = np.asarray(X)
+
+    # param_values = pd.read_csv(problemFolderPath+'\params', sep=',', header=None)
+    with open(problemFolderPath+'//RBDFASTtestOutput.txt', 'w') as f:
+        with redirect_stdout(f):
+            print('\n sensitivity analysis from total: '+str(len(statsUniqueSorted)) +' samples, details: https://salib.readthedocs.io/en/latest/api.html#sobol-sensitivity-analysis \n\n\n')
+
+            for i in range(2,len(list(statsUniqueSorted))-1):
+                Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
+                print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
+                Si[list(statsUniqueSorted)[i]]=rbd_fast.analyze(problem=problem, Y=np.asarray(Y),X=X, print_to_console=True)
+
+    return Si
+
+
+def getSiDelta(statsUniqueSorted,problemFolderPath):
+    Si = {}
+    problem = pk.load(open(problemFolderPath+'\\problemPickle.obj', 'rb'))
+    X = pd.read_csv(problemFolderPath+'\\params', sep=' ', header=None)
+    X = np.asmatrix(X)
+
+    # param_values = pd.read_csv(problemFolderPath+'\params', sep=',', header=None)
+    with open(problemFolderPath+'//DeltaTestOutput.txt', 'w') as f:
+        with redirect_stdout(f):
+            print('\n sensitivity analysis from total: '+str(len(statsUniqueSorted)) +' samples, details: https://salib.readthedocs.io/en/latest/api.html#sobol-sensitivity-analysis \n\n\n')
+
+            for i in range(2,len(list(statsUniqueSorted))-1):
+                Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
+                print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
+                Si[list(statsUniqueSorted)[i]]=delta.analyze(problem=problem, Y=np.asarray(Y),X=X, print_to_console=True)
 
     return Si
 # def saveSi(folderPath):
