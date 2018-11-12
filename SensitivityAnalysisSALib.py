@@ -13,8 +13,6 @@ from UtilSAlib import *
 # import matplotlib.plot as plt
 
 
-
-
 #
 import sys
 sys.setrecursionlimit(1000000)
@@ -75,11 +73,50 @@ if __name__ == '__main__':
 #   # pool.map(simulateNetworksThreadedRBDFAST, param_valuesRBDFast)
 #
 #   pool.map(simulateNetworksThreadedFF, param_valuesFF)
-#     statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSocFAST\\')
-#     Si = getSiFAST(statsUniqueSorted, 'D:\\sensitivityAnalaysisVirtualSocFAST\\')
+#     statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSoc\\')
+#     Si = getSi(statsUniqueSorted, 'D:\\sensitivityAnalaysisVirtualSoc\\')
+#     Si = getSi(statsUniqueSorted, 'D:\\sensitivityAnalaysisVirtualSoc\\')
 
-    statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSocRBDFAST\\')
-    Si = getSiDelta(statsUniqueSorted, 'D:\\sensitivityAnalaysisVirtualSocRBDFAST\\')
+    # statsUniqueSorted = getCleanStats('D:\\sensitivityAnalaysisVirtualSocRBDFAST\\')
+    # Si = getSiDelta(statsUniqueSorted, 'D:\\sensitivityAnalaysisVirtualSocRBDFAST\\')
+    #
+    #
 
+    Si = pk.load(open('D:\\sensitivityAnalaysisVirtualSoc\\Sobol.obj', 'rb'))
+    problem = pk.load(open('D:\\sensitivityAnalaysisVirtualSoc\\problemPickle.obj', 'rb'))
 
+    Header = []
+    Header.append('method')
+    Header.append('property')
+    Header.append('param')
+    Header.append('S1')
+
+    # class ResultDict(dict):
+    #     '''Dictionary holding analysis results.
+    #
+    #     Conversion methods (e.g. to Pandas DataFrames) to be attached as necessary
+    #     by each implementing method
+    #     '''
+    #     def __init__(self, *args, **kwargs):
+    #         super(ResultDict, self).__init__(*args, **kwargs)
+    #
+    #     def to_df(self):
+    #         '''Convert dict structure into Pandas DataFrame.'''
+    #         return pd.DataFrame({k: v for k, v in self.items() if k is not 'names'},
+    #                             index=self['names'])
+    # for key,value in Si.items():
+    #     NetProperties.append(key)
+    # NetProperties.append('S1')
+
+    df = pd.DataFrame(columns=Header)
+
+    # ResultDict.to_df(Si)
+    # pd.DataFrame({k: v for k, v in Si.items() if k is not 'names'},
+    #                             index=Si['names'])
+
+    for key, value in Si.items():
+        i = 0
+        for v in value['S1']:
+            df.append(pd.DataFrame([('Sobol', key, problem['names'][i], v)], columns=Header))
+            i += 1
 

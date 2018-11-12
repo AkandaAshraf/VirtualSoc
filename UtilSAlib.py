@@ -175,6 +175,8 @@ def getSi(statsUniqueSorted,problemFolderPath):
                 Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
                 print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
                 Si[list(statsUniqueSorted)[i]]=sobol.analyze(problem, np.asarray(Y), print_to_console=True)
+    pk.dump(Si,open( problemFolderPath+'\\Sobol.obj', 'wb' ))
+
 
     return Si
 
@@ -190,6 +192,7 @@ def getSiFAST(statsUniqueSorted,problemFolderPath):
                 Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
                 print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
                 Si[list(statsUniqueSorted)[i]]=fast.analyze(problem, np.asarray(Y), print_to_console=True)
+    pk.dump(Si,open( problemFolderPath+'\\FAST.obj', 'wb' ))
 
     return Si
 
@@ -209,6 +212,7 @@ def getSiRBDFAST(statsUniqueSorted,problemFolderPath):
                 Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
                 print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
                 Si[list(statsUniqueSorted)[i]]=rbd_fast.analyze(problem=problem, Y=np.asarray(Y),X=X, print_to_console=True)
+    pk.dump(Si,open( problemFolderPath+'\\SiRDBFAST.obj', 'wb' ))
 
     return Si
 
@@ -228,6 +232,7 @@ def getSiDelta(statsUniqueSorted,problemFolderPath):
                 Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
                 print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
                 Si[list(statsUniqueSorted)[i]]=delta.analyze(problem=problem, Y=np.asarray(Y),X=X, print_to_console=True)
+    pk.dump(Si,open( problemFolderPath+'\\SiDelta.obj', 'wb' ))
 
     return Si
 # def saveSi(folderPath):
