@@ -27,15 +27,14 @@ modelTypes = ['linear_model.LinearRegression()','linear_model.Ridge()','linear_m
               'linear_model.Lars(fit_intercept=True, verbose=False, normalize=True, precompute=\'auto\', n_nonzero_coefs=500, eps=2.220446049250313e-16, copy_X=True, fit_path=True, positive=False)',
               'linear_model.LassoLars(alpha=.1)',
               'linear_model.BayesianRidge()',
-              'linear_model.Perceptron(tol=1e-3, random_state=0)',
               'Pipeline([(\'poly\', PolynomialFeatures(degree=3)),(\'linear\', LinearRegression(fit_intercept=False))])',
-              'sklearn.kernel_ridge.KernelRidge(alpha=1.0)',
-              'sklearn.svm.SVR()',
+              'kernel_ridge.KernelRidge(alpha=1.0)',
+              'svm.SVR()',
               'linear_model.SGDRegressor(max_iter=1000)',
               'KNeighborsRegressor.KNeighborsRegressor(n_neighbors=3)',
-              'sklearn.gaussian_process.GaussianProcessRegressor(kernel=sklearn.gaussian_process.kernels.DotProduct() + sklearn.gaussian_process.kernels.WhiteKernel(), random_state=0)',
-              'sklearn.tree.DecisionTreeRegressor()',
-              'sklearn.neural_network.MLPClassifier(alpha=0.01, random_state=1)']
+              'gaussian_process.GaussianProcessRegressor(kernel=sklearn.gaussian_process.kernels.DotProduct() + sklearn.gaussian_process.kernels.WhiteKernel(), random_state=0)',
+              'tree.DecisionTreeRegressor()',
+              'neural_network.MLPClassifier(alpha=0.01, random_state=1)']
 
 SocLearner.trainModelsIndividual(folderPath, modelOutputFolder, modelTypes)
 

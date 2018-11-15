@@ -11,7 +11,12 @@ import os
 from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import Pipeline
-import sklearn
+from sklearn import kernel_ridge
+from sklearn import svm
+from sklearn import gaussian_process
+from sklearn import tree
+from sklearn import neural_network
+
 #
 #
 # y = UtilSAlib.getCleanStats('D:\\sensitivityAnalaysisVirtualSoc\\')
