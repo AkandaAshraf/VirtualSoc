@@ -62,30 +62,36 @@ def trainModelsIndividual(folderPath, modelOutputFolder):
 
     result = []
     os.mkdir(modelOutputFolder + '\\LinearRegression')
+    modelTypes = [linear_model.LinearRegression,linear_model.Ridge]
 
-    for i in range(0, y_mat.shape[1]):
-        y = y_mat[:,i]
-        Model = linear_model.LinearRegression()
-        Model.fit(X, y)
-        Model.score(X, y)
-        Model.get_params()
-        pk.dump(Model, open(modelOutputFolder + '\\LinearRegression\\'+y_names[i]+'model.obj', 'wb'))
 
-        k_fold = KFold(n_splits=10)
-        # [Model.fit(X[train], y[train]).score(X[test], y[test]) for train, test in k_fold.split(X)]
 
-        result.append([Model.fit(X[train], y[train]).score(X[test], y[test]) for train, test in k_fold.split(X)])
+    for modelType in modelTypes:
+        os.mkdir(modelOutputFolder + '\\'+modelType.__name__)
 
-    k = 0
-    with open(modelOutputFolder + '\\LinearRegression\\results', 'w') as f:
-        f.write('propertyName,mean10fold')
-        for m in range(1,11):
-            f.write(',fold'+str(m))
-        f.write('\n')
+        for i in range(0, y_mat.shape[1]):
+            y = y_mat[:,i]
+            Model = modelType()
+            Model.fit(X, y)
+            Model.score(X, y)
+            Model.get_params()
+            pk.dump(Model, open(modelOutputFolder + '\\'+modelType.__name__+'\\'+y_names[i]+'model.obj', 'wb'))
 
-        for result in result:
-            f.write(y_names[k]+','+str(np.average(result))+','+str(result)+'\n')
-            k = k+1
+            k_fold = KFold(n_splits=10)
+            # [Model.fit(X[train], y[train]).score(X[test], y[test]) for train, test in k_fold.split(X)]
+
+            result.append([Model.fit(X[train], y[train]).score(X[test], y[test]) for train, test in k_fold.split(X)])
+
+        k = 0
+        with open(modelOutputFolder + '\\'+modelType.__name__+'\\results', 'w') as f:
+            f.write('propertyName,mean10fold')
+            for m in range(1,11):
+                f.write(',fold'+str(m))
+            f.write('\n')
+
+            for result in result:
+                f.write(y_names[k]+','+str(np.average(result))+','+str(result)+'\n')
+                k = k+1
 
 
 
