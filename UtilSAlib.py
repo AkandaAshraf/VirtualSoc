@@ -232,8 +232,11 @@ def getSiDelta(statsUniqueSorted,problemFolderPath):
                 Y = statsUniqueSorted[list(statsUniqueSorted)[i]]
                 print('\n\n..... Sensitivity for: '+list(statsUniqueSorted)[i]+'...........\n\n')
                 Si[list(statsUniqueSorted)[i]]=delta.analyze(problem=problem, Y=np.asarray(Y),X=X, print_to_console=True)
-    pk.dump(Si,open( problemFolderPath+'\\SiDelta.obj', 'wb' ))
+    pk.dump(Si, open( problemFolderPath+'\\SiDelta.obj', 'wb' ))
 
     return Si
+
+
+
 # def saveSi(folderPath):
 

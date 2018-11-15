@@ -20,15 +20,15 @@ sys.setrecursionlimit(1000000)
 import threading
 from threading import Thread
 #
-# G2 = RandomSocialGraphAdvanced(labelSplit=[100,300,600],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
-#
-# adj2 = G2.A()
+G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
 
-# G2.mutateDNA(mutationIntensity=0.8)
-# G2.mutateDNAandSocialise(mutationIntensity=0.5)
-# G2.socialise()
-#
-# adj2 = G2.A()
+adj2 = G2.A()
+
+G2.mutateDNA(mutationIntensity=0.8)
+G2.mutateDNAandSocialise(mutationIntensity=0.5)
+G2.socialise()
+
+adj2 = G2.A()
 
 # G2.writeFileA('D://testAdjFile.txt')
 
@@ -66,18 +66,18 @@ from threading import Thread
 
 
 
-problem = {
-    'num_vars': 6,
-    'names': ['explorationProbabilityV', 'popularityPreferenceIntensityV', 'connectionPercentageWithMatchedNodesV', 'mutualPreferenceIntensityV2', 'mutualPreferenceIntensityV3', 'mutualPreferenceIntensityV4'],
-    'bounds': [[0.0,1.0],
-               [0.1, 10],
-               [1, 80],
-               [0.7, 0.9],
-               [0.3, 0.6],
-               [0.1, 0.2]]
-}
-
-param_values = saltelli.sample(problem, 1)
-
-
-simulateNetworks(param_values=param_values,folderPath='D:\\sensitivityAnalaysisVirtualSoc\\')
+# problem = {
+#     'num_vars': 6,
+#     'names': ['explorationProbabilityV', 'popularityPreferenceIntensityV', 'connectionPercentageWithMatchedNodesV', 'mutualPreferenceIntensityV2', 'mutualPreferenceIntensityV3', 'mutualPreferenceIntensityV4'],
+#     'bounds': [[0.0,1.0],
+#                [0.1, 10],
+#                [1, 80],
+#                [0.7, 0.9],
+#                [0.3, 0.6],
+#                [0.1, 0.2]]
+# }
+#
+# param_values = saltelli.sample(problem, 1)
+#
+#
+# simulateNetworks(param_values=param_values,folderPath='D:\\sensitivityAnalaysisVirtualSoc\\')
