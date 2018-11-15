@@ -47,7 +47,11 @@ k_fold = KFold(n_splits=10)
 cross_val_score(Model, X, y, cv=k_fold, n_jobs=-1)
 folderPath = 'D:\\sensitivityAnalaysisVirtualSoc\\'
 modelOutputFolder = 'D:\\outputTest\\'
-def trainModelsIndividual(folderPath, modelOutputFolder):
+modelTypes = ['linear_model.LinearRegression()','linear_model.Ridge()','linear_model.LassoLarsIC(criterion=\'bic\')','linear_model.LassoLarsIC(criterion=\'aic\')']
+
+trainModelsIndividual(folderPath, modelOutputFolder, modelTypes)
+
+def trainModelsIndividual(folderPath, modelOutputFolder, modelTypes):
 
     y_df = UtilSAlib.getCleanStats(folderPath)
     y_df = y_df.loc[:, 'NumberofEdges':'AvgGeodesicPath']
@@ -60,40 +64,43 @@ def trainModelsIndividual(folderPath, modelOutputFolder):
     y_mat = y_df.as_matrix()
     X = X_mat
 
-    result = []
-    os.mkdir(modelOutputFolder + '\\LinearRegression')
-    modelTypes = [linear_model.LinearRegression,linear_model.Ridge]
+    # os.mkdir(modelOutputFolder + '\\LinearRegression')
+    # modelTypes = ['linear_model.LinearRegression()','linear_model.Ridge()','linear_model.LassoLarsIC(criterion=\'bic\')','linear_model.LassoLarsIC(criterion=\'aic\')']
 
-
+    folderIndex = 0
 
     for modelType in modelTypes:
-        os.mkdir(modelOutputFolder + '\\'+modelType.__name__)
+        Model = eval(modelType)
+
+        os.mkdir(modelOutputFolder + '\\'+str(folderIndex)+(Model.__class__.__name__))
+        results = []
 
         for i in range(0, y_mat.shape[1]):
             y = y_mat[:,i]
-            Model = modelType()
+
+
             Model.fit(X, y)
             Model.score(X, y)
             Model.get_params()
-            pk.dump(Model, open(modelOutputFolder + '\\'+modelType.__name__+'\\'+y_names[i]+'model.obj', 'wb'))
+            pk.dump(Model, open(modelOutputFolder + '\\'+str(folderIndex)+Model.__class__.__name__+'\\'+y_names[i]+'model.obj', 'wb'))
 
             k_fold = KFold(n_splits=10)
             # [Model.fit(X[train], y[train]).score(X[test], y[test]) for train, test in k_fold.split(X)]
 
-            result.append([Model.fit(X[train], y[train]).score(X[test], y[test]) for train, test in k_fold.split(X)])
+            results.append([Model.fit(X[train], y[train]).score(X[test], y[test]) for train, test in k_fold.split(X)])
 
         k = 0
-        with open(modelOutputFolder + '\\'+modelType.__name__+'\\results', 'w') as f:
+        with open(modelOutputFolder + '\\'+str(folderIndex)+Model.__class__.__name__+'\\results', 'w') as f:
             f.write('propertyName,mean10fold')
             for m in range(1,11):
                 f.write(',fold'+str(m))
             f.write('\n')
 
-            for result in result:
+            for result in results:
                 f.write(y_names[k]+','+str(np.average(result))+','+str(result)+'\n')
                 k = k+1
 
-
+        folderIndex = folderIndex+1
 
 
 
