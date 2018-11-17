@@ -16,6 +16,12 @@ from sklearn import svm
 from sklearn import gaussian_process
 from sklearn import tree
 from sklearn import neural_network
+from sklearn import neighbors
+from string import digits
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
 
 #
 #
@@ -71,7 +77,7 @@ def trainModelsIndividual(folderPath, modelOutputFolder, modelTypes):
     # os.mkdir(modelOutputFolder + '\\LinearRegression')
     # modelTypes = ['linear_model.LinearRegression()','linear_model.Ridge()','linear_model.LassoLarsIC(criterion=\'bic\')','linear_model.LassoLarsIC(criterion=\'aic\')']
 
-    folderIndex = 0
+    folderIndex = 12
 
     for modelType in modelTypes:
         Model = eval(modelType)
@@ -105,6 +111,83 @@ def trainModelsIndividual(folderPath, modelOutputFolder, modelTypes):
                 k = k+1
 
         folderIndex = folderIndex+1
+
+folderPath = 'D:\\outputTest\\'
+
+def modelPerformance(folderPath):
+    dir = os.listdir(folderPath)
+    resultsList = []
+    methodNames = []
+
+    for d in dir:
+        dfTemp = pd.read_csv(folderPath +d+ '\\results', sep=',', header='infer')
+        remove_digits = str.maketrans('', '', digits)
+        mtehodNameTemp = d.translate(remove_digits)
+        dfTemp['method'] = mtehodNameTemp
+        resultsList.append(dfTemp)
+        # methodNames.append()
+
+    # resultsList[0]['fold10'].replace(regex=True, inplace=True, to_replace=r'\D', value=r'')
+    i = 0
+
+    for result in resultsList:
+       resultsList[i]['fold10'] =result['fold10'].map(lambda x: x.lstrip(']').rstrip(']'))
+       if i==0:
+           dfAll = resultsList[0][['method', 'propertyName', 'fold10']].copy()
+       else:
+           dfAll = dfAll.append(resultsList[i][['method', 'propertyName', 'fold10']].copy())
+
+       i +=1
+    dfAll["fold10"] = pd.to_numeric(dfAll["fold10"])
+
+    ax = sns.catplot(x="propertyName", y="fold10", hue="method", kind="swarm", data=dfAll,
+                     height=10,legend=False)
+
+    ax.set_xticklabels(rotation=40, ha="right")
+
+    # plt.title(UniquePropertyNames[i])
+    plt.legend(loc='upper left', bbox_to_anchor=(1, 0.5))
+
+    plt.tight_layout()
+    plt.show()
+    ax.savefig('D://VirtualSocPlots//regression//All.eps', format='eps')
+
+    UniquePropertyNames = dfAll.propertyName.unique()
+
+    DataFrameDict = {elem: pd.DataFrame for elem in UniquePropertyNames}
+
+    for key in DataFrameDict.keys():
+        DataFrameDict[key] = dfAll[:][dfAll.propertyName == key]
+
+
+    for i in range(0, len(UniquePropertyNames)):
+        ax = sns.catplot(x="method", y="fold10", kind="swarm", data=DataFrameDict[UniquePropertyNames[i]],
+                         height=10,legend=False)
+
+        ax.set_xticklabels(rotation=40, ha="right")
+        plt.legend(loc='upper left', bbox_to_anchor=(1, 0.5))
+
+        plt.title(UniquePropertyNames[i])
+        plt.tight_layout()
+        plt.show()
+        ax.savefig('D://VirtualSocPlots//regression//' + UniquePropertyNames[i] + '.eps', format='eps')
+
+    # dfAllPvted = dfAll.pivot(index='method', columns='propertyName', values='fold10')
+    #
+    # ax = sns.heatmap(dfAll)
+
+    for i in range(0, len(UniquePropertyNames)):
+        ax = sns.catplot(x="method", y="fold10", kind="swarm", data=DataFrameDict[UniquePropertyNames[i]],
+                         height=10,legend=False)
+
+        ax.set_xticklabels(rotation=40, ha="right")
+        plt.legend(loc='upper left', bbox_to_anchor=(1, 0.5))
+
+        plt.title(UniquePropertyNames[i])
+        plt.tight_layout()
+        plt.show()
+        ax.savefig('D://VirtualSocPlots//regression//' + UniquePropertyNames[i] + '.eps', format='eps')
+
 
 
 
