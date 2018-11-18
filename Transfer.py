@@ -6,9 +6,9 @@ class WriteToFile:
         self.Graph = Graph
 
     def saveRandomSocialGraphAdvanced(self,graph,folderPath):
-        fileGraphInfo = '\\graphInfo.csv'
-        fileCurrentEdges =  '\\edges.csv'
-        fileDNA = '\\dna.csv'
+        fileGraphInfo = '/graphInfo.csv'
+        fileCurrentEdges =  '/edges.csv'
+        fileDNA = '/dna.csv'
         graph.writeFileA(folderPath+fileCurrentEdges)
 
         with open(folderPath + fileGraphInfo, 'w') as f:
@@ -52,10 +52,10 @@ class WriteToFile:
                 label += 1
 
     def easySaveEverything(self,folderPath):
-        fileNameNode = '\\nodesWithFeatures.csv'
-        fileGraphInfo = '\\graphInfo.csv'
-        fileCurrentEdges = '\\edges.csv'
-        # fileDNA = '\\dna.csv'
+        fileNameNode = '/nodesWithFeatures.csv'
+        fileGraphInfo = '/graphInfo.csv'
+        fileCurrentEdges = '/edges.csv'
+        # fileDNA = '/dna.csv'
         self.Graph.writeFileA(folderPath+fileCurrentEdges)
 
         if type(self.Graph) is RandomSocialGraph:
@@ -82,7 +82,7 @@ class WriteToFile:
                         f.write(','+str(ls))
 
         elif type(self.Graph) is RandomSocialGraphAdvanced:
-            fileNameNode = '\\nodesWithFeatures.csv'
+            fileNameNode = '/nodesWithFeatures.csv'
             with open(folderPath + fileNameNode, 'w') as f:
                 f.write('Id,label(DNA),inDegree,outDegree')
                 for i in range(len(self.Graph.N[0].features)):
@@ -102,11 +102,11 @@ class WriteToFile:
             else:
                 i = 0
                 for evol in self.Graph.evolutionHistory:
-                    os.mkdir(folderPath+'\\'+str(i))
+                    os.mkdir(folderPath+'/'+str(i))
                     info.append({'i':i,'mutationIntensity':evol.mutationIntensity, 'mutatePreference':evol.mutatePreference, 'mutatePreferenceProbability':evol.mutatePreferenceProbability,'edges':evol.edgeCount})
-                    self.saveRandomSocialGraphAdvanced(graph=evol.Graph,folderPath=folderPath+'\\'+str(i))
+                    self.saveRandomSocialGraphAdvanced(graph=evol.Graph,folderPath=folderPath+'/'+str(i))
                     i +=1
-                with open(folderPath + '\\info.txt', 'w') as f:
+                with open(folderPath + '/info.txt', 'w') as f:
                  for fo in info:
                        f.write('folder:'+ str(fo['i'])+' mutationIntensity: '+str(fo['mutationIntensity'])+' mutatePreference: '+str(fo['mutatePreference'])+' mutatePreferenceProbability: '+str(fo['mutatePreferenceProbability'])+' edges: '+str(fo['edges']))
                        f.write('\n')

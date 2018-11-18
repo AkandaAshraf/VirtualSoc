@@ -116,13 +116,13 @@ from threading import Thread
 if __name__ == '__main__':
 
     # from here call the simulation methods
-    newParam_values=SalibPreprocessGetParamsForSobol(1,folderPathToSaveParamsAndProblem='H:\\SobolBig\\')
-    pool = multiprocessing.Pool(processes=8)
+    newParam_values=SalibPreprocessGetParamsForSobol(1000,folderPathToSaveParamsAndProblem='/home/akanda/virtualSoc/big/')
+    pool = multiprocessing.Pool(processes=11)
     #
     pool.map(simulateNetworksThreaded, newParam_values)
 
-    # newParam_values = simulateNetworksThreadedGiant(10000,folderPathToSaveParamsAndProblem='H:\\SobolGiant\\')
-    # pool = multiprocessing.Pool(processes=8)
-    # #
-    # pool.map(simulateNetworksThreaded, newParam_values)
-    # #
+    newParam_values = simulateNetworksThreadedGiant(10000,folderPathToSaveParamsAndProblem='/home/akanda/virtualSoc/giant/')
+    pool = multiprocessing.Pool(processes=11)
+    #
+    pool.map(simulateNetworksThreaded, newParam_values)
+    #

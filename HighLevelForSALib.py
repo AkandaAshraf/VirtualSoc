@@ -17,7 +17,7 @@ def simulateNetworks(param_values, folderPath):
         popularityPreferenceIntensity = param_value[1]
         connectionPercentageWithMatchedNodes = param_value[2]
         mutualPreferenceIntensity = [param_value[3], param_value[4], param_value[5]]
-        os.mkdir(folderPath + '\\' + str(i))
+        os.mkdir(folderPath + '/' + str(i))
 
         graphTemp1 = RandomSocialGraphAdvanced(labelSplit=[100, 200, 300],
                                                connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes,
@@ -37,20 +37,20 @@ def simulateNetworks(param_values, folderPath):
         #                                        popularityPreferenceIntensity=param_value[1],
         #                                        mutualPreferenceIntensity=[param_value[3],param_value[4],param_value[5]])
         tp.WriteToFile(graphTemp1).easySaveEverything(
-            folderPath +str(i)+ '\\')
+            folderPath +str(i)+ '/')
         i +=1
 
 
 
 
 def simulateNetworksThreaded(param_value):
-        folderPath = 'H:\\SobolBig\\'
+        folderPath = '/home/akanda/virtualSoc/big/'
         explorationProbability = param_value[0]
         popularityPreferenceIntensity = param_value[1]
         connectionPercentageWithMatchedNodes = param_value[2]
         mutualPreferenceIntensity = [param_value[3], param_value[4], param_value[5]]
         i = param_value[6]
-        os.mkdir(folderPath + '\\' + str(i))
+        os.mkdir(folderPath + '/' + str(i))
 
         graphTemp1 = RandomSocialGraphAdvanced(labelSplit=[300, 600, 900],
                                                connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes,
@@ -70,20 +70,20 @@ def simulateNetworksThreaded(param_value):
         #                                        popularityPreferenceIntensity=param_value[1],
         #                                        mutualPreferenceIntensity=[param_value[3],param_value[4],param_value[5]])
         tp.WriteToFile(graphTemp1).easySaveEverything(
-            folderPath +str(i)+ '\\')
+            folderPath +str(i)+ '/')
         i +=1
 
 
 
 
 def simulateNetworksThreadedGiant(param_value):
-        folderPath = 'H:\\SobolGiant\\'
+        folderPath = '/home/akanda/virtualSoc/giant/'
         explorationProbability = param_value[0]
         popularityPreferenceIntensity = param_value[1]
         connectionPercentageWithMatchedNodes = param_value[2]
         mutualPreferenceIntensity = [param_value[3], param_value[4], param_value[5]]
         i = param_value[6]
-        os.mkdir(folderPath + '\\' + str(i))
+        os.mkdir(folderPath + '/' + str(i))
 
         graphTemp1 = RandomSocialGraphAdvanced(labelSplit=[300, 600, 900],
                                                connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes,
@@ -103,18 +103,18 @@ def simulateNetworksThreadedGiant(param_value):
         #                                        popularityPreferenceIntensity=param_value[1],
         #                                        mutualPreferenceIntensity=[param_value[3],param_value[4],param_value[5]])
         tp.WriteToFile(graphTemp1).easySaveEverything(
-            folderPath +str(i)+ '\\')
+            folderPath +str(i)+ '/')
         i +=1
 
 
 def simulateNetworksThreadedFAST(param_value):
-        folderPath = 'D:\\sensitivityAnalaysisVirtualSocFAST\\'
+        folderPath = 'D:/sensitivityAnalaysisVirtualSocFAST/'
         explorationProbability = param_value[0]
         popularityPreferenceIntensity = param_value[1]
         connectionPercentageWithMatchedNodes = param_value[2]
         mutualPreferenceIntensity = [param_value[3], param_value[4], param_value[5]]
         i = param_value[6]
-        os.mkdir(folderPath + '\\' + str(i))
+        os.mkdir(folderPath + '/' + str(i))
 
         graphTemp1 = RandomSocialGraphAdvanced(labelSplit=[100, 200, 300],
                                                connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes,
@@ -134,18 +134,18 @@ def simulateNetworksThreadedFAST(param_value):
         #                                        popularityPreferenceIntensity=param_value[1],
         #                                        mutualPreferenceIntensity=[param_value[3],param_value[4],param_value[5]])
         tp.WriteToFile(graphTemp1).easySaveEverything(
-            folderPath +str(i)+ '\\')
+            folderPath +str(i)+ '/')
         i +=1
 
 
 def simulateNetworksThreadedRBDFAST(param_value):
-    folderPath = 'D:\\sensitivityAnalaysisVirtualSocRBDFAST\\'
+    folderPath = 'D:/sensitivityAnalaysisVirtualSocRBDFAST/'
     explorationProbability = param_value[0]
     popularityPreferenceIntensity = param_value[1]
     connectionPercentageWithMatchedNodes = param_value[2]
     mutualPreferenceIntensity = [param_value[3], param_value[4], param_value[5]]
     i = param_value[6]
-    os.mkdir(folderPath + '\\' + str(i))
+    os.mkdir(folderPath + '/' + str(i))
 
     graphTemp1 = RandomSocialGraphAdvanced(labelSplit=[100, 200, 300],
                                            connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes,
@@ -165,18 +165,18 @@ def simulateNetworksThreadedRBDFAST(param_value):
     #                                        popularityPreferenceIntensity=param_value[1],
     #                                        mutualPreferenceIntensity=[param_value[3],param_value[4],param_value[5]])
     tp.WriteToFile(graphTemp1).easySaveEverything(
-        folderPath + str(i) + '\\')
+        folderPath + str(i) + '/')
     i += 1
 
 
 def simulateNetworksThreadedRBDdelta(param_value):
-    folderPath = 'D:\\sensitivityAnalaysisVirtualDelta\\'
+    folderPath = 'D:/sensitivityAnalaysisVirtualDelta/'
     explorationProbability = param_value[0]
     popularityPreferenceIntensity = param_value[1]
     connectionPercentageWithMatchedNodes = param_value[2]
     mutualPreferenceIntensity = [param_value[3], param_value[4], param_value[5]]
     i = param_value[6]
-    os.mkdir(folderPath + '\\' + str(i))
+    os.mkdir(folderPath + '/' + str(i))
 
     graphTemp1 = RandomSocialGraphAdvanced(labelSplit=[100, 200, 300],
                                            connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes,
@@ -196,19 +196,19 @@ def simulateNetworksThreadedRBDdelta(param_value):
     #                                        popularityPreferenceIntensity=param_value[1],
     #                                        mutualPreferenceIntensity=[param_value[3],param_value[4],param_value[5]])
     tp.WriteToFile(graphTemp1).easySaveEverything(
-        folderPath + str(i) + '\\')
+        folderPath + str(i) + '/')
     i += 1
 
 
 
 def simulateNetworksThreadedFF(param_value):
-    folderPath = 'D:\\sensitivityAnalaysisVirtualFF\\'
+    folderPath = 'D:/sensitivityAnalaysisVirtualFF/'
     explorationProbability = param_value[0]
     popularityPreferenceIntensity = param_value[1]
     connectionPercentageWithMatchedNodes = param_value[2]
     mutualPreferenceIntensity = [param_value[3], param_value[4], param_value[5]]
     i = param_value[6]
-    os.mkdir(folderPath + '\\' + str(i))
+    os.mkdir(folderPath + '/' + str(i))
 
     graphTemp1 = RandomSocialGraphAdvanced(labelSplit=[100, 200, 300],
                                            connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes,
@@ -228,7 +228,7 @@ def simulateNetworksThreadedFF(param_value):
     #                                        popularityPreferenceIntensity=param_value[1],
     #                                        mutualPreferenceIntensity=[param_value[3],param_value[4],param_value[5]])
     tp.WriteToFile(graphTemp1).easySaveEverything(
-        folderPath + str(i) + '\\')
+        folderPath + str(i) + '/')
     i += 1
 
 
