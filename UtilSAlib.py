@@ -41,9 +41,9 @@ def SalibPreprocessGetParamsForSobol(numberOfSamples,folderPathToSaveParamsAndPr
         'bounds': [[0.0,1.0],
                    [0.1, 10],
                    [1, 80],
-                   [0.7, 0.9],
-                   [0.3, 0.6],
-                   [0.1, 0.2]]
+                   [6.0, 9.0],
+                   [2.0, 3.0],
+                   [1.0, 2.0]]
     }
     pk.dump(problem,open( folderPathToSaveParamsAndProblem+'\problemPickle.obj', 'wb' ) )
     param_values = saltelli.sample(problem, numberOfSamples)
