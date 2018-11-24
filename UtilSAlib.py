@@ -30,6 +30,7 @@ import os
 
 
 
+
 import sys
 from multiprocessing import Pool
 
@@ -236,12 +237,16 @@ def getSiDelta(statsUniqueSorted,problemFolderPath):
     pk.dump(Si, open( problemFolderPath+'/SiDelta.obj', 'wb' ))
 
     return Si
-folderPathParm = 'H:\\giant\\'
-folderPathGenerated = 'H:\\giant\\'
+# folderPathParm = 'H:\\giant\\'
+# folderPathGenerated = 'H:\\giant\\'
+# pk.dump(pd.DataFrame(os.listdir(folderPathGenerated)),open(  'H:\\giant\\alreadyGen', 'wb' ))
+def getExistingParams(folderPathParm, folderPathGenerated):
 
-def getExistingParams(folderPathParm,folderPathGenerated):
     params = pd.read_csv(folderPathParm + 'params', header=None, sep=' ')
-    alreadyGeneratedParamIndices = pd.DataFrame(os.listdir(folderPathGenerated))
+    if folderPathGenerated is None:
+        alreadyGeneratedParamIndices = pk.load(open(folderPathParm+'/alreadyGen', 'rb'))
+    else:
+        alreadyGeneratedParamIndices = pd.DataFrame(os.listdir(folderPathGenerated))
     alreadyGeneratedParamIndices = alreadyGeneratedParamIndices[alreadyGeneratedParamIndices[0] != 'params']
     alreadyGeneratedParamIndices = alreadyGeneratedParamIndices[alreadyGeneratedParamIndices[0] != 'problemPickle.obj']
     # params['index'] = list(map(float,(range(0,len(params)))))
@@ -249,7 +254,7 @@ def getExistingParams(folderPathParm,folderPathGenerated):
     # newParams = params[~params.index.isin(alreadyGeneratedParamIndices[0])]
     alreadyGeneratedParamIndices =list(map(int, (list(map(float, alreadyGeneratedParamIndices[0])))))
     newParams =params.drop(params.index[alreadyGeneratedParamIndices])
-    newParams['index'] = list(map(float, newParams.index.values))
+    newParams['6'] = list(map(float, newParams.index.values))
     return newParams.values
     # newParams = params.drop(pd.DataFrame(alreadyGeneratedParamIndices), axis=1, inplace=True)
 

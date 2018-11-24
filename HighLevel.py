@@ -8,7 +8,7 @@ from Socialiser import *
 from PetriDish import *
 from Networks import *
 import numpy as np
-
+##testtttt
 def simulateNetworksEasy(folderPath):
     explorationProbabilityV = np.linspace(0.1,0.5,3)
     connectionPercentageWithMatchedNodesV = np.arange(5,30,3)

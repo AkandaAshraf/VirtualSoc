@@ -17,13 +17,15 @@ from UtilSAlib import *
 
 
 
+
+
 import sys
 from multiprocessing import Pool
 sys.setrecursionlimit(1000000)
-
+#
 #
 # folderPath = 'D:\\sensitivityAnalaysisVirtualSoc\\'
-# modelOutputFolder = 'D:\\outputTest\\'
+# modelOutputFolder = 'D:\\testFolder\\'
 # # modelTypes = ['linear_model.LinearRegression()','linear_model.Ridge()','linear_model.LassoLarsIC(criterion=\'bic\')','linear_model.LassoLarsIC(criterion=\'aic\')',
 # #               'linear_model.ElasticNet(alpha=1.0, l1_ratio=0.5, fit_intercept=True, normalize=False, copy_X=True, max_iter=1000, tol=0.0001, warm_start=False, random_state=None, selection=\'cyclic\')',
 # #               'linear_model.Lars(fit_intercept=True, verbose=False, normalize=True, precompute=\'auto\', n_nonzero_coefs=500, eps=2.220446049250313e-16, copy_X=True, fit_path=True, positive=False)',
@@ -38,8 +40,7 @@ sys.setrecursionlimit(1000000)
 # #               'tree.DecisionTreeRegressor()',
 # #               'neural_network.MLPClassifier(alpha=0.01, random_state=1)']
 #
-# modelTypes = [ 'neighbors.KNeighborsRegressor(n_neighbors=3)',
-#               'gaussian_process.GaussianProcessRegressor(kernel=gaussian_process.kernels.DotProduct() + gaussian_process.kernels.WhiteKernel(), random_state=0)',
+# modelTypes = ['gaussian_process.GaussianProcessRegressor(kernel=gaussian_process.kernels.DotProduct() + gaussian_process.kernels.WhiteKernel(), random_state=0)',
 #               'tree.DecisionTreeRegressor()',
 #               'neural_network.MLPClassifier(alpha=0.01, random_state=1)']
 #
@@ -51,20 +52,24 @@ sys.setrecursionlimit(1000000)
 import threading
 from threading import Thread
 # #
-# G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
 #
-# adj2 = G2.A()
+# sys.setrecursionlimit(1000000)
 #
-# G2.mutateDNA(mutationIntensity=0.8)
-# G2.mutateDNAandSocialise(mutationIntensity=0.5)
-# G2.socialise()
+# G = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
 #
-# adj2 = G2.A()
+# adj2 = G.A()
+#
+# G.mutateDNA(mutationIntensity=0.8)
+# G.mutateDNAandSocialise(mutationIntensity=0.5)
+# G.socialise()
+#
+# adj2 = G.A()
+#
+# G.writeFileA('D://testAdjFile.txt')
+#
+# WriteToFile(G).easySaveEverything('D:\\VirtualSocTest2\\test1\\')
 
-# G2.writeFileA('D://testAdjFile.txt')
 
-# G2.adjPower([2])
-# WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test1\\')
 # WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test2\\')
 
 # np.random.beta()
@@ -116,13 +121,13 @@ from threading import Thread
 if __name__ == '__main__':
 
     # from here call the simulation methods
-    newParam_values=SalibPreprocessGetParamsForSobol(1000,folderPathToSaveParamsAndProblem='/home/akanda/virtualSoc/big/')
+    # newParam_values=SalibPreprocessGetParamsForSobol(1000,folderPathToSaveParamsAndProblem='/home/akanda/virtualSoc/big/')
+    # pool = multiprocessing.Pool(processes=11)
+    # #
+    # pool.map(simulateNetworksThreaded, newParam_values)
+    # newParam_values = SalibPreprocessGetParamsForSobol(10000,folderPathToSaveParamsAndProblem='/home/akanda/virtualSoc/giant/')
+    newParam_values = getExistingParams(folderPathParm='/home/akanda/virtualSoc/giant/', folderPathGenerated=None)
     pool = multiprocessing.Pool(processes=11)
     #
-    pool.map(simulateNetworksThreaded, newParam_values)
-
-    newParam_values = simulateNetworksThreadedGiant(10000,folderPathToSaveParamsAndProblem='/home/akanda/virtualSoc/giant/')
-    pool = multiprocessing.Pool(processes=11)
-    #
-    pool.map(simulateNetworksThreaded, newParam_values)
+    pool.map(simulateNetworksThreadedGiant, newParam_values)
     #
