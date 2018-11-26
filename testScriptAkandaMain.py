@@ -42,7 +42,7 @@ sys.setrecursionlimit(1000000)
 #               'neural_network.MLPClassifier(alpha=0.01, random_state=1)']
 #
 #
-# SocLearner.trainModelsIndividual(folderPath, modelOutputFolder, modelTypes)
+# SocLearner.trainModelsIndividual(folderPath, modelOutputFolder, modelTypes)]]
 
 
 
