@@ -49,7 +49,7 @@ sys.setrecursionlimit(1000000)
 import threading
 from threading import Thread
 # #
-G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
+G2 = RandomSocialGraphAdvanced(labelSplit=[10,20,30,40],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=6, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False)
 
 adj2 = G2.A()
 
@@ -59,9 +59,9 @@ G2.socialise()
 
 adj2 = G2.A()
 
-G2.writeFileA('D:\\testVirtualSoc\\testAdjFile.txt')
-
-WriteToFile(G2).easySaveEverything('D:\\testVirtualSoc\\')
+# G2.writeFileA('D:\\testVirtualSoc\\testAdjFile.txt')
+#
+# WriteToFile(G2).easySaveEverything('D:\\testVirtualSoc\\')
 
 # np.random.beta()
 # test = ['np.random.beta(5,1)','binomial(10,0.5)']

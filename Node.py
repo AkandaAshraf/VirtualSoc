@@ -255,6 +255,7 @@ class NodeSocial(Node):
             if self.DNA.value[i] == 0:
                 featDiff = -1 * featDiff
             sumScore = sumScore + featDiff
+            i = i+1
         if multPopularityPreference:
             sumScore = sumScore * popularityPreferenceIntensity * (other.outDegree + other.inDegree)
         else:

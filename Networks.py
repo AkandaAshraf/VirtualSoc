@@ -355,7 +355,12 @@ class RandomSocialGraphAdvanced(Graph):
         if not genFeaturesFromSameDistforAllLabel:
             for i in range(0,len(self.labelSplit)):
                 # we will gen using createSocialNodesThreeFeatures which has three features thus len =3
-                self.DNA.append(DNA(self.dna, len=3))
+                featureLen = 0
+                if addTraidtionalFeatures:
+                    featureLen = 3
+                if additionalFeatureLen is not None:
+                    featureLen = featureLen + additionalFeatureLen
+                self.DNA.append(DNAadvanced(self.dna, len=featureLen))
 
                 if i ==0:
                     tempN = PetriDish.createSocialNodesNFeatures(numberOfNodes=self.labelSplit[i], nodeType=NodeSocial, DNA=self.DNA[-1], commonLabel=i, Graph=self,additionalFeatureLen=self.additionalFeatureLen,npDistFunc=self.npDistFunc,addTraidtionalFeatures=self.addTraidtionalFeatures)
