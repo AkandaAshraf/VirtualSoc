@@ -19,9 +19,9 @@ import sys
 from multiprocessing import Pool
 sys.setrecursionlimit(1000000)
 
-
-folderPath = 'D:\\sensitivityAnalaysisVirtualSoc\\'
-modelOutputFolder = 'D:\\outputTest\\'
+#
+# folderPath = 'D:\\sensitivityAnalaysisVirtualSoc\\'
+# modelOutputFolder = 'D:\\outputTest\\'
 # modelTypes = ['linear_model.LinearRegression()','linear_model.Ridge()','linear_model.LassoLarsIC(criterion=\'bic\')','linear_model.LassoLarsIC(criterion=\'aic\')',
 #               'linear_model.ElasticNet(alpha=1.0, l1_ratio=0.5, fit_intercept=True, normalize=False, copy_X=True, max_iter=1000, tol=0.0001, warm_start=False, random_state=None, selection=\'cyclic\')',
 #               'linear_model.Lars(fit_intercept=True, verbose=False, normalize=True, precompute=\'auto\', n_nonzero_coefs=500, eps=2.220446049250313e-16, copy_X=True, fit_path=True, positive=False)',
@@ -36,34 +36,32 @@ modelOutputFolder = 'D:\\outputTest\\'
 #               'tree.DecisionTreeRegressor()',
 #               'neural_network.MLPClassifier(alpha=0.01, random_state=1)']
 
-modelTypes = [ 'neighbors.KNeighborsRegressor(n_neighbors=3)',
-              'gaussian_process.GaussianProcessRegressor(kernel=gaussian_process.kernels.DotProduct() + gaussian_process.kernels.WhiteKernel(), random_state=0)',
-              'tree.DecisionTreeRegressor()',
-              'neural_network.MLPClassifier(alpha=0.01, random_state=1)']
-
-
-SocLearner.trainModelsIndividual(folderPath, modelOutputFolder, modelTypes)
+# modelTypes = [ 'neighbors.KNeighborsRegressor(n_neighbors=3)',
+#               'gaussian_process.GaussianProcessRegressor(kernel=gaussian_process.kernels.DotProduct() + gaussian_process.kernels.WhiteKernel(), random_state=0)',
+#               'tree.DecisionTreeRegressor()',
+#               'neural_network.MLPClassifier(alpha=0.01, random_state=1)']
+#
+#
+# SocLearner.trainModelsIndividual(folderPath, modelOutputFolder, modelTypes)
 
 
 
 import threading
 from threading import Thread
 # #
-# G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
-#
-# adj2 = G2.A()
-#
-# G2.mutateDNA(mutationIntensity=0.8)
-# G2.mutateDNAandSocialise(mutationIntensity=0.5)
-# G2.socialise()
-#
-# adj2 = G2.A()
+G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1])
 
-# G2.writeFileA('D://testAdjFile.txt')
+adj2 = G2.A()
 
-# G2.adjPower([2])
-# WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test1\\')
-# WriteToFile(G2).easySaveEverything('D:\\VirtualSocTest2\\test2\\')
+G2.mutateDNA(mutationIntensity=0.8)
+G2.mutateDNAandSocialise(mutationIntensity=0.5)
+G2.socialise()
+
+adj2 = G2.A()
+
+G2.writeFileA('D:\\testVirtualSoc\\testAdjFile.txt')
+
+WriteToFile(G2).easySaveEverything('D:\\testVirtualSoc\\')
 
 # np.random.beta()
 # test = ['np.random.beta(5,1)','binomial(10,0.5)']
@@ -91,7 +89,7 @@ from threading import Thread
 # simulateNetworksEasymutualPreferenceIntensityTest1('D:\\VirtualSocMP1\\')
 # simulateNetworksEasymutualPreferenceIntensityTest2('D:\\VirtualSocMP2\\')
 # t = 0.0123
-# print(str(" %6.5f " %t))
+# print(str(" %6.5f " %t
 
 
 
