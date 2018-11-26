@@ -1,0 +1,543 @@
+
+##the following codes, netStats, setGeneric, calculateNetworkStats performes calculation of network properties in R
+###
+
+library(igraph)
+library(ggplot2)
+library(data.table)
+library(doParallel)
+library(snow)
+library(doSNOW)
+
+library(foreach)
+
+
+
+#data = edgesVirtualSoc
+#removeDuplicateEdgeDirectedToUndirected<-function(data)
+#{
+#  l = length(data[[1]])
+#  data2 <- data
+#  indices
+#  for (i in 1:l-1)
+#  {
+#    if (data$V1[i]==data$V2[i+1] & data$V2[i]==data$V1[i+1])
+
+#  }
+
+
+#}
+pipeNetworkStatsThreaded("D:\\TestVirtualSocThreaded\\")
+#pipeNetworkStats("D:\\VirtualSocPP1\\")
+#pipeNetworkStats("D:\\VirtualSocPP2\\")
+#pipeNetworkStats("D:\\VirtualSocMP1\\")
+#pipeNetworkStats("D:\\VirtualSocMP2\\")
+
+FolderPath = "D:\\TestVirtualSocThreaded\\"
+pipeNetworkStatsThreaded<-function(FolderPath)
+{
+
+
+  calculateNetworkStats <- function(GraphObj) {
+    netStats <- setClass("netStats", slots = c(Vertices = "numeric", NumberofEdges = "numeric", GlobalClusteringCoefficent = "numeric", CentralityDegreeMean = "numeric", CentralityClosenessMean = "numeric", CentralityBetweenessMean = "numeric", CentralityDegreeSd = "numeric", CentralityClosenessSd = "numeric", CentralityBetweenessSd = "numeric", AvgGeodesicPath = "numeric",LocalTransitivitySd="numeric",degree = "data.frame",LocalTransitivity="data.frame",Paths="data.frame"))
+
+
+    Vertices <- gorder(GraphObj)
+    NumberofEdges <- gsize(GraphObj)
+
+    CentralityDegreeMean <- 1
+    CentralityClosenessMean <- 1
+    CentralityBetweenessMean <- 1
+    CentralityDegreeSd <- 1
+    CentralityClosenessSd <- 1
+    CentralityBetweenessSd <- 1
+
+    GlobalClusteringCoefficent <- 1
+    AvgGeodesicPath <- 1
+
+    CentralityDegreeList <- 1
+    names(CentralityDegreeList) = "Degree"
+    CentralityClosenessList <- 1
+    names(CentralityClosenessList) = "Closeness"
+    CentralityBetweenessList <- 1
+    names(CentralityBetweenessList) = "Estimate_betweenness"
+    LocalTransitivityList<-1
+    names(LocalTransitivityList) = "LocalTransitivity"
+    PathAllList<-1
+    names(PathAllList) = "Paths"
+
+
+
+
+    Degree = degree(GraphObj, normalized = FALSE)
+    Closeness = closeness.estimate(GraphObj, cutoff = -1)
+    Estimate_betweenness = estimate_betweenness(GraphObj, cutoff = -1)
+    Mean_distance = mean_distance(GraphObj, directed = FALSE)
+    Transitivity = transitivity(GraphObj, type = c("global"), vids = NULL, weights = NULL)
+    Transitivity2=transitivity(GraphObj, type="local", vids = NULL, weights = NULL)
+    PathAll =distance_table(GraphObj)
+    Edges_get = gsize(GraphObj)
+    PathAllList=PathAll$res
+    LocalTransitivityList=list(Transitivity2)
+    CentralityDegreeList = list(Degree)
+    CentralityClosenessList = list(Closeness)
+    CentralityBetweenessList = list(Estimate_betweenness)
+    CentralityDegreeMean = mean(Degree)
+    CentralityClosenessMean = mean(Closeness)
+    CentralityBetweenessMean = mean(Estimate_betweenness) #cutoff:The maximum path length to consider when calculating the betweenness. If zero or negative then there is no such limit.
+    CentralityDegreeSd = sd(Degree)
+    CentralityClosenessSd = sd(Closeness)
+    CentralityBetweenessSd = sd(Estimate_betweenness)
+    LocalTransitivitySd = sd(Transitivity2, na.rm=TRUE)
+    AvgGeodesicPath = Mean_distance
+    GlobalClusteringCoefficent = Transitivity
+
+    degree <- data.frame(degree=CentralityDegreeList[[1]])
+    LocalTransitivity<-data.frame(LocalTransitivity=LocalTransitivityList[[1]])
+    Paths<-data.frame(Paths=PathAllList)
+
+    return(netStats(Vertices = Vertices, NumberofEdges = NumberofEdges, GlobalClusteringCoefficent = GlobalClusteringCoefficent, CentralityDegreeMean = CentralityDegreeMean, CentralityClosenessMean = CentralityClosenessMean, CentralityBetweenessMean = CentralityBetweenessMean, CentralityDegreeSd = CentralityDegreeSd, CentralityClosenessSd = CentralityClosenessSd, CentralityBetweenessSd = CentralityBetweenessSd, AvgGeodesicPath=AvgGeodesicPath,LocalTransitivitySd=LocalTransitivitySd,degree = degree,LocalTransitivity=LocalTransitivity,Paths=Paths))
+  }
+
+
+  saveStatsTable <- function(netStatsObject, NameLocation, PlotDegreeDistribution=TRUE,PlotTransitivity=TRUE,PlotPathsDist=TRUE) {
+
+    tempDf <- data.frame( Vertices = netStatsObject@Vertices, NumberofEdges = netStatsObject@NumberofEdges,GlobalClusteringCoefficent = netStatsObject@GlobalClusteringCoefficent,ClusteringCoefficentSD=netStatsObject@LocalTransitivitySd, CentralityDegreeMean = netStatsObject@CentralityDegreeMean, CentralityClosenessMean = netStatsObject@CentralityClosenessMean, CentralityBetweenessMean = netStatsObject@CentralityBetweenessMean, CentralityDegreeSd = netStatsObject@CentralityDegreeSd, CentralityClosenessSd = netStatsObject@CentralityClosenessSd, CentralityBetweenessSd = netStatsObject@CentralityBetweenessSd, AvgGeodesicPath = netStatsObject@AvgGeodesicPath)
+
+
+    p1<- ggplot(netStatsObject@degree, aes(x = degree)) +
+      geom_histogram(binwidth = 5)
+    ggsave(plot = p1,filename = paste(NameLocation, "DegreeDist.eps", sep = ""), device = "eps")
+
+
+    p2<- ggplot(netStatsObject@LocalTransitivity, aes(x = LocalTransitivity)) +
+      geom_histogram(binwidth = 0.010)
+    ggsave(plot=p2, filename = paste(NameLocation, "TransitivityDist.eps", sep = ""), device = "eps")
+
+
+    PlotPaths<-as.vector(netStatsObject@Paths)
+    l<-seq(1:length(netStatsObject@Paths[[1]]))
+    p <-  qplot(data=PlotPaths,geom = "col",y=PlotPaths$Paths,x=l)+geom_bar(stat="identity")+ labs(x = "Path Lengths",y ="Path Counts")
+
+
+    ggsave(plot=p, filename = paste(NameLocation, "PathsDist.eps", sep = ""), device = "eps")
+
+    write.table(col.names = TRUE,row.names =FALSE,tempDf, file = paste(NameLocation, ".csv", sep = ""), sep = ",")
+  }
+
+
+  #mergeStats(FolderPath)
+
+  mergeInner<-function(dir2,tempRoot){
+    len2 <- length(dir2)
+    for(j in 1:len2)
+    {
+      if(basename(dir2[j])!="stats"){
+        currentDir2 <- dir2[j]
+
+        tempInside<- fread(paste0(currentDir2,"//stats//",basename(currentDir2),".csv"))
+        tempInside<-cbind(dataset=basename(currentDir2),tempInside)
+
+        tempRoot <- rbind(tempRoot,tempInside)
+
+
+      }
+    }
+    return(tempRoot)
+  }
+
+  mergeStats<-function(FolderPath)
+  {
+
+    dir<-list.dirs(paste0(FolderPath), recursive = FALSE)
+    len<-length(dir)
+    for(i in 1:len)
+    {
+      currentDir <- dir[i]
+      basename(currentDir)
+
+      tempRoot<- fread(paste0(currentDir,"//stats//",basename(currentDir),".csv"))
+
+      dir2<-list.dirs(paste0(currentDir), recursive = FALSE)
+      len2 = length(dir2)
+      tempRoot<-cbind(dataset=basename(currentDir), tempRoot)
+
+      datasetRowsTemp <- mergeInner(dir2 = dir2,tempRoot = tempRoot)
+
+      # if(i==1)
+      #{
+      # dataSetRows<-fread(paste0(currentDir,"//stats//",basename(currentDir),".csv"))
+      #  dataSetRows<-cbind(dataset=basename(currentDir),tempRoot)
+
+      # }
+
+      # for(j in 1:len2)
+      # {
+      #if(basename(currentDir2)!="stats"){
+      #  currentDir2 <- dir2[j]
+
+      #  tempInside<- fread(paste0(currentDir2,"//stats//",basename(currentDir2),".csv"))
+      #  tempInside<-cbind(dataset=basename(currentDir2),tempInside)
+
+      #  tempRoot <<- rbind(tempRoot,tempInside)
+
+      #   print(tempRoot)
+
+
+      # }
+
+      #}
+
+      if(i==1){
+        datasetRows <-datasetRowsTemp
+      } else {
+        datasetRows <- rbind(datasetRows,datasetRowsTemp)
+      }
+
+
+
+
+    }
+
+
+    write.table(col.names = TRUE,row.names =FALSE,datasetRows, file = paste(FolderPath,"allStats.csv", sep = ""), sep = ",")
+
+
+  }
+
+
+
+
+
+
+  dir<-list.dirs(FolderPath,recursive = FALSE)
+
+  cl <- makeCluster(8)
+  registerDoSNOW(cl)
+  len<-length(dir)
+
+  pb <- txtProgressBar(max = len, style = 3)
+  progress <- function(n) setTxtProgressBar(pb, n)
+  opts <- list(progress = progress)
+
+  netStats <- setClass("netStats", slots = c(Vertices = "numeric", NumberofEdges = "numeric", GlobalClusteringCoefficent = "numeric", CentralityDegreeMean = "numeric", CentralityClosenessMean = "numeric", CentralityBetweenessMean = "numeric", CentralityDegreeSd = "numeric", CentralityClosenessSd = "numeric", CentralityBetweenessSd = "numeric", AvgGeodesicPath = "numeric",LocalTransitivitySd="numeric",degree = "data.frame",LocalTransitivity="data.frame",Paths="data.frame"))
+
+  counter<-1
+  dataset<-NA
+  p<-foreach (i=1:len,.combine = c,.packages=c('igraph','Kmisc','foreach','ggplot2'),.options.snow = opts) %dopar%
+  {
+
+    currentDirr<-dir[i]
+
+    dir2<-list.dirs(currentDirr,recursive = FALSE)
+
+
+    dir.create(path =paste0(currentDirr,"//stats//"))
+
+    bname<-basename(currentDirr)
+
+    edgesVirtualSoc<-read.csv(paste0(FolderPath,"//",bname,"//edges.csv"), header = FALSE)
+
+
+    nodes <- read.csv(paste0(FolderPath,"//",bname,"//nodesWithFeatures.csv"), header = TRUE)
+
+    edgesVirtualSocIgraph<- graph_from_data_frame(edgesVirtualSoc, vertices = nodes$Id, directed = FALSE)
+    #gorder(edgesVirtualSocIgraph)
+    #ecount(edgesVirtualSocIgraph)/2
+    # duplicated(edgesVirtualSoc)
+
+    edgesVirtualSocIgraph <- simplify(edgesVirtualSocIgraph, remove.multiple = TRUE, remove.loops = FALSE)
+
+    # ecount(edgesVirtualSocIgraphSimplified)
+
+
+    saveStatsTable(netStatsObject=calculateNetworkStats(GraphObj =edgesVirtualSocIgraph),NameLocation =paste0(FolderPath,"//",bname,"//stats//",bname))
+
+    len2<- length(dir2)
+
+    for(j in 1:len2)
+    {
+      currentDirr2<-dir2[j]
+
+      dir.create(path =paste0(currentDirr2,"//stats//"))
+
+      bname<-basename(currentDirr2)
+
+      edgesVirtualSoc<-read.csv(paste0(currentDirr2,"//edges.csv"), header = FALSE)
+
+      edgesVirtualSocIgraph<- graph.data.frame(edgesVirtualSoc, directed = FALSE, vertices = nodes)
+      edgesVirtualSocIgraph <- simplify(edgesVirtualSocIgraph, remove.multiple = TRUE, remove.loops = FALSE)
+
+
+
+      saveStatsTable(netStatsObject=calculateNetworkStats(GraphObj =edgesVirtualSocIgraph),NameLocation =paste0(currentDirr2,"//stats//",bname))
+
+
+    }
+
+
+    # dataset[counter]<-bname
+    #counter=counter+1
+
+
+  }
+  close(pb)
+  stopCluster(cl)
+  mergeStats(FolderPath)
+
+}
+
+
+
+
+
+pipeNetworkStats<-function(FolderPath)
+{
+  counter<-1
+  dataset<-NA
+  dir<-list.dirs(FolderPath,recursive = FALSE)
+  len<-length(dir)
+
+  for(i in 1:len)
+  {
+
+
+    currentDirr<-dir[i]
+
+    dir2<-list.dirs(currentDirr,recursive = FALSE)
+
+
+    dir.create(path =paste0(currentDirr,"//stats//"))
+
+    bname<-basename(currentDirr)
+
+    edgesVirtualSoc<-read.csv(paste0(FolderPath,"//",bname,"//edges.csv"), header = FALSE)
+
+
+    nodes <- read.csv(paste0(FolderPath,"//",bname,"//nodesWithFeatures.csv"), header = TRUE)
+
+    edgesVirtualSocIgraph<- graph_from_data_frame(edgesVirtualSoc, vertices = nodes$Id, directed = FALSE)
+    #gorder(edgesVirtualSocIgraph)
+    #ecount(edgesVirtualSocIgraph)/2
+    # duplicated(edgesVirtualSoc)
+
+    edgesVirtualSocIgraph <- simplify(edgesVirtualSocIgraph, remove.multiple = TRUE, remove.loops = FALSE)
+
+    # ecount(edgesVirtualSocIgraphSimplified)
+
+
+    saveStatsTable(netStatsObject=calculateNetworkStats(GraphObj =edgesVirtualSocIgraph),NameLocation =paste0(FolderPath,"//",bname,"//stats//",bname))
+
+    len2<- length(dir2)
+
+    for(j in 1:len2)
+    {
+      currentDirr2<-dir2[j]
+
+      dir.create(path =paste0(currentDirr2,"//stats//"))
+
+      bname<-basename(currentDirr2)
+
+      edgesVirtualSoc<-read.csv(paste0(currentDirr2,"//edges.csv"), header = FALSE)
+
+      edgesVirtualSocIgraph<- graph.data.frame(edgesVirtualSoc, directed = FALSE, vertices = nodes)
+      edgesVirtualSocIgraph <- simplify(edgesVirtualSocIgraph, remove.multiple = TRUE, remove.loops = FALSE)
+
+
+
+      saveStatsTable(netStatsObject=calculateNetworkStats(GraphObj =edgesVirtualSocIgraph),NameLocation =paste0(currentDirr2,"//stats//",bname))
+
+
+    }
+
+
+    # dataset[counter]<-bname
+    #counter=counter+1
+
+
+  }
+  mergeStats(FolderPath)
+
+}
+
+
+
+
+
+
+netStats <- setClass("netStats", slots = c(Vertices = "numeric", NumberofEdges = "numeric", GlobalClusteringCoefficent = "numeric", CentralityDegreeMean = "numeric", CentralityClosenessMean = "numeric", CentralityBetweenessMean = "numeric", CentralityDegreeSd = "numeric", CentralityClosenessSd = "numeric", CentralityBetweenessSd = "numeric", AvgGeodesicPath = "numeric",LocalTransitivitySd="numeric",degree = "data.frame",LocalTransitivity="data.frame",Paths="data.frame"))
+
+
+
+calculateNetworkStats <- function(GraphObj) {
+
+  Vertices <- gorder(GraphObj)
+  NumberofEdges <- gsize(GraphObj)
+
+  CentralityDegreeMean <- 1
+  CentralityClosenessMean <- 1
+  CentralityBetweenessMean <- 1
+  CentralityDegreeSd <- 1
+  CentralityClosenessSd <- 1
+  CentralityBetweenessSd <- 1
+
+  GlobalClusteringCoefficent <- 1
+  AvgGeodesicPath <- 1
+
+  CentralityDegreeList <- 1
+  names(CentralityDegreeList) = "Degree"
+  CentralityClosenessList <- 1
+  names(CentralityClosenessList) = "Closeness"
+  CentralityBetweenessList <- 1
+  names(CentralityBetweenessList) = "Estimate_betweenness"
+  LocalTransitivityList<-1
+  names(LocalTransitivityList) = "LocalTransitivity"
+  PathAllList<-1
+  names(PathAllList) = "Paths"
+
+
+
+
+  Degree = degree(GraphObj, normalized = FALSE)
+  Closeness = closeness.estimate(GraphObj, cutoff = -1)
+  Estimate_betweenness = estimate_betweenness(GraphObj, cutoff = -1)
+  Mean_distance = mean_distance(GraphObj, directed = FALSE)
+  Transitivity = transitivity(GraphObj, type = c("global"), vids = NULL, weights = NULL)
+  Transitivity2=transitivity(GraphObj, type="local", vids = NULL, weights = NULL)
+  PathAll =distance_table(GraphObj)
+  Edges_get = gsize(GraphObj)
+  PathAllList=PathAll$res
+  LocalTransitivityList=list(Transitivity2)
+  CentralityDegreeList = list(Degree)
+  CentralityClosenessList = list(Closeness)
+  CentralityBetweenessList = list(Estimate_betweenness)
+  CentralityDegreeMean = mean(Degree)
+  CentralityClosenessMean = mean(Closeness)
+  CentralityBetweenessMean = mean(Estimate_betweenness) #cutoff:The maximum path length to consider when calculating the betweenness. If zero or negative then there is no such limit.
+  CentralityDegreeSd = sd(Degree)
+  CentralityClosenessSd = sd(Closeness)
+  CentralityBetweenessSd = sd(Estimate_betweenness)
+  LocalTransitivitySd = sd(Transitivity2, na.rm=TRUE)
+  AvgGeodesicPath = Mean_distance
+  GlobalClusteringCoefficent = Transitivity
+
+  degree <- data.frame(degree=CentralityDegreeList[[1]])
+  LocalTransitivity<-data.frame(LocalTransitivity=LocalTransitivityList[[1]])
+  Paths<-data.frame(Paths=PathAllList)
+
+  return(netStats(Vertices = Vertices, NumberofEdges = NumberofEdges, GlobalClusteringCoefficent = GlobalClusteringCoefficent, CentralityDegreeMean = CentralityDegreeMean, CentralityClosenessMean = CentralityClosenessMean, CentralityBetweenessMean = CentralityBetweenessMean, CentralityDegreeSd = CentralityDegreeSd, CentralityClosenessSd = CentralityClosenessSd, CentralityBetweenessSd = CentralityBetweenessSd, AvgGeodesicPath=AvgGeodesicPath,LocalTransitivitySd=LocalTransitivitySd,degree = degree,LocalTransitivity=LocalTransitivity,Paths=Paths))
+}
+
+
+
+
+
+saveStatsTable <- function(netStatsObject, NameLocation, PlotDegreeDistribution=TRUE,PlotTransitivity=TRUE,PlotPathsDist=TRUE) {
+
+  tempDf <- data.frame( Vertices = netStatsObject@Vertices, NumberofEdges = netStatsObject@NumberofEdges,GlobalClusteringCoefficent = netStatsObject@GlobalClusteringCoefficent,ClusteringCoefficentSD=netStatsObject@LocalTransitivitySd, CentralityDegreeMean = netStatsObject@CentralityDegreeMean, CentralityClosenessMean = netStatsObject@CentralityClosenessMean, CentralityBetweenessMean = netStatsObject@CentralityBetweenessMean, CentralityDegreeSd = netStatsObject@CentralityDegreeSd, CentralityClosenessSd = netStatsObject@CentralityClosenessSd, CentralityBetweenessSd = netStatsObject@CentralityBetweenessSd, AvgGeodesicPath = netStatsObject@AvgGeodesicPath)
+
+
+  p1<- ggplot(netStatsObject@degree, aes(x = degree)) +
+    geom_histogram(binwidth = 5)
+  ggsave(plot = p1,filename = paste(NameLocation, "DegreeDist.eps", sep = ""), device = "eps")
+
+
+  p2<- ggplot(netStatsObject@LocalTransitivity, aes(x = LocalTransitivity)) +
+    geom_histogram(binwidth = 0.010)
+  ggsave(plot=p2, filename = paste(NameLocation, "TransitivityDist.eps", sep = ""), device = "eps")
+
+
+  PlotPaths<-as.vector(netStatsObject@Paths)
+  l<-seq(1:length(netStatsObject@Paths[[1]]))
+  p <-  qplot(data=PlotPaths,geom = "col",y=PlotPaths$Paths,x=l)+geom_bar(stat="identity")+ labs(x = "Path Lengths",y ="Path Counts")
+
+
+  ggsave(plot=p, filename = paste(NameLocation, "PathsDist.eps", sep = ""), device = "eps")
+
+  write.table(col.names = TRUE,row.names =FALSE,tempDf, file = paste(NameLocation, ".csv", sep = ""), sep = ",")
+}
+
+
+#mergeStats(FolderPath)
+
+mergeInner<-function(dir2,tempRoot){
+  len2 <- length(dir2)
+  for(j in 1:len2)
+  {
+    if(basename(dir2[j])!="stats"){
+      currentDir2 <- dir2[j]
+
+      tempInside<- fread(paste0(currentDir2,"//stats//",basename(currentDir2),".csv"))
+      tempInside<-cbind(dataset=basename(currentDir2),tempInside)
+
+      tempRoot <- rbind(tempRoot,tempInside)
+
+
+    }
+  }
+  return(tempRoot)
+}
+
+mergeStats<-function(FolderPath)
+{
+
+  dir<-list.dirs(paste0(FolderPath), recursive = FALSE)
+  len<-length(dir)
+  for(i in 1:len)
+  {
+    currentDir <- dir[i]
+    basename(currentDir)
+
+    tempRoot<- fread(paste0(currentDir,"//stats//",basename(currentDir),".csv"))
+
+    dir2<-list.dirs(paste0(currentDir), recursive = FALSE)
+    len2 = length(dir2)
+    tempRoot<-cbind(dataset=basename(currentDir), tempRoot)
+
+    datasetRowsTemp <- mergeInner(dir2 = dir2,tempRoot = tempRoot)
+
+    # if(i==1)
+    #{
+    # dataSetRows<-fread(paste0(currentDir,"//stats//",basename(currentDir),".csv"))
+    #  dataSetRows<-cbind(dataset=basename(currentDir),tempRoot)
+
+    # }
+
+    # for(j in 1:len2)
+    # {
+    #if(basename(currentDir2)!="stats"){
+    #  currentDir2 <- dir2[j]
+
+    #  tempInside<- fread(paste0(currentDir2,"//stats//",basename(currentDir2),".csv"))
+    #  tempInside<-cbind(dataset=basename(currentDir2),tempInside)
+
+    #  tempRoot <<- rbind(tempRoot,tempInside)
+
+    #   print(tempRoot)
+
+
+    # }
+
+    #}
+
+    if(i==1){
+      datasetRows <-datasetRowsTemp
+    } else {
+      datasetRows <- rbind(datasetRows,datasetRowsTemp)
+    }
+
+
+
+
+  }
+
+
+  write.table(col.names = TRUE,row.names =FALSE,datasetRows, file = paste(FolderPath,"allStats.csv", sep = ""), sep = ",")
+
+
+}
+
+
+
+
+
