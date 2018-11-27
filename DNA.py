@@ -153,6 +153,7 @@ class DNAadvanced(DNA):
         self.preferShorterPath = preferShorterPath
         self.preferPopularityIntensity = preferPopularityIntensity
         self.preferShorterPathIntensity = preferShorterPathIntensity
+        # self.percentageOfConnectionNodes = percentageOfConnectionNodes
 
         if self.value== 'auto':
               self.value = self._autoGenDNA(len=len)

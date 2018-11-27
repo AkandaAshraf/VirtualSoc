@@ -49,12 +49,12 @@ sys.setrecursionlimit(1000000)
 import threading
 from threading import Thread
 # #
-G2 = RandomSocialGraphAdvanced(labelSplit=[10,20,30,40],connectionPercentageWithMatchedNodes=30,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=6, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False)
+G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=6, npDistFunc=['np.random.randint(18, high=80)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False)
 
 adj2 = G2.A()
 
-G2.mutateDNA(mutationIntensity=0.8)
-G2.mutateDNAandSocialise(mutationIntensity=0.5)
+G2.mutateDNA(mutationIntensity=0.9,mutatePreference=True)
+G2.mutateDNAandSocialise(mutationIntensity=0.9)
 G2.socialise()
 
 adj2 = G2.A()

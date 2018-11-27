@@ -52,7 +52,7 @@ class randomSocial:
 
 class randomSocialwithDNA(randomSocial):
 
-        def __init__(self, graph,percentageOfConnectionNodes=20, p=0.5):
+        def __init__(self, graph,percentageOfConnectionNodes, p=0.5):
             super(randomSocialwithDNA, self).__init__(graph, p)
 
             self.popularityPreferenceIntensity = None
@@ -107,11 +107,12 @@ class randomSocialwithDNA(randomSocial):
 
 class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
-    def __init__(self,popularityPreferenceIntensity,mutualPreferenceIntensity,pathLenghtLimit,graph,percentageOfConnectionNodes, **kwargs):
+    def __init__(self,popularityPreferenceIntensity,mutualPreferenceIntensity,pathLenghtLimit,graph,percentageOfConnectionNodes,connectionPercentageWithMatchedNodesWithRandomness=None, **kwargs):
         super(randomSocialwithDNAadvanced, self).__init__(graph=graph,percentageOfConnectionNodes=percentageOfConnectionNodes, p=0.5)
         self.popularityPreferenceIntensity = popularityPreferenceIntensity
         self.mutualPreferenceIntensity = mutualPreferenceIntensity
         self.pathLenghtLimit = pathLenghtLimit
+
 
 
 
@@ -134,7 +135,10 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
         NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
 
         l = 0.0
+
         stoppingLen = len(NodesScoreListOfObjectsSorted) * self.percentageOfConnectionNodes / 100
+
+
         for NodesScoreObj in NodesScoreListOfObjectsSorted:
 
             if l >= stoppingLen:
