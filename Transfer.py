@@ -95,7 +95,7 @@ class WriteToFile:
                     f.write('\n')
             info = []
             if  not self.Graph.keepHistory:
-                self.saveRandomSocialGraphAdvanced(folderPath)
+                self.saveRandomSocialGraphAdvanced(graph=self.Graph,folderPath=folderPath)
                 # info.append({'mutationIntensity': self.Graph.mutationIntensity, 'mutatePreference': self.Graph.mutatePreference,
                 #              'mutatePreferenceProbability': self.Graph.mutatePreferenceProbability})
 

@@ -460,24 +460,24 @@ class RandomSocialGraphAdvanced(Graph):
 
         __SocialiserObj = randomSocialwithDNAadvanced(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability,mutualPreferenceIntensity=self.mutualPreferenceIntensity,popularityPreferenceIntensity=self.popularityPreferenceIntensity,pathLenghtLimit=self.pathLenghtLimit)
         __SocialiserObj.simpleRandomSocialiserSingleEdge()
+        if self.keepHistory:
+            if not self._birthDNA:
+                    self.evolutionHistory.append(
+                        self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=self.explorationProbability,
+                                                connectionPercentageWithMatchedNodes=self.percentageOfConnectionNodes,
+                                                DNA=DNA,
+                                                mutationIntensity='noMutationOccuredInThisStage',
+                                                mutatePreference='noMutationOccuredInThisStage',
+                                                mutatePreferenceProbability='noMutationOccuredInThisStage',
+                                                edgeCount=self.edgeCount, Graph=self))
 
-        if not self._birthDNA:
+            else:
                 self.evolutionHistory.append(
                     self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=self.explorationProbability,
-                                            connectionPercentageWithMatchedNodes=self.percentageOfConnectionNodes,
-                                            DNA=DNA,
-                                            mutationIntensity='noMutationOccuredInThisStage',
-                                            mutatePreference='noMutationOccuredInThisStage',
-                                            mutatePreferenceProbability='noMutationOccuredInThisStage',
-                                            edgeCount=self.edgeCount, Graph=self))
-
-        else:
-            self.evolutionHistory.append(
-                self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=self.explorationProbability,
-                                        connectionPercentageWithMatchedNodes=self.percentageOfConnectionNodes, DNA=DNA,
-                                        mutationIntensity='birthDNA', mutatePreference='birthDNA',
-                                        mutatePreferenceProbability='birthDNA', edgeCount=self.edgeCount, Graph=self))
-        self._birthDNA = False
+                                            connectionPercentageWithMatchedNodes=self.percentageOfConnectionNodes, DNA=DNA,
+                                            mutationIntensity='birthDNA', mutatePreference='birthDNA',
+                                            mutatePreferenceProbability='birthDNA', edgeCount=self.edgeCount, Graph=self))
+            self._birthDNA = False
         self.Socialised = True
 
 
