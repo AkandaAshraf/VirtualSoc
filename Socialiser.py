@@ -1,6 +1,8 @@
 import numpy as np
 import concurrent.futures
 import operator
+import pyprind
+import sys
 
 class randomSocial:
     '''
@@ -118,9 +120,11 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
 
     def simpleRandomSocialiserSingleEdge(self):
-
+        print('socialising')
         NodesScoreListOfObjects = []
         nodes = self.graph.N
+        print('Calculating node scores!')
+        bar = pyprind.ProgBar(len(nodes)*len(nodes), stream=sys.stdout)
 
 
         for node1 in nodes:
@@ -131,12 +135,14 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
                         NodesScoreListOfObjects.append(self._NodesScore(node1=node1, node2=node2,
                                                                          score=node1.getScoreAdvanced(node2,popularityPreferenceIntensity=self.popularityPreferenceIntensity,mutualPreferenceIntensity=self.mutualPreferenceIntensity) + node2.getScoreAdvanced(
                                                                              node1,popularityPreferenceIntensity=self.popularityPreferenceIntensity,mutualPreferenceIntensity=self.mutualPreferenceIntensity), graph=self.graph))
-
+                        bar.update()
         NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
 
         l = 0.0
 
         stoppingLen = len(NodesScoreListOfObjectsSorted) * self.percentageOfConnectionNodes / 100
+
+        bar = pyprind.ProgBar(stoppingLen, stream=sys.stdout)
 
 
         for NodesScoreObj in NodesScoreListOfObjectsSorted:
@@ -145,8 +151,9 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
                 break
             else:
                 NodesScoreObj.addNodes()
+            bar.update()
             l += 1
-
+        # bar.finish()
 
         if self.mutualPreferenceIntensity is not None:
                 self.graph.adjPower(self.mutualPreferenceIntensity )
