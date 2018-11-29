@@ -39,7 +39,7 @@ class DNA:
         :param kwargs:
         '''
         self.value = value
-        self.nodes = 'not assigned!'
+        self.nodes = []
         self.preferPopularity = None
         self.preferShorterPath = None
         self.preferPopularityIntensity = None
@@ -117,6 +117,8 @@ class DNA:
 
     def _assignedNodes(self, nodes):
          self.nodes = nodes
+    def _assignedNode(self, node):
+         self.nodes.append(node)
 
     def __str__(self):
         print(self.value)
@@ -148,7 +150,7 @@ class DNAadvanced(DNA):
 
 
         self.value = value
-        self.nodes = 'not assigned!'
+        # self.nodes = []
         self.preferPopularity = preferPopularity
         self.preferShorterPath = preferShorterPath
         self.preferPopularityIntensity = preferPopularityIntensity
