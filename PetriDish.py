@@ -287,7 +287,7 @@ def createSocialNodesNFeaturesSameDistWithDNAShuffled(numberOfNodes, nodeType, d
              np.random.shuffle(DNASpreadIndex)
 
              for i in range(0, len(labelSplit)):
-                 print('getting nodes first:'+str(labelSplit[i]))
+                 print('generating nodes with: '+str(featureLen)+ 'features each')
 
                  if i ==0:
                      startingIndex = 0

@@ -52,6 +52,7 @@ class WriteToFile:
                 label += 1
 
     def easySaveEverything(self,folderPath):
+        print('Transferring graph to HDD')
         fileNameNode = '\\nodesWithFeatures.csv'
         fileGraphInfo = '\\graphInfo.csv'
         fileCurrentEdges = '\\edges.csv'
