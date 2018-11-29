@@ -63,18 +63,36 @@ sys.setrecursionlimit(100000000)
 
 
 # #
-G2 = RandomSocialGraphAdvanced(labelSplit=[500,1000,1500],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+G2 = RandomSocialGraphAdvanced(labelSplit=[3,6,9],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
 
 
 # G2.mutateDNA(mutationIntensity=0.9,mutatePreference=True)
 # G2.mutateDNAandSocialise(mutationIntensity=0.9)
-# G2.socialise()
+G2.socialise()
 #
 
 # G2.writeFileA('D:\\testVirtualSoc\\testAdjFile.txt')
 #
-WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\soc2\\')
+WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShuffledDNATest\\')
+
+
 #
+# G2 = RandomSocialGraphAdvanced(labelSplit=[500,1000,1500],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#
+#
+# G2.mutateDNA(mutationIntensity=0.9,mutatePreference=True)
+# G2.mutateDNAandSocialise(mutationIntensity=0.9)
+# G2.socialise()
+# #
+#
+# # G2.writeFileA('D:\\testVirtualSoc\\testAdjFile.txt')
+# #
+# WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\soc4\\')
+# #
+#
+#
+#
+# #
 # G2 = RandomSocialGraphAdvanced(labelSplit=[500,1000,1500],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False)
 #
 #
