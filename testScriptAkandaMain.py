@@ -75,31 +75,91 @@ sys.setrecursionlimit(100000000)
 # #
 # WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShufledDNATest2\\')
 #
+#
+# G2 = RandomSocialGraphAdvanced(labelSplit=[5,10,15],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#
+# WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShuffledDNATestSmall\\')
 
-G2 = RandomSocialGraphAdvanced(labelSplit=[10000,20000,30000],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#################################
+# G2 = RandomSocialGraphAdvanced(labelSplit=[10000,20000,30000],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#
+# WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShufledDNATestGiant1\\')
+#
+# G2 = RandomSocialGraphAdvanced(labelSplit=[10000,20000,30000],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=12,mutualPreferenceIntensity=[0.9,0.6,0.3],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#
+# WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShufledDNATestGiant2\\')
+#
+# dir = 'D:\\VirtualSocGCN\\'
+# os.makedirs(dir+'ShuffledDNAFeatureBased1')
+# G2 = RandomSocialGraphAdvanced(labelSplit=[2000,4000,6000],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=0.3,mutualPreferenceIntensity=[0.3,0.3,0.3],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#
+# WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShuffledDNAFeatureBased1\\')
+#
+# dir = 'D:\\VirtualSocGCN\\'
+# os.makedirs(dir+'ShuffledDNAFeatureBased2')
+# G2 = RandomSocialGraphAdvanced(labelSplit=[2000,4000,6000],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=0.3,mutualPreferenceIntensity=[0.3,0.3,0.3],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#
+# WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShuffledDNAFeatureBased2\\')
 
 
-# G2.mutateDNA(mutationIntensity=0.9,mutatePreference=True)
-# G2.mutateDNAandSocialise(mutationIntensity=0.9)
+
+# os.makedirs('D:\\VirtualSocGCN\\ShuffledDNAFeatureBased4')
+# G2 = RandomSocialGraphAdvanced(labelSplit=[500,1000,1500,2000,2500],connectionPercentageWithMatchedNodes=50,connectionPercentageWithMatchedNodesWithRandomness=0.3,explorationProbability=0.7,addTraidtionalFeatures=True,additionalFeatureLen=20, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.1,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#
+# WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShuffledDNAFeatureBased4\\')
+
+# file = 'D:\\VirtualSocGCN\\ShuffledDNAFeatureBased5\\'
+# os.makedirs(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[500,1000,1500,2000,2500],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=True,additionalFeatureLen=20, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.1,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#
+# WriteToFile(G2).easySaveEverything(file)
+
+
+#
+# file = 'D:\\VirtualSocGCN\\test\\'
+# os.makedirs(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[250,500],connectionPercentageWithMatchedNodes=10,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.1,addTraidtionalFeatures=True,additionalFeatureLen=3, npDistFunc=['np.random.randint(10, high=1500)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=2,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+# WriteToFile(G2).easySaveEverything(file)
+
+file = 'D:\\VirtualSocGCN\\test10\\'
+# os.makedirs(file)
+G2 = RandomSocialGraphAdvanced(labelSplit=[250,500,750,1000],dna='autoWeightless',connectionPercentageWithMatchedNodes=50,connectionPercentageWithMatchedNodesWithRandomness=0.9,explorationProbability=0.5,addTraidtionalFeatures=True,additionalFeatureLen=5, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=0.3,mutualPreferenceIntensity=[0.3,0.2,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+WriteToFile(G2).easySaveEverything(file)
+
+
+# file = 'D:\\VirtualSocGCN\\ShuffledDNAFeatureBased9\\'
+# os.makedirs(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[500,1000,1500,2000,3000],connectionPercentageWithMatchedNodes=1,connectionPercentageWithMatchedNodesWithRandomness=0.3,explorationProbability=0.5,addTraidtionalFeatures=True,additionalFeatureLen=100, npDistFunc=['np.random.randint(10, high=1500)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# WriteToFile(G2).easySaveEverything(file)
+# file = 'D:\\VirtualSocGCN\\ShuffledDNAFeatureBased10\\'
+# os.makedirs(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[500,1000,1500,2000,3000,4000,5000],connectionPercentageWithMatchedNodes=1,connectionPercentageWithMatchedNodesWithRandomness=0.3,explorationProbability=0.5,addTraidtionalFeatures=True,additionalFeatureLen=100, npDistFunc=['np.random.randint(10, high=1500)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# G2.socialise()
+# WriteToFile(G2).easySaveEverything(file)
+# file = 'D:\\VirtualSocGCN\\ShuffledDNAFeatureBased11\\'
+# os.makedirs(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[500,1000,1500,2000,3000,4000,5000],connectionPercentageWithMatchedNodes=90,connectionPercentageWithMatchedNodesWithRandomness=0.3,explorationProbability=0.1,addTraidtionalFeatures=True,additionalFeatureLen=100, npDistFunc=['np.random.randint(10, high=1500)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+# G2.socialise()
 # G2.socialise()
 #
+# WriteToFile(G2).easySaveEverything(file)
 
-# G2.writeFileA('D:\\testVirtualSoc\\testAdjFile.txt')
-#
-WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShufledDNATestGiant1\\')
-
-G2 = RandomSocialGraphAdvanced(labelSplit=[10000,20000,30000],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=12,mutualPreferenceIntensity=[0.9,0.6,0.3],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
-
-
-# G2.mutateDNA(mutationIntensity=0.9,mutatePreference=True)
-# G2.mutateDNAandSocialise(mutationIntensity=0.9)
-# G2.socialise()
-#
-
-# G2.writeFileA('D:\\testVirtualSoc\\testAdjFile.txt')
-#
-WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShufledDNATestGiant2\\')
-
+###########################################
 
 
 #

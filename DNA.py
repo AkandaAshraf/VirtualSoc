@@ -47,6 +47,8 @@ class DNA:
 
         if self.value== 'auto':
               self.value = self._autoGenDNA(len=len)
+        elif self.value == 'autoWeightless':
+            self.value = self._autoGenDNA2(len=len)
 
     def _autoGenDNA(self, len):
         '''
@@ -60,6 +62,24 @@ class DNA:
             rand2 = np.random.uniform(low=0.0, high=1.0, size=None)
             if rand1 >0.5:
                dnaValue.append(1)
+            else:
+                dnaValue.append(0)
+            dnaValue.append(rand2)
+
+        return dnaValue
+
+    def _autoGenDNA2(self, len):
+        '''
+        This function is not meant to access by the user but called from the constructor if the DNA.value param is set to 'auto'
+        :param len: length of the DNA, vector size will be 2 * len
+        :return: a vector containing the DNA
+        '''
+        dnaValue = []
+        for i in range(1, len + 1):
+            rand1 = np.random.uniform(low=0.0, high=1.0, size=None)
+            rand2 = 1
+            if rand1 > 0.5:
+                dnaValue.append(1)
             else:
                 dnaValue.append(0)
             dnaValue.append(rand2)
@@ -159,6 +179,8 @@ class DNAadvanced(DNA):
 
         if self.value== 'auto':
               self.value = self._autoGenDNA(len=len)
+        elif self.value == 'autoWeightless':
+            self.value = self._autoGenDNA2(len=len)
 
 
     def _autoGenDNA(self, len):
@@ -176,6 +198,22 @@ class DNAadvanced(DNA):
             self.preferShorterPathIntensity = np.random.uniform(low=0.0, high=1.0, size=None)
 
         return super()._autoGenDNA(len=len)
+
+    def _autoGenDNA2(self, len):
+        '''
+        same as parent class's method but extends to incorporate preferPopularityIntensity , and  preferShorterPathIntensity
+        This method meant to be called from the instructor.
+
+        :param len:  length of the DNA, vector size will be 2 * len
+        :return:
+        '''
+        if self.preferPopularity and self.preferPopularityIntensity is None:
+            self.preferPopularityIntensity = np.random.uniform(low=0.0, high=1.0, size=None)
+
+        if self.preferShorterPath and self.preferShorterPathIntensity is None:
+            self.preferShorterPathIntensity = np.random.uniform(low=0.0, high=1.0, size=None)
+
+        return super()._autoGenDNA2(len=len)
 
     def mutateDNA(self, mutatePreference, mutatePreferenceProbability,intensity):
         '''
