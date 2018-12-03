@@ -110,7 +110,7 @@ sys.setrecursionlimit(100000000)
 
 file = 'D:\\VirtualSocGCN\\testOptimised\\'
 # os.makedirs(file)
-G2 = RandomSocialGraphAdvanced(labelSplit=[50,100],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=False,additionalFeatureLen=50000, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.1,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True)
+G2 = RandomSocialGraphAdvanced(labelSplit=[5,10],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=False,additionalFeatureLen=5, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True)
 
 WriteToFile(G2).easySaveEverything(file)
 

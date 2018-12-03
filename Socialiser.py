@@ -156,7 +156,7 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
         # bar.finish()
 
         if self.mutualPreferenceIntensity is not None:
-                self.graph.adjPower(self.mutualPreferenceIntensity )
+                self.graph.adjPower(self.mutualPreferenceIntensity,self.graph._useGPU)
 
 
 

@@ -9,6 +9,7 @@ from scipy.sparse import linalg
 import warnings
 import collections
 import copy
+import cupy as cp
 
 class Graph:
 
@@ -51,18 +52,29 @@ class Graph:
                     f.write('%s,%s\n' % (key1, key2))
 
 
-    def adjPower(self,P):
+    def adjPower(self,P,useGPU=False):
         if self.adj is None:
             self.A()
         i = 2
-        for p in P:
-             if i == 2:
-                 self.adjP2 = self.adj.dot(self.adj)
-             if i == 3:
-                 self.adjP3 = self.adj.dot(self.adj)
-             if i == 4:
-                 self.adjP4 = self.adj.dot(self.adj)
-             i +=1
+        if useGPU and cp.cuda.is_available():
+            for p in P:
+                cpAdj = cp.asarray(self.adj.toarray())
+                if i == 2:
+                    self.adjP2 = dok_matrix(np.asmatrix(cp.asnumpy(cp.matmul(cpAdj,cpAdj))))
+                if i == 3:
+                    self.adjP3 = dok_matrix(np.asmatrix(cp.asnumpy(cp.matmul(cp.asarray(self.adjP2.toarray()),cpAdj))))
+                if i == 4:
+                    self.adjP4 = dok_matrix(np.asmatrix(cp.asnumpy(cp.matmul(cp.asarray(self.adjP3.toarray()),cpAdj))))
+                i += 1
+        else:
+            for p in P:
+                 if i == 2:
+                     self.adjP2 = self.adj.dot(self.adj)
+                 if i == 3:
+                     self.adjP3 = self.adjP2.dot(self.adj)
+                 if i == 4:
+                     self.adjP4 = self.adjP3.dot(self.adj)
+                 i +=1
 
 
 
