@@ -1,5 +1,6 @@
 import numpy as np
 import warnings
+import cupy as cp
 
 
 class DNA:
@@ -39,6 +40,7 @@ class DNA:
         :param kwargs:
         '''
         self.value = value
+
         self.nodes = []
         self.preferPopularity = None
         self.preferShorterPath = None
@@ -46,7 +48,7 @@ class DNA:
         self.preferShorterPathIntensity = None
 
         if self.value== 'auto':
-              self.value = self._autoGenDNA(len=len)
+            self.value = self._autoGenDNA(len=len)
         elif self.value == 'autoWeightless':
             self.value = self._autoGenDNA2(len=len)
 
@@ -122,7 +124,8 @@ class DNA:
            warnings.warn("mutation occured in %s preference(s) and %s probablity(ies)!" % (preferenceMutationCount, probablityMutationCount))
         else:
             warnings.warn("mutateDNA called but no mutation detected, try increasing intensity / changing mutatePreferenceProbability and/or mutatePreference = true!")
-
+        self.valueWeight = cp.asarray(self.value[1::2], dtype=np.float64)
+        self.valuePreference = cp.asarray(self.value[0::2], dtype=np.float64)
     def getDnaType(self, *args, **kwargs):
         '''
 
@@ -181,6 +184,8 @@ class DNAadvanced(DNA):
               self.value = self._autoGenDNA(len=len)
         elif self.value == 'autoWeightless':
             self.value = self._autoGenDNA2(len=len)
+        self.valueWeight = cp.asarray(self.value[1::2],dtype=np.float64)
+        self.valuePreference = cp.asarray(self.value[0::2], dtype=np.float64)
 
 
     def _autoGenDNA(self, len):

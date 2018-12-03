@@ -135,6 +135,7 @@ class NodeSocial(Node):
 
 
         self.features = []
+
         if age is not None:
             self.age = age
             self.features.append(age)
@@ -147,6 +148,7 @@ class NodeSocial(Node):
              self.features.append(location)
 
 
+
         self.label =label
         ### add all the features in the following list
 
@@ -154,6 +156,8 @@ class NodeSocial(Node):
         if additionalFeatures is not None:
             for value in additionalFeatures:
                 self.features.append(value)
+        if Graph._useGPU:
+            self.featuresCP = cp.asarray(self.features)
 
     def __del__(self):
         '''
@@ -245,18 +249,18 @@ class NodeSocial(Node):
 
 
 
-        i = 0
-        j=0
-
-        sumScore = 0
-
-        # for featureSelf in self.features:
-        #     featDiff = abs(featureSelf - other.features[i]) * self.DNA.value[i + 1]
-        #     if self.DNA.value[i] == 0:
-        #         featDiff = -1 * featDiff
-        #     sumScore = sumScore + featDiff
-        #     i = i+1
+        # i = 0
+        # j=0
         #
+        # sumScore2 = 0
+        #
+        # # for featureSelf in self.features:
+        # #     featDiff = abs(featureSelf - other.features[i]) * self.DNA.value[i + 1]
+        # #     if self.DNA.value[i] == 0:
+        # #         featDiff = -1 * featDiff
+        # #     sumScore = sumScore + featDiff
+        # #     i = i+1
+        # #
         # for featureSelf in self.features:
         #     featDiff = abs(featureSelf - other.features[j]) * self.DNA.value[i+1]
         #     # print(self.DNA.value[i+1])
@@ -264,21 +268,21 @@ class NodeSocial(Node):
         #
         #     if self.DNA.value[i] == -1:
         #         featDiff = -1 * featDiff
-        #     sumScore = sumScore + featDiff
+        #     sumScore2 = sumScore2 + featDiff
         #     j = j+1
         #     i = i+2
         useGPU = self.Graph._useGPU
         if cp.cuda.is_available() and useGPU:
-            dnaValueWeight = cp.asarray(self.DNA.value[1::2],dtype=np.float64)
-            dnaValuePreference = cp.asarray(self.DNA.value[0::2],dtype=np.float64)
-            selfFeatures =  cp.asarray(self.features,dtype=np.float64)
-            otherFeatures =  cp.asarray(other.features,dtype=np.float64)
+            # dnaValueWeight = cp.asarray(self.DNA.value[1::2],dtype=np.float64)
+            # dnaValuePreference = cp.asarray(self.DNA.value[0::2],dtype=np.float64)
+            # selfFeatures =  cp.asarray(self.features,dtype=np.float64)
+            # otherFeatures =  cp.asarray(other.features,dtype=np.float64)
             # featDiffV = cp.subtract(selfFeatures, otherFeatures)
             # featDiffAbsV = cp.absolute(featDiffV)
             # featDiffAbsWeightedV = cp.multiply(featDiffAbsV,dnaValueWeight)
             # featDiffAbsWeightedPreferencedV =  cp.multiply(featDiffAbsWeightedV,dnaValuePreference)
             # sumscore2 = cp.sum(featDiffAbsWeightedPreferencedV)
-            sumScore = cp.asnumpy(cp.sum(cp.multiply(cp.multiply(cp.absolute(cp.subtract(selfFeatures, otherFeatures)),dnaValueWeight),dnaValuePreference)))
+            sumScore = cp.asnumpy(cp.sum(cp.multiply(cp.multiply(cp.absolute(cp.subtract(self.featuresCP, other.featuresCP)),self.DNA.valueWeight),self.DNA.valuePreference)))
         else:
             sumScore = np.sum(np.multiply(np.multiply(np.absolute(np.subtract(self.features, other.features)),self.DNA.value[1::2]),self.DNA.value[0::2]))
 
