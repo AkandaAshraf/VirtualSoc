@@ -328,7 +328,7 @@ class RandomSocialGraph(Graph):
 
 class RandomSocialGraphAdvanced(Graph):
 
-    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=None,connectionPercentageWithMatchedNodesWithRandomness=None,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True,shuffledDNA=True):
+    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=None,connectionPercentageWithMatchedNodesWithRandomness=None,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True,shuffledDNA=True,useGPU=True):
         super(RandomSocialGraphAdvanced, self).__init__(undirected=undirected, selfConncetions=selfConncetions)
         self.DNA = []
         self.dna =dna
@@ -350,6 +350,7 @@ class RandomSocialGraphAdvanced(Graph):
         self.pathLenghtLimit = pathLenghtLimit
         self.Socialised = False
         self.connectionPercentageWithMatchedNodesWithRandomness = connectionPercentageWithMatchedNodesWithRandomness
+        self._useGPU = useGPU
 
 
 

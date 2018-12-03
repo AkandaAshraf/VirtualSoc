@@ -63,7 +63,7 @@ class DNA:
             if rand1 >0.5:
                dnaValue.append(1)
             else:
-                dnaValue.append(0)
+                dnaValue.append(-1)
             dnaValue.append(rand2)
 
         return dnaValue
