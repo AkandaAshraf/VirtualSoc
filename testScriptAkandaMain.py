@@ -108,11 +108,11 @@ sys.setrecursionlimit(100000000)
 #
 # WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShuffledDNAFeatureBased4\\')
 
-# file = 'D:\\VirtualSocGCN\\ShuffledDNAFeatureBased5\\'
+file = 'D:\\VirtualSocGCN\\testOptimised\\'
 # os.makedirs(file)
-# G2 = RandomSocialGraphAdvanced(labelSplit=[500,1000,1500,2000,2500],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=True,additionalFeatureLen=20, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.1,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
-#
-# WriteToFile(G2).easySaveEverything(file)
+G2 = RandomSocialGraphAdvanced(labelSplit=[50,100],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=False,additionalFeatureLen=50000, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.1,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+
+WriteToFile(G2).easySaveEverything(file)
 
 
 #
@@ -120,11 +120,25 @@ sys.setrecursionlimit(100000000)
 # os.makedirs(file)
 # G2 = RandomSocialGraphAdvanced(labelSplit=[250,500],connectionPercentageWithMatchedNodes=10,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.1,addTraidtionalFeatures=True,additionalFeatureLen=3, npDistFunc=['np.random.randint(10, high=1500)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=2,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
 # WriteToFile(G2).easySaveEverything(file)
-
-file = 'D:\\VirtualSocGCN\\test10\\'
+#
+# file = 'D:\\VirtualSocGCN\\test11\\'
+# # os.makedirs(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[5,10,15],dna='auto',connectionPercentageWithMatchedNodes=95,connectionPercentageWithMatchedNodesWithRandomness=0.15,explorationProbability=0.5,addTraidtionalFeatures=True,additionalFeatureLen=50, npDistFunc=['np.random.randint(10, high=20)','np.random.randint(1, high=10)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+# G2.socialise()
+#
+# WriteToFile(G2).easySaveEverything(file)
+# file = 'D:\\VirtualSocGCN\\test15\\'
 # os.makedirs(file)
-G2 = RandomSocialGraphAdvanced(labelSplit=[250,500,750,1000],dna='autoWeightless',connectionPercentageWithMatchedNodes=50,connectionPercentageWithMatchedNodesWithRandomness=0.9,explorationProbability=0.5,addTraidtionalFeatures=True,additionalFeatureLen=5, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=0.3,mutualPreferenceIntensity=[0.3,0.2,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
-WriteToFile(G2).easySaveEverything(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[1000,2000,3000],dna='auto',connectionPercentageWithMatchedNodes=50,connectionPercentageWithMatchedNodesWithRandomness=0.15,explorationProbability=0.5,addTraidtionalFeatures=True,additionalFeatureLen=1500, npDistFunc=['np.random.randint(1, high=300)','np.random.randint(1, high=10)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.6,0.3],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+# G2.socialise()
+# WriteToFile(G2).easySaveEverything(file)
+# file = 'D:\\VirtualSocGCN\\test13\\'
+# os.makedirs(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[2000,4000,6000],dna='autoWeightless',connectionPercentageWithMatchedNodes=95,connectionPercentageWithMatchedNodesWithRandomness=0.15,explorationProbability=0.5,addTraidtionalFeatures=True,additionalFeatureLen=1500, npDistFunc=['np.random.randint(1, high=300)','np.random.randint(1, high=10)'],popularityPreferenceIntensity=2,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False)
+#
+#
+# WriteToFile(G2).easySaveEverything(file)
+
 
 
 # file = 'D:\\VirtualSocGCN\\ShuffledDNAFeatureBased9\\'
