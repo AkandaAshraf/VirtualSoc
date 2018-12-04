@@ -458,7 +458,10 @@ class RandomSocialGraphAdvanced(Graph):
             dna.mutateDNA(intensity=self.mutationIntensity, mutatePreference=self.mutatePreference, mutatePreferenceProbability=self.mutatePreferenceProbability)
 
         __SocialiserObj = randomSocialwithDNAadvanced(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability,mutualPreferenceIntensity=self.mutualPreferenceIntensity,popularityPreferenceIntensity=self.popularityPreferenceIntensity,pathLenghtLimit=self.pathLenghtLimit)
-        __SocialiserObj.simpleRandomSocialiserSingleEdge()
+        if self.numberofProcesses is not None:
+            __SocialiserObj.simpleRandomSocialiserSingleEdgeMultiProcessed(self.numberofProcesses,resocialising=True)
+        else:
+            __SocialiserObj.simpleRandomSocialiserSingleEdge()
 
         if self.keepHistory:
             self.evolutionHistory.append(

@@ -121,7 +121,7 @@ sys.setrecursionlimit(100000000)
 if __name__ == '__main__':
 
     file = 'D:\\VirtualSocGCN\\OptimisedNewNewMultiProcess\\'
-    G2 = RandomSocialGraphAdvanced(labelSplit=[200,400],connectionPercentageWithMatchedNodes=100,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=1,addTraidtionalFeatures=False,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=7)
+    G2 = RandomSocialGraphAdvanced(labelSplit=[100,300],connectionPercentageWithMatchedNodes=100,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=1,addTraidtionalFeatures=False,additionalFeatureLen=600, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=16)
 
     WriteToFile(G2).easySaveEverything(file)
 #

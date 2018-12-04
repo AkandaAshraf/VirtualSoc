@@ -4,15 +4,15 @@ import operator
 import pyprind
 import sys
 import itertools
-import multiprocessing
-
+from pathos.multiprocessing import ProcessingPool as Pool
+import collections
 class randomSocial:
     '''
 
     '''
 
 
-    def __init__(self,graph, p=0.5):
+    def __init__(self,graph, p):
 
         self.p = p
         self.graph = graph
@@ -109,10 +109,13 @@ class randomSocialwithDNA(randomSocial):
                             NodesScoreObj.addNodes()
                         l +=1
 
+
+
 class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
-    def __init__(self,popularityPreferenceIntensity,mutualPreferenceIntensity,pathLenghtLimit,graph,percentageOfConnectionNodes,connectionPercentageWithMatchedNodesWithRandomness=None, **kwargs):
-        super(randomSocialwithDNAadvanced, self).__init__(graph=graph,percentageOfConnectionNodes=percentageOfConnectionNodes, p=0.5)
+
+    def __init__(self,popularityPreferenceIntensity,mutualPreferenceIntensity,pathLenghtLimit,graph,percentageOfConnectionNodes,p,connectionPercentageWithMatchedNodesWithRandomness=None, **kwargs):
+        super(randomSocialwithDNAadvanced, self).__init__(graph=graph,percentageOfConnectionNodes=percentageOfConnectionNodes, p=p)
         self.popularityPreferenceIntensity = popularityPreferenceIntensity
         self.mutualPreferenceIntensity = mutualPreferenceIntensity
         self.pathLenghtLimit = pathLenghtLimit
@@ -161,20 +164,55 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
         if self.mutualPreferenceIntensity is not None:
                 self.graph.adjPower(self.mutualPreferenceIntensity,self.graph._useGPU)
 
-    def _getScoresSingleProcess(self,nodes):
+    # def _getScoresSingleProcess(self,nodes):
+    #
+    #     node1 = nodes[0]
+    #     node2 = nodes[1]
+    #     self._bar.update()
+    #     return self._NodesScore2(node1=node1, node2=node2,
+    #                              score=node1.getScoreAdvanced(node2,popularityPreferenceIntensity=self.popularityPreferenceIntensity,
+    #                                                          mutualPreferenceIntensity=self.mutualPreferenceIntensity) +
+    #                                                          node2.getScoreAdvanced(node1, popularityPreferenceIntensity=self.popularityPreferenceIntensity,
+    #                                                          mutualPreferenceIntensity=self.mutualPreferenceIntensity))
 
+   # def checkifEdgeAlreadyExists():
+   #     if not graph.checkSameEntryAdj(self.node1, self.node2,
+   #                                    warning=False) or not graph.checkSameEntryAdj(self.node2,
+   #                                                                                  self.node1,
+   #                                                                                  warning=False):
+   #         pass
+
+    class NodesScore2:
+        def __init__(self, node1, node2, popularityPreferenceIntensity, mutualPreferenceIntensity):
+            self.node1 = node1
+            self.node2 = node2
+            self.node1ID = node1.ID
+            self.node2ID = node2.ID
+
+            self.popularityPreferenceIntensity = popularityPreferenceIntensity
+            self.mutualPreferenceIntensity = mutualPreferenceIntensity
+            self.score = node1.getScoreAdvanced(self.node2,
+                                                popularityPreferenceIntensity=self.popularityPreferenceIntensity,
+                                                mutualPreferenceIntensity=self.mutualPreferenceIntensity) + self.node2.getScoreAdvanced(
+                node1,
+                popularityPreferenceIntensity=self.popularityPreferenceIntensity,
+                mutualPreferenceIntensity=self.mutualPreferenceIntensity)
+
+        def addNodes(self,graph):
+            if not graph.checkSameEntryAdj(self.node1, self.node2,
+                                                warning=False) or not graph.checkSameEntryAdj(self.node2,
+                                                                                                   self.node1,
+                                                                                                   warning=False):
+                   self.node1 + self.node2
+
+    def getScoresSingleProcess(self, nodes):
         node1 = nodes[0]
         node2 = nodes[1]
         self._bar.update()
-        return self._NodesScore(node1=node1, node2=node2,
-                                 score=node1.getScoreAdvanced(node2,popularityPreferenceIntensity=self.popularityPreferenceIntensity,
-                                                             mutualPreferenceIntensity=self.mutualPreferenceIntensity) +
-                                                             node2.getScoreAdvanced(node1, popularityPreferenceIntensity=self.popularityPreferenceIntensity,
-                                                             mutualPreferenceIntensity=self.mutualPreferenceIntensity), graph=self.graph)
+        return self.NodesScore2(node1=node1, node2=node2, popularityPreferenceIntensity=self.popularityPreferenceIntensity,
+                            mutualPreferenceIntensity=self.mutualPreferenceIntensity)
 
-
-
-    def simpleRandomSocialiserSingleEdgeMultiProcessed(self,numberofProcesses):
+    def simpleRandomSocialiserSingleEdgeMultiProcessed(self,numberofProcesses, resocialising=False):
         print('socialising')
         NodesScoreListOfObjects = []
         nodes = self.graph.N
@@ -182,15 +220,35 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
 
         nodesCombination = list(set(itertools.combinations(nodes, 2)))
+        if resocialising:
+            l = 0
+            for nodes in nodesCombination:
+                if  self.graph.checkSameEntryAdj(nodes[0], nodes[1],
+                                               warning=False) or  self.graph.checkSameEntryAdj(nodes[0],
+                                                                                             nodes[1],
+                                                                                             warning=False):
+                     del nodesCombination[l]
+                     l +=1
+
+
         np.random.shuffle(nodesCombination)
         np.random.shuffle(nodesCombination)
         np.random.shuffle(nodesCombination)
         np.random.shuffle(nodesCombination)
-        nodesCombination = nodesCombination[0:int(np.floor(len(nodes) * self.p))]
+        nodesCombination = nodesCombination[0:int(np.floor(len(nodesCombination) * self.p))]
+
+        nodesCombinationDict =collections.defaultdict(lambda: None)
+        for nodes in nodesCombination:
+            if nodes[0] is not None:
+                nodesCombinationDict[nodes[0].ID,nodes[1].ID] = [nodes[0],nodes[1]]
+
+
+
         self._bar = pyprind.ProgBar(len(nodesCombination), stream=sys.stdout)
 
-        pool = multiprocessing.Pool(processes=numberofProcesses)
-        NodesScoreListOfObjects.append(pool.map(self._getScoresSingleProcess, nodesCombination))
+        pool = Pool(processes=numberofProcesses)
+        NodesScoreListOfObjects = (pool.map(self.getScoresSingleProcess, nodesCombination))
+        print(NodesScoreListOfObjects)
         # #
         # print("Number of cpu : ", multiprocessing.cpu_count())
 
@@ -216,7 +274,8 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
             if l >= stoppingLen:
                 break
             else:
-                NodesScoreObj.addNodes()
+                tempNodes = nodesCombinationDict[NodesScoreObj.node1ID, NodesScoreObj.node2ID]
+                tempNodes[0]+tempNodes[1]
             bar.update()
             l += 1
         # bar.finish()
