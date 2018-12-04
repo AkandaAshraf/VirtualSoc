@@ -1,19 +1,9 @@
-from Node import *
-from DNA import *
-from Socialiser import *
-from PetriDish import *
-from Networks import *
-import numpy as np
-import networkx as nx
-from Transfer import *
-from HighLevel import*
-from SALib.sample import saltelli
-from SALib.analyze import sobol
-from SALib.test_functions import Ishigami
-import numpy as np
-from HighLevelForSALib import *
-import  SocLearner
 
+from Transfer import *
+
+from HighLevelForSALib import *
+import multiprocess.context as ctx
+from sys import platform
 
 import sys
 from multiprocessing import Pool
@@ -119,11 +109,13 @@ sys.setrecursionlimit(100000000)
 #
 # WriteToFile(G2).easySaveEverything(file)
 if __name__ == '__main__':
+    # multiprocessing.set_start_method('forkserver')
 
-    file = 'D:\\VirtualSocGCN\\OptimisedNewNewMultiProcess\\'
-    G2 = RandomSocialGraphAdvanced(labelSplit=[1000,2000],connectionPercentageWithMatchedNodes=100,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=1,addTraidtionalFeatures=False,additionalFeatureLen=10, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=16)
+    file = '\\OptimisedNewNewMultiProcess\\'
+    G2 = RandomSocialGraphAdvanced(labelSplit=[10,20,30],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.5,addTraidtionalFeatures=False,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=11)
 
     WriteToFile(G2).easySaveEverything(file)
+
 #
 # file = 'D:\\VirtualSocGCN\\test\\'
 # os.makedirs(file)

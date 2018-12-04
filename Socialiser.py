@@ -6,6 +6,11 @@ import sys
 import itertools
 from pathos.multiprocessing import ProcessingPool as Pool
 from pathos.multiprocessing import ProcessingPool as ParallelPool
+from sys import platform
+import multiprocess.context as ctx
+
+if platform == "linux" or platform == "linux2":
+    ctx._force_start_method('spawn')
 
 import collections
 class randomSocial:
