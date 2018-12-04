@@ -108,17 +108,22 @@ sys.setrecursionlimit(100000000)
 #
 # WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\\ShuffledDNAFeatureBased4\\')
 
-file = 'D:\\VirtualSocGCN\\OptimisedNew\\'
-os.makedirs(file)
-G2 = RandomSocialGraphAdvanced(labelSplit=[1000,2000,3000],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=False,additionalFeatureLen=2000, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True)
+# file = 'D:\\VirtualSocGCN\\OptimisedNewNew\\'
+# os.makedirs(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[1000,2000,3000],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=False,additionalFeatureLen=100, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True)
+#
+# WriteToFile(G2).easySaveEverything(file)
+# file = 'D:\\VirtualSocGCN\\OptimisedNewNew2\\'
+# os.makedirs(file)
+# G2 = RandomSocialGraphAdvanced(labelSplit=[1000,2000,3000],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=False,additionalFeatureLen=500, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True)
+#
+# WriteToFile(G2).easySaveEverything(file)
+if __name__ == '__main__':
 
-WriteToFile(G2).easySaveEverything(file)
-file = 'D:\\VirtualSocGCN\\OptimisedNew2\\'
-os.makedirs(file)
-G2 = RandomSocialGraphAdvanced(labelSplit=[1000,2000,3000],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=False,additionalFeatureLen=500, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True)
+    file = 'D:\\VirtualSocGCN\\OptimisedNewNewMultiProcess\\'
+    G2 = RandomSocialGraphAdvanced(labelSplit=[20,40,50],connectionPercentageWithMatchedNodes=15,connectionPercentageWithMatchedNodesWithRandomness=0.7,explorationProbability=0.7,addTraidtionalFeatures=False,additionalFeatureLen=2000, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=7)
 
-WriteToFile(G2).easySaveEverything(file)
-
+    WriteToFile(G2).easySaveEverything(file)
 #
 # file = 'D:\\VirtualSocGCN\\test\\'
 # os.makedirs(file)

@@ -340,7 +340,7 @@ class RandomSocialGraph(Graph):
 
 class RandomSocialGraphAdvanced(Graph):
 
-    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=None,connectionPercentageWithMatchedNodesWithRandomness=None,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True,shuffledDNA=True,useGPU=True):
+    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=None,connectionPercentageWithMatchedNodesWithRandomness=None,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True,shuffledDNA=True,useGPU=True,numberofProcesses=None):
         super(RandomSocialGraphAdvanced, self).__init__(undirected=undirected, selfConncetions=selfConncetions)
         self.DNA = []
         self.dna =dna
@@ -353,6 +353,7 @@ class RandomSocialGraphAdvanced(Graph):
         self.mutatePreference = False
         self.mutatePreferenceProbability= True
         self._birthDNA = True
+        self.numberofProcesses = numberofProcesses
 
         self.additionalFeatureLen= additionalFeatureLen
         self.addTraidtionalFeatures= addTraidtionalFeatures
@@ -476,7 +477,11 @@ class RandomSocialGraphAdvanced(Graph):
              self.percentageOfConnectionNodes = connectionPercentageWithMatchedNodes
 
         __SocialiserObj = randomSocialwithDNAadvanced(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability,mutualPreferenceIntensity=self.mutualPreferenceIntensity,popularityPreferenceIntensity=self.popularityPreferenceIntensity,pathLenghtLimit=self.pathLenghtLimit)
-        __SocialiserObj.simpleRandomSocialiserSingleEdge()
+        if self.numberofProcesses is not None:
+            __SocialiserObj.simpleRandomSocialiserSingleEdgeMultiProcessed(self.numberofProcesses)
+        else:
+            __SocialiserObj.simpleRandomSocialiserSingleEdge()
+
         if self.keepHistory:
             if not self._birthDNA:
                     self.evolutionHistory.append(

@@ -3,6 +3,8 @@ import concurrent.futures
 import operator
 import pyprind
 import sys
+import itertools
+import multiprocessing
 
 class randomSocial:
     '''
@@ -114,6 +116,7 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
         self.popularityPreferenceIntensity = popularityPreferenceIntensity
         self.mutualPreferenceIntensity = mutualPreferenceIntensity
         self.pathLenghtLimit = pathLenghtLimit
+        self._bar = None
 
 
 
@@ -158,6 +161,68 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
         if self.mutualPreferenceIntensity is not None:
                 self.graph.adjPower(self.mutualPreferenceIntensity,self.graph._useGPU)
 
+    def _getScoresSingleProcess(self,nodes):
+
+        node1 = nodes[0]
+        node2 = nodes[1]
+        self._bar.update()
+        return self._NodesScore(node1=node1, node2=node2,
+                                 score=node1.getScoreAdvanced(node2,popularityPreferenceIntensity=self.popularityPreferenceIntensity,
+                                                             mutualPreferenceIntensity=self.mutualPreferenceIntensity) +
+                                                             node2.getScoreAdvanced(node1, popularityPreferenceIntensity=self.popularityPreferenceIntensity,
+                                                             mutualPreferenceIntensity=self.mutualPreferenceIntensity), graph=self.graph)
+
+
+
+    def simpleRandomSocialiserSingleEdgeMultiProcessed(self,numberofProcesses):
+        print('socialising')
+        NodesScoreListOfObjects = []
+        nodes = self.graph.N
+        print('Calculating node scores!')
+
+
+        nodesCombination = list(set(itertools.combinations(nodes, 2)))
+        np.random.shuffle(nodesCombination)
+        np.random.shuffle(nodesCombination)
+        np.random.shuffle(nodesCombination)
+        np.random.shuffle(nodesCombination)
+        nodesCombination = nodesCombination[0:int(np.floor(len(nodes) * self.p))]
+        self._bar = pyprind.ProgBar(len(nodesCombination), stream=sys.stdout)
+
+        pool = multiprocessing.Pool(processes=numberofProcesses)
+        NodesScoreListOfObjects.append(pool.map(self._getScoresSingleProcess, nodesCombination))
+        # #
+        # print("Number of cpu : ", multiprocessing.cpu_count())
+
+        # for node1 in nodes:
+        #     for node2 in nodes:
+        #
+        #         if 1.0 - self.p <= np.random.uniform(low=0.0, high=1.0, size=None):
+        #             if node1 is not node2:
+        #                 NodesScoreListOfObjects.append(self._NodesScore(node1=node1, node2=node2,
+        #                                                                  score=node1.getScoreAdvanced(node2,popularityPreferenceIntensity=self.popularityPreferenceIntensity,mutualPreferenceIntensity=self.mutualPreferenceIntensity) + node2.getScoreAdvanced(
+        #                                                                      node1,popularityPreferenceIntensity=self.popularityPreferenceIntensity,mutualPreferenceIntensity=self.mutualPreferenceIntensity), graph=self.graph))
+        # # NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
+        NodesScoreListOfObjectsSorted = sorted(NodesScoreListOfObjects, key=lambda x: x.score, reverse=True)
+        l = 0.0
+
+        stoppingLen = len(NodesScoreListOfObjectsSorted) * self.percentageOfConnectionNodes / 100
+
+        bar = pyprind.ProgBar(stoppingLen, stream=sys.stdout)
+
+
+        for NodesScoreObj in NodesScoreListOfObjectsSorted:
+
+            if l >= stoppingLen:
+                break
+            else:
+                NodesScoreObj.addNodes()
+            bar.update()
+            l += 1
+        # bar.finish()
+
+        if self.mutualPreferenceIntensity is not None:
+                self.graph.adjPower(self.mutualPreferenceIntensity,self.graph._useGPU)
 
 
 
