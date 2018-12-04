@@ -111,7 +111,9 @@ sys.setrecursionlimit(100000000)
 if __name__ == '__main__':
     # multiprocessing.set_start_method('forkserver')
 
-    file = '\\OptimisedNewNewMultiProcess\\'
+    file = '/home/akanda/virtualSocNetworks/network1/'
+    os.makedirs(file)
+
     G2 = RandomSocialGraphAdvanced(labelSplit=[10,20,30],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.5,addTraidtionalFeatures=False,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=11)
 
     WriteToFile(G2).easySaveEverything(file)
