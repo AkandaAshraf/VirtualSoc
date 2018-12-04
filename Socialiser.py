@@ -5,6 +5,8 @@ import pyprind
 import sys
 import itertools
 from pathos.multiprocessing import ProcessingPool as Pool
+from pathos.multiprocessing import ProcessingPool as ParallelPool
+
 import collections
 class randomSocial:
     '''
@@ -216,7 +218,6 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
         print('socialising')
         NodesScoreListOfObjects = []
         nodes = self.graph.N
-        print('Calculating node scores!')
 
 
         nodesCombination = list(set(itertools.combinations(nodes, 2)))
@@ -246,9 +247,9 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
         self._bar = pyprind.ProgBar(len(nodesCombination), stream=sys.stdout)
 
-        pool = Pool(processes=numberofProcesses)
-        NodesScoreListOfObjects = (pool.map(self.getScoresSingleProcess, nodesCombination))
-        print(NodesScoreListOfObjects)
+        pool = ParallelPool(processes=numberofProcesses)
+        print('Calculating node scores!')
+        NodesScoreListOfObjects = pool.map(self.getScoresSingleProcess, nodesCombination)
         # #
         # print("Number of cpu : ", multiprocessing.cpu_count())
 
