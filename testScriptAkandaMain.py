@@ -111,12 +111,19 @@ sys.setrecursionlimit(100000000)
 if __name__ == '__main__':
     # multiprocessing.set_start_method('forkserver')
 
-    file = '/home/akanda/virtualSocNetworks/network1/'
+    file = '/home/akanda/virtualSocNetworks/networkTest2/'
     os.makedirs(file)
 
-    G2 = RandomSocialGraphAdvanced(labelSplit=[10,20,30],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.5,addTraidtionalFeatures=False,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=11)
+    G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.5,addTraidtionalFeatures=False,additionalFeatureLen=50, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=4,createInGPUMem=False)
 
     WriteToFile(G2).easySaveEverything(file)
+
+    # file = '/home/akanda/virtualSocNetworks/network5/'
+    # os.makedirs(file)
+    #
+    # G2 = RandomSocialGraphAdvanced(labelSplit=[1000,2000,3000,4000],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.5,addTraidtionalFeatures=False,additionalFeatureLen=1500, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=4)
+    #
+    # WriteToFile(G2).easySaveEverything(file)
 
 #
 # file = 'D:\\VirtualSocGCN\\test\\'

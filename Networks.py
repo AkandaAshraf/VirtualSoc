@@ -340,7 +340,7 @@ class RandomSocialGraph(Graph):
 
 class RandomSocialGraphAdvanced(Graph):
 
-    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=None,connectionPercentageWithMatchedNodesWithRandomness=None,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True,shuffledDNA=True,useGPU=True,numberofProcesses=None):
+    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=None,connectionPercentageWithMatchedNodesWithRandomness=None,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True,shuffledDNA=True,useGPU=True,createInGPUMem=True,numberofProcesses=None):
         super(RandomSocialGraphAdvanced, self).__init__(undirected=undirected, selfConncetions=selfConncetions)
         self.DNA = []
         self.dna =dna
@@ -364,6 +364,7 @@ class RandomSocialGraphAdvanced(Graph):
         self.Socialised = False
         self.connectionPercentageWithMatchedNodesWithRandomness = connectionPercentageWithMatchedNodesWithRandomness
         self._useGPU = useGPU
+        self.createInGPUMem = createInGPUMem
 
 
 
@@ -375,7 +376,7 @@ class RandomSocialGraphAdvanced(Graph):
                     featureLen = 3
                 if additionalFeatureLen is not None:
                     featureLen = featureLen + additionalFeatureLen
-                self.DNA.append(DNAadvanced(self.dna, len=featureLen))
+                self.DNA.append(DNAadvanced(self.dna, len=featureLen,useGPU=self._useGPU,createInGPUMem=createInGPUMem))
 
                 if i ==0:
                     tempN = PetriDish.createSocialNodesNFeatures(numberOfNodes=self.labelSplit[i], nodeType=NodeSocial, DNA=self.DNA[-1], commonLabel=i, Graph=self,additionalFeatureLen=self.additionalFeatureLen,npDistFunc=self.npDistFunc,addTraidtionalFeatures=self.addTraidtionalFeatures)

@@ -183,7 +183,7 @@ def createSocialNodesNFeaturesSameDist(numberOfNodes, nodeType, dna, Graph, addi
              # np.random.shuffle(DNASpreadIndex)
 
              for i in range(0, len(labelSplit)):
-                 DNAlist.append(DnaObjType(dna, len=featureLen))
+                 DNAlist.append(DnaObjType(dna, len=featureLen,useGPU=Graph._useGPU,createInGPUMem=Graph.createInGPUMem))
 
                  if i ==0:
                      startingIndex = 0
@@ -278,7 +278,7 @@ def createSocialNodesNFeaturesSameDistWithDNAShuffled(numberOfNodes, nodeType, d
              for i in range(0, len(labelSplit)):
                  DNASpreadIndex[startIndexTemp:labelSplit[i]]= i
                  startIndexTemp = labelSplit[i]
-                 DNAlist.append(DnaObjType(dna, len=featureLen))
+                 DNAlist.append(DnaObjType(dna, len=featureLen,useGPU=Graph._useGPU,createInGPUMem=Graph.createInGPUMem))
 
              np.random.shuffle(DNASpreadIndex)
              np.random.shuffle(DNASpreadIndex)

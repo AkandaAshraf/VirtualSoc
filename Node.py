@@ -156,7 +156,7 @@ class NodeSocial(Node):
         if additionalFeatures is not None:
             for value in additionalFeatures:
                 self.features.append(value)
-        if Graph._useGPU:
+        if Graph._useGPU and Graph.createInGPUMem:
             self.featuresCP = cp.asarray(self.features)
 
     def __del__(self):
@@ -272,20 +272,26 @@ class NodeSocial(Node):
         #     j = j+1
         #     i = i+2
         useGPU = self.Graph._useGPU
+        createInGPUMem = self.Graph.createInGPUMem
         if cp.cuda.is_available() and useGPU:
-            # dnaValueWeight = cp.asarray(self.DNA.value[1::2],dtype=np.float64)
-            # dnaValuePreference = cp.asarray(self.DNA.value[0::2],dtype=np.float64)
-            # selfFeatures =  cp.asarray(self.features,dtype=np.float64)
-            # otherFeatures =  cp.asarray(other.features,dtype=np.float64)
-            # featDiffV = cp.subtract(selfFeatures, otherFeatures)
-            # featDiffAbsV = cp.absolute(featDiffV)
-            # featDiffAbsWeightedV = cp.multiply(featDiffAbsV,dnaValueWeight)
-            # featDiffAbsWeightedPreferencedV =  cp.multiply(featDiffAbsWeightedV,dnaValuePreference)
-            # sumscore2 = cp.sum(featDiffAbsWeightedPreferencedV)
-            sumScore = cp.asnumpy(cp.sum(cp.multiply(cp.multiply(cp.absolute(cp.subtract(self.featuresCP, other.featuresCP)),self.DNA.valueWeight),self.DNA.valuePreference)))
+            if createInGPUMem:
+                sumScore = cp.asnumpy(cp.sum(cp.multiply(
+                    cp.multiply(cp.absolute(cp.subtract(self.featuresCP, other.featuresCP)), self.DNA.valueWeight),
+                    self.DNA.valuePreference)))
+            else:    
+                dnaValueWeight = cp.asarray(self.DNA.value[1::2],dtype=np.float64)
+                dnaValuePreference = cp.asarray(self.DNA.value[0::2],dtype=np.float64)
+                selfFeatures =  cp.asarray(self.features,dtype=np.float64)
+                otherFeatures =  cp.asarray(other.features,dtype=np.float64)
+                featDiffV = cp.subtract(selfFeatures, otherFeatures)
+                featDiffAbsV = cp.absolute(featDiffV)
+                featDiffAbsWeightedV = cp.multiply(featDiffAbsV,dnaValueWeight)
+                featDiffAbsWeightedPreferencedV =  cp.multiply(featDiffAbsWeightedV,dnaValuePreference)
+                sumScore = cp.sum(featDiffAbsWeightedPreferencedV)
+            # sumScore = cp.asnumpy(cp.sum(cp.multiply(cp.multiply(cp.absolute(cp.subtract(self.featuresCP, other.featuresCP)),self.DNA.valueWeight),self.DNA.valuePreference)))
         else:
             sumScore = np.sum(np.multiply(np.multiply(np.absolute(np.subtract(self.features, other.features)),self.DNA.value[1::2]),self.DNA.value[0::2]))
-
+              
         # dnaValueWeight = dnaValueTemp[1::2]
 
         if multPopularityPreference:
