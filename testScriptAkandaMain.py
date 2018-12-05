@@ -110,20 +110,20 @@ sys.setrecursionlimit(100000000)
 # WriteToFile(G2).easySaveEverything(file)
 if __name__ == '__main__':
     # multiprocessing.set_start_method('forkserver')
-
-    file = '/home/akanda/virtualSocNetworks/networkTest2/'
-    os.makedirs(file)
-
-    G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.5,addTraidtionalFeatures=False,additionalFeatureLen=50, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=4,createInGPUMem=False)
-
-    WriteToFile(G2).easySaveEverything(file)
-
-    # file = '/home/akanda/virtualSocNetworks/network5/'
+    #
+    # file = '/home/akanda/virtualSocNetworks/network10/'
     # os.makedirs(file)
     #
-    # G2 = RandomSocialGraphAdvanced(labelSplit=[1000,2000,3000,4000],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.5,addTraidtionalFeatures=False,additionalFeatureLen=1500, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=4)
+    # G2 = RandomSocialGraphAdvanced(labelSplit=[1000,2000,3000],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.5,addTraidtionalFeatures=False,additionalFeatureLen=50, npDistFunc=['np.random.randint(10, high=20)'],popularityPreferenceIntensity=0.1,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=8,createInGPUMem=True)
     #
     # WriteToFile(G2).easySaveEverything(file)
+
+    file = '/home/akanda/virtualSocNetworks/networkTest/'
+    # os.makedirs(file)
+
+    G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=1000, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = False,numberofProcesses=None,createInGPUMem=False)
+
+    WriteToFile(G2).easySaveEverything(file)
 
 #
 # file = 'D:\\VirtualSocGCN\\test\\'

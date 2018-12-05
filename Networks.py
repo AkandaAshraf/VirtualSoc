@@ -459,10 +459,8 @@ class RandomSocialGraphAdvanced(Graph):
             dna.mutateDNA(intensity=self.mutationIntensity, mutatePreference=self.mutatePreference, mutatePreferenceProbability=self.mutatePreferenceProbability)
 
         __SocialiserObj = randomSocialwithDNAadvanced(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability,mutualPreferenceIntensity=self.mutualPreferenceIntensity,popularityPreferenceIntensity=self.popularityPreferenceIntensity,pathLenghtLimit=self.pathLenghtLimit)
-        if self.numberofProcesses is not None:
-            __SocialiserObj.simpleRandomSocialiserSingleEdgeMultiProcessed(self.numberofProcesses,resocialising=True)
-        else:
-            __SocialiserObj.simpleRandomSocialiserSingleEdge()
+        __SocialiserObj.simpleRandomSocialiserSingleEdgeMultiProcessed(self.numberofProcesses,resocialising=True)
+
 
         if self.keepHistory:
             self.evolutionHistory.append(
@@ -481,10 +479,10 @@ class RandomSocialGraphAdvanced(Graph):
              self.percentageOfConnectionNodes = connectionPercentageWithMatchedNodes
 
         __SocialiserObj = randomSocialwithDNAadvanced(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability,mutualPreferenceIntensity=self.mutualPreferenceIntensity,popularityPreferenceIntensity=self.popularityPreferenceIntensity,pathLenghtLimit=self.pathLenghtLimit)
-        if self.numberofProcesses is not None:
-            __SocialiserObj.simpleRandomSocialiserSingleEdgeMultiProcessed(self.numberofProcesses)
-        else:
-            __SocialiserObj.simpleRandomSocialiserSingleEdge()
+        # if self.numberofProcesses is not None:
+        __SocialiserObj.simpleRandomSocialiserSingleEdgeMultiProcessed(self.numberofProcesses)
+        # else:
+        #     __SocialiserObj.simpleRandomSocialiserSingleEdge()
 
         if self.keepHistory:
             if not self._birthDNA:

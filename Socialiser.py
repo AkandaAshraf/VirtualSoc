@@ -251,11 +251,14 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
 
         self._bar = pyprind.ProgBar(len(nodesCombination), stream=sys.stdout)
-
-        pool = ParallelPool(processes=numberofProcesses)
-        print('Calculating node scores!')
-        NodesScoreListOfObjects = pool.map(self.getScoresSingleProcess, nodesCombination)
-        # #
+        if numberofProcesses is not None:
+            pool = ParallelPool(processes=numberofProcesses)
+            print('Calculating node scores!')
+            NodesScoreListOfObjects = pool.map(self.getScoresSingleProcess, nodesCombination)
+        else:
+            NodesScoreListOfObjects = []
+            for nodes in nodesCombination:
+                NodesScoreListOfObjects.append(self.getScoresSingleProcess(nodes))
         # print("Number of cpu : ", multiprocessing.cpu_count())
 
         # for node1 in nodes:
