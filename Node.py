@@ -309,11 +309,14 @@ class NodeSocial(Node):
 
                 for mpi in mutualPreferenceIntensity:
                     if i == 0:
-                        tempPath2 = self.Graph.adjP2[self.ID, other.ID]*mpi
+                        if self.Graph.adjP2[self.ID, other.ID]>0:
+                            tempPath2 = mpi*self.DNA.preferShorterPathIntensity[0]
                     elif i ==1:
-                        tempPath3 = self.Graph.adjP3[self.ID, other.ID]*mpi
+                        if self.Graph.adjP3[self.ID, other.ID]>0:
+                            tempPath3 = mpi*self.DNA.preferShorterPathIntensity[1]
                     elif i ==2:
-                        tempPath4 = self.Graph.adjP4[self.ID, other.ID]*mpi
+                        if self.Graph.adjP4[self.ID, other.ID]>0:
+                            tempPath4 =mpi*self.DNA.preferShorterPathIntensity[2]
                     i +=1
                 if multMutualPreference:
                     if tempPath2!=0:
@@ -322,8 +325,8 @@ class NodeSocial(Node):
                         sumScore = sumScore * tempPath3
                     if tempPath4 != 0:
                         sumScore = sumScore * tempPath4
-                else:
-                    sumScore = sumScore + (tempPath2 + tempPath3 + tempPath4)*self.DNA.preferShorterPathIntensity
+                # else:
+                    sumScore = sumScore + tempPath2 + tempPath3 + tempPath4
 
         # if self.DNA.
 

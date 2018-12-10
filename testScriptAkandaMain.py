@@ -118,11 +118,11 @@ if __name__ == '__main__':
     #
     # WriteToFile(G2).easySaveEverything(file)
 
-    file = '/home/akanda/virtualSocNetworks/networkTest/'
+    file = '/home/akanda/virtualSocNetworks/networkNewTesttt/'
     # os.makedirs(file)
 
-    G2 = RandomSocialGraphAdvanced(labelSplit=[200,400],connectionPercentageWithMatchedNodes=100,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=1,addTraidtionalFeatures=False,additionalFeatureLen=10, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=None,createInGPUMem=True)
-
+    G2 = RandomSocialGraphAdvanced(labelSplit=[50,100],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=10, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.1,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=None,createInGPUMem=True)
+    G2.socialise()
     WriteToFile(G2).easySaveEverything(file)
 
 #

@@ -207,7 +207,7 @@ class DNAadvanced(DNA):
             self.preferPopularityIntensity = np.random.uniform(low=0.0, high=1.0, size=None)
 
         if self.preferShorterPath and self.preferShorterPathIntensity is None:
-            self.preferShorterPathIntensity = np.random.uniform(low=0.0, high=1.0, size=None)
+            self.preferShorterPathIntensity = [np.random.uniform(low=0.7, high=1.0, size=None),np.random.uniform(low=0.3, high=7.0, size=None),np.random.uniform(low=0.0, high=0.3, size=None)]
 
         return super()._autoGenDNA(len=len)
 
@@ -223,7 +223,7 @@ class DNAadvanced(DNA):
             self.preferPopularityIntensity = np.random.uniform(low=0.0, high=1.0, size=None)
 
         if self.preferShorterPath and self.preferShorterPathIntensity is None:
-            self.preferShorterPathIntensity = np.random.uniform(low=0.0, high=1.0, size=None)
+            self.preferShorterPathIntensity = [np.random.uniform(low=0.7, high=1.0, size=None),np.random.uniform(low=0.3, high=7.0, size=None),np.random.uniform(low=0.0, high=0.3, size=None)]
 
         return super()._autoGenDNA2(len=len)
 
