@@ -77,8 +77,8 @@ def SalibPreprocessGetParamsForFAST(numberOfSamples, folderPathToSaveParamsAndPr
         indices = indices.reshape(l, 1)
         newParam_values = np.concatenate((param_values, indices), axis=1)
 
-        np.savetxt(folderPathToSaveParamsAndProblem + '/params', param_values, fmt='%.18e', delimiter=' ',
-                   newline='\n', header='', footer='', comments='# ', encoding=None)
+        np.savetxt(folderPathToSaveParamsAndProblem + '/params', np.matrix(newParam_values), fmt='%.18e', delimiter=',',
+                   newline='\n', header='explorationProbabilityV, popularityPreferenceIntensityV,connectionPercentageWithMatchedNodesV,mutualPreferenceIntensityV2, mutualPreferenceIntensityV3,mutualPreferenceIntensityV4', footer='', comments='# ', encoding=None)
         return newParam_values
 
 def SalibPreprocessGetParamsForRBDFASTandDelta(numberOfSamples, folderPathToSaveParamsAndProblem):

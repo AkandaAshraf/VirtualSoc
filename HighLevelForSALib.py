@@ -74,7 +74,7 @@ def simulateNetworksThreaded(param_value, folderPath):
 
 
 def simulateNetworksThreadedNew(param_value):
-    folderPath= '/home/akanda/virtualSoc/Sobol'
+    folderPath= 'h:/sobol/'
     explorationProbability = param_value[0]
     popularityPreferenceIntensity = param_value[1]
     connectionPercentageWithMatchedNodes = param_value[2]

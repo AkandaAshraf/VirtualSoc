@@ -1,6 +1,7 @@
 import numpy as np
 import concurrent.futures
 import operator
+from cupy.cuda import MemoryPool
 import pyprind
 import sys
 import itertools
@@ -252,8 +253,11 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
         self._bar = pyprind.ProgBar(len(nodesCombination), stream=sys.stdout)
         if numberofProcesses is not None:
-            pool = ParallelPool(numberofProcesses)
+
+            pool = Pool(numberofProcesses)
             print('Calculating node scores!')
+            # cp.cuda.MemoryPool(allocator=_malloc)
+
             NodesScoreListOfObjects = pool.imap(self.getScoresSingleProcess, nodesCombination)
         else:
             NodesScoreListOfObjects = []

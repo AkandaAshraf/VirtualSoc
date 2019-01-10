@@ -5,11 +5,11 @@ import multiprocessing
 import pickle as pk
 import pandas as pd
 
-newParam_values = SalibPreprocessGetParamsForSobol(numberOfSamples=1000,folderPathToSaveParamsAndProblem='/home/akanda/virtualSoc/Sobol/')
+newParam_values = SalibPreprocessGetParamsForSobol(numberOfSamples=1000,folderPathToSaveParamsAndProblem='H:/Sobol/')
 
 if __name__ == '__main__':
 
-    pool = multiprocessing.Pool(processes=10)
+    pool = multiprocessing.Pool(processes=6)
     #
     pool.map(simulateNetworksThreadedNew, newParam_values)
     #
