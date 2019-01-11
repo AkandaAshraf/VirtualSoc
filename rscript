@@ -16,7 +16,6 @@ library(foreach)
 #data = edgesVirtualSoc
 #removeDuplicateEdgeDirectedToUndirected<-function(data)
 #{
-#  l = length(data[[1]])
 #  data2 <- data
 #  indices
 #  for (i in 1:l-1)
@@ -27,13 +26,13 @@ library(foreach)
 
 
 #}
-pipeNetworkStatsThreaded("D:\\TestVirtualSocThreaded\\")
+pipeNetworkStatsThreaded(FolderPath)
 #pipeNetworkStats("D:\\VirtualSocPP1\\")
 #pipeNetworkStats("D:\\VirtualSocPP2\\")
 #pipeNetworkStats("D:\\VirtualSocMP1\\")
 #pipeNetworkStats("D:\\VirtualSocMP2\\")
 
-FolderPath = "D:\\TestVirtualSocThreaded\\"
+FolderPath = "H:\\testR2\\"
 pipeNetworkStatsThreaded<-function(FolderPath)
 {
 
@@ -159,11 +158,18 @@ pipeNetworkStatsThreaded<-function(FolderPath)
       tempRoot<- fread(paste0(currentDir,"//stats//",basename(currentDir),".csv"))
 
       dir2<-list.dirs(paste0(currentDir), recursive = FALSE)
-      len2 = length(dir2)
-      tempRoot<-cbind(dataset=basename(currentDir), tempRoot)
+      if(basename(dir2)!="stats") {
+        len2 = length(dir2)
+        tempRoot<-cbind(dataset=basename(currentDir), tempRoot)
 
-      datasetRowsTemp <- mergeInner(dir2 = dir2,tempRoot = tempRoot)
+        datasetRowsTemp <- mergeInner(dir2 = dir2,tempRoot = tempRoot)
+      }
+      else{
+        tempRoot<-cbind(dataset=basename(currentDir),tempRoot)
 
+        datasetRowsTemp <- tempRoot
+
+      }
       # if(i==1)
       #{
       # dataSetRows<-fread(paste0(currentDir,"//stats//",basename(currentDir),".csv"))
@@ -254,7 +260,8 @@ pipeNetworkStatsThreaded<-function(FolderPath)
     saveStatsTable(netStatsObject=calculateNetworkStats(GraphObj =edgesVirtualSocIgraph),NameLocation =paste0(FolderPath,"//",bname,"//stats//",bname))
 
     len2<- length(dir2)
-
+    if (basename(dir2)!="stats")
+    {
     for(j in 1:len2)
     {
       currentDirr2<-dir2[j]
@@ -274,7 +281,7 @@ pipeNetworkStatsThreaded<-function(FolderPath)
 
 
     }
-
+    }
 
     # dataset[counter]<-bname
     #counter=counter+1
@@ -329,6 +336,7 @@ pipeNetworkStats<-function(FolderPath)
     saveStatsTable(netStatsObject=calculateNetworkStats(GraphObj =edgesVirtualSocIgraph),NameLocation =paste0(FolderPath,"//",bname,"//stats//",bname))
 
     len2<- length(dir2)
+    if(basename(dir2)!="stats"){
 
     for(j in 1:len2)
     {
@@ -350,7 +358,7 @@ pipeNetworkStats<-function(FolderPath)
 
     }
 
-
+    }
     # dataset[counter]<-bname
     #counter=counter+1
 
@@ -514,7 +522,7 @@ mergeStats<-function(FolderPath)
     #  tempRoot <<- rbind(tempRoot,tempInside)
 
     #   print(tempRoot)
-
+    
 
     # }
 

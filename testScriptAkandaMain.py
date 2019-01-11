@@ -122,7 +122,7 @@ if __name__ == '__main__':
     # os.makedirs(file)
 
     G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=100000, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=None,createInGPUMem=True)
-    # G2.socialise()
+    G2.socialise()
     WriteToFile(G2).easySaveEverything(file)
 
     #
