@@ -38,7 +38,7 @@ def SalibPreprocessGetParamsForSobol(numberOfSamples,folderPathToSaveParamsAndPr
     problem = {
         'num_vars': 6,
         'names': ['explorationProbabilityV', 'popularityPreferenceIntensityV', 'connectionPercentageWithMatchedNodesV', 'mutualPreferenceIntensityV2', 'mutualPreferenceIntensityV3', 'mutualPreferenceIntensityV4'],
-        'bounds': [[0.1,7.0],
+        'bounds': [[0.1,1.0],
                    [0.1, 10],
                    [1, 80],
                    [0.7, 0.9],

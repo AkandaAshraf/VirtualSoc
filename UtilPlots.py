@@ -79,6 +79,55 @@ for i in range(0,len(UniquePropertyNames)):
     plt.show()
     ax.savefig('D://VirtualSocPlots/'+UniquePropertyNames[i]+'.eps', format='eps')
 
+allStatsSortedWithParams=pd.DataFrame.from_csv('H:/sobolMeta/allStatsSortedWithParams.csv')
+
+allStatsSortedWithParamsExplorationProbablity= allStatsSortedWithParams.sort_values(by='explorationProbability')
+
+allStatsSortedWithParamsExplorationProbablityNew=allStatsSortedWithParamsExplorationProbablity.loc[allStatsSortedWithParamsExplorationProbablity['explorationProbability'] <=1.0]
+
+
+# allStatsSortedWithParamsExplorationProbablityNew.to_csv('H:/sobolMeta/allStatsSortedWithParamsReducedExppl1.csv')
+
+
+allStatsSortedWithParamsExplorationProbablityNew[['explorationProbability','NumberofEdges']]
+
+sns.set_context("notebook", font_scale=2.5, rc={"lines.linewidth": 100.5})
+
+g = sns.pairplot(allStatsSortedWithParamsExplorationProbablityNew[['explorationProbability','NumberofEdges']], kind="scatter",height =10)
+
+plt.figure(figsize=(100,100))
+plt.tight_layout()
+plt.show()
+g.savefig('H:/sobolMeta/explorationProbability_NumberofEdges'+'.eps', format='eps')
+
+g = sns.pairplot(allStatsSortedWithParamsExplorationProbablityNew[['explorationProbability','NumberofEdges']], kind="scatter",height =10)
+##################################################
+
+
+allStatsSortedWithParamsExplorationProbablityNew=pd.DataFrame.from_csv('H:/sobolMeta/allStatsSortedWithParamsReducedExppl1.csv')
+
+colNames = list(allStatsSortedWithParamsExplorationProbablityNew)
+params = colNames[11:]
+properties = colNames[:11]
+param = colNames[11]
+property = colNames[1]
+for param in params:
+    for property in properties:
+        sns.set_context("notebook", font_scale=2, rc={"lines.linewidth": 50})
+
+        g = sns.pairplot(allStatsSortedWithParamsExplorationProbablityNew[[param, property]],
+                         kind="scatter", height=8)
+
+        plt.figure(figsize=(100,100))
+        plt.margins(x=0.1, y=0.1, tight=True)
+
+        g.savefig('H:/sobolMeta/'+param+'_'+property+'.eps', format='eps' ,bbox_inches='tight')
+
+
+
+
+
+
 # iris = sns.load_dataset("iris")
 #
 # g = sns.lmplot(x="method", y="S1", hue="param",  data=df)
