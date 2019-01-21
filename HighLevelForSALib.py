@@ -74,7 +74,7 @@ def simulateNetworksThreaded(param_value, folderPath):
 
 
 def simulateNetworksThreadedNew(param_value):
-    folderPath= '/home/akanda/SobolDynamic/'
+    folderPath= '/home/akanda/sobolDynamic/'
     explorationProbability = param_value[0]
     popularityPreferenceIntensity = param_value[1]
     connectionPercentageWithMatchedNodes = param_value[2]
@@ -87,7 +87,7 @@ def simulateNetworksThreadedNew(param_value):
                                    addTraidtionalFeatures=False, additionalFeatureLen=50,
                                    npDistFunc=['np.random.randint(3, high=500)'], popularityPreferenceIntensity=popularityPreferenceIntensity,
                                    mutualPreferenceIntensity=mutualPreferenceIntensity, genFeaturesFromSameDistforAllLabel=False,
-                                   keepHistory=False, useGPU=False, numberofProcesses=None, createInGPUMem=False)
+                                   keepHistory=True, useGPU=False, numberofProcesses=None, createInGPUMem=False)
     graphTemp1.socialise()
     graphTemp1.socialise()
     # graphTemp1 = RandomSocialGraphAdvanced(labelSplit=[100, 200, 300],
@@ -103,7 +103,7 @@ def simulateNetworksThreadedNew(param_value):
     i += 1
 
 def simulateNetworksThreadedNew2(param_value):
-    folderPath= '/home/akanda/sobolSmall'
+    folderPath= '/home/akanda/sobolSmall/'
     explorationProbability = param_value[0]
     popularityPreferenceIntensity = param_value[1]
     connectionPercentageWithMatchedNodes = param_value[2]

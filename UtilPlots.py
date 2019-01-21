@@ -3,6 +3,8 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from SALib.analyze import sobol
+import os
+import pickle as pk
 
 Si = pk.load(open('D:\\sensitivityAnalaysisVirtualSoc\\Sobol.obj', 'rb'))
 problem = pk.load(open('D:\\sensitivityAnalaysisVirtualSoc\\problemPickle.obj', 'rb'))
@@ -103,25 +105,36 @@ g.savefig('H:/sobolMeta/explorationProbability_NumberofEdges'+'.eps', format='ep
 g = sns.pairplot(allStatsSortedWithParamsExplorationProbablityNew[['explorationProbability','NumberofEdges']], kind="scatter",height =10)
 ##################################################
 
+plotNetProps('H:/sobolSmall/')
+folderPath = 'H:/sobolSmall/'
 
-allStatsSortedWithParamsExplorationProbablityNew=pd.DataFrame.from_csv('H:/sobolMeta/allStatsSortedWithParamsReducedExppl1.csv')
+def plotNetProps(folderPath):
+    if not os.path.isdir(folderPath + '/plots'):
+        os.makedirs(folderPath + '/plots')
+    paramNames = [name.replace('V', '') for name in pk.load(open(folderPath+'/problemPickle.obj', 'rb'))['names']]
 
-colNames = list(allStatsSortedWithParamsExplorationProbablityNew)
-params = colNames[11:]
-properties = colNames[:11]
-param = colNames[11]
-property = colNames[1]
-for param in params:
-    for property in properties:
-        sns.set_context("notebook", font_scale=2, rc={"lines.linewidth": 50})
+    allStats = pd.read_csv(folderPath + '/allStats.csv')
+    allStatsSorted=allStats.sort_values(by='dataset').set_index('dataset').copy()
 
-        g = sns.pairplot(allStatsSortedWithParamsExplorationProbablityNew[[param, property]],
-                         kind="scatter", height=8)
+    params =  pd.read_csv(folderPath + '/params',sep=' ',header=None)
+    params.columns = paramNames
+    allStatsSortedWithParams=pd.concat([allStatsSorted, params], axis=1, sort=False,ignore_index=False)
 
-        plt.figure(figsize=(100,100))
-        plt.margins(x=0.1, y=0.1, tight=True)
+    colNames = list(allStatsSortedWithParams)
+    params = colNames[11:]
+    properties = colNames[:11]
 
-        g.savefig('H:/sobolMeta/'+param+'_'+property+'.eps', format='eps' ,bbox_inches='tight')
+    for param in params:
+        for property in properties:
+            sns.set_context("notebook", font_scale=2, rc={"lines.linewidth": 50})
+
+            g = sns.pairplot(allStatsSortedWithParams[[param, property]],
+                             kind="scatter", height=8)
+
+            plt.figure(figsize=(100,100))
+            plt.margins(x=0.1, y=0.1, tight=True)
+
+            g.savefig(folderPath + '/plots/'+param+'_'+property+'.eps', format='eps' ,bbox_inches='tight')
 
 
 
