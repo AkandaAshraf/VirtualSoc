@@ -119,24 +119,45 @@ def plotNetProps(folderPath):
     params =  pd.read_csv(folderPath + '/params',sep=' ',header=None)
     params.columns = paramNames
     allStatsSortedWithParams=pd.concat([allStatsSorted, params], axis=1, sort=False,ignore_index=False)
-
+    allStatsSortedWithParams.to_csv(folderPath + '/StatsParamsComb.csv')
     colNames = list(allStatsSortedWithParams)
     params = colNames[11:]
     properties = colNames[:11]
 
-    for param in params:
-        for property in properties:
-            sns.set_context("notebook", font_scale=2, rc={"lines.linewidth": 50})
+def plotNetPreds(folderPath):
+        if not os.path.isdir(folderPath + '/plots'):
+            os.makedirs(folderPath + '/plots')
 
-            g = sns.pairplot(allStatsSortedWithParams[[param, property]],
-                             kind="scatter", height=8)
+        StatsParamsComb = pd.read_csv(folderPath + '/StatsParamsComb.csv')
+        newCols = ['accFT','accT','accF','accFL','accBest','accTBest','accFLBest','accFBest']
+        StatsParamsComb = pd.read_csv(folderPath + '/StatsParamsComb.csv')
 
-            plt.figure(figsize=(100,100))
-            plt.margins(x=0.1, y=0.1, tight=True)
+        GCNOutputs = pd.read_csv(folderPath + '/GCNOutputs.csv', sep=',').sort_values(by = 'network').copy()
+        GCNOutputsFT = GCNOutputs.loc[GCNOutputs['topologyOnly'] == False].set_index('network').copy()
+        GCNOutputsT = GCNOutputs.loc[GCNOutputs['topologyOnly'] == True].set_index('network').copy()
+        GCNOutputsFL = pd.read_csv(folderPath + '/GCNOutputsFeatureOnlyLaplaced.csv', sep=',').sort_values(by = 'network').set_index('network').copy()
+        GCNOutputsF = pd.read_csv(folderPath + '/GCNOutputsFeatureOnlyNonLaplaced.csv', sep=',').sort_values(by = 'network').set_index('network').copy()
 
-            g.savefig(folderPath + '/plots/'+param+'_'+property+'.eps', format='eps' ,bbox_inches='tight')
+        params.columns = paramNames
+        allStatsSortedWithParams = pd.concat([allStatsSorted, params], axis=1, sort=False, ignore_index=False)
+        allStatsSortedWithParams.to_csv(folderPath + '/StatsParamsComb.csv')
+        colNames = list(allStatsSortedWithParams)
+        params = colNames[11:]
+        properties = colNames[:11]
 
-
+    # for param in params:
+    #     for property in properties:
+    #         sns.set_context("notebook", font_scale=2, rc={"lines.linewidth": 50})
+    #
+    #         g = sns.pairplot(allStatsSortedWithParams[[param, property]],
+    #                          kind="scatter", height=8)
+    #
+    #         plt.figure(figsize=(100,100))
+    #         plt.margins(x=0.1, y=0.1, tight=True)
+    #
+    #         g.savefig(folderPath + '/plots/'+param+'_'+property+'.eps', format='eps' ,bbox_inches='tight')
+    #
+    #
 
 
 
