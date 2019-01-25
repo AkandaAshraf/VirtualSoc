@@ -130,18 +130,38 @@ def plotNetPreds(folderPath):
 
         StatsParamsComb = pd.read_csv(folderPath + '/StatsParamsComb.csv')
         newCols = ['accFT','accT','accF','accFL','accBest','accTBest','accFLBest','accFBest']
-        StatsParamsComb = pd.read_csv(folderPath + '/StatsParamsComb.csv')
 
         GCNOutputs = pd.read_csv(folderPath + '/GCNOutputs.csv', sep=',').sort_values(by = 'network').copy()
-        GCNOutputsFT = GCNOutputs.loc[GCNOutputs['topologyOnly'] == False].set_index('network').copy()
-        GCNOutputsT = GCNOutputs.loc[GCNOutputs['topologyOnly'] == True].set_index('network').copy()
-        GCNOutputsFL = pd.read_csv(folderPath + '/GCNOutputsFeatureOnlyLaplaced.csv', sep=',').sort_values(by = 'network').set_index('network').copy()
-        GCNOutputsF = pd.read_csv(folderPath + '/GCNOutputsFeatureOnlyNonLaplaced.csv', sep=',').sort_values(by = 'network').set_index('network').copy()
 
-        params.columns = paramNames
-        allStatsSortedWithParams = pd.concat([allStatsSorted, params], axis=1, sort=False, ignore_index=False)
-        allStatsSortedWithParams.to_csv(folderPath + '/StatsParamsComb.csv')
-        colNames = list(allStatsSortedWithParams)
+        GCNOutputsFT = GCNOutputs.loc[GCNOutputs['topologyOnly'] == False].set_index('network').copy()
+        GCNOutputsFT = GCNOutputsFT[~GCNOutputsFT.index.duplicated(keep='first')]
+
+        GCNOutputsT = GCNOutputs.loc[GCNOutputs['topologyOnly'] == True].set_index('network').copy()
+        GCNOutputsT = GCNOutputsT[~GCNOutputsT.index.duplicated(keep='first')]
+
+
+        GCNOutputsFL = pd.read_csv(folderPath + '/GCNOutputsFeatureOnlyLaplaced.csv', sep=',').sort_values(by = 'network').set_index('network').copy()
+        GCNOutputsFL = GCNOutputsFL[~GCNOutputsFL.index.duplicated(keep='first')]
+
+
+        GCNOutputsF = pd.read_csv(folderPath + '/GCNOutputsFeatureOnlyNonLaplaced.csv', sep=',').sort_values(by = 'network').set_index('network').copy()
+        GCNOutputsF = GCNOutputsF[~GCNOutputsF.index.duplicated(keep='first')]
+
+        GCNDF = pd.DataFrame(list(zip(GCNOutputsFT['test_acc'],GCNOutputsT['test_acc'],GCNOutputsFL['test_acc'],GCNOutputsF['test_acc'])),columns=['GCN_FT', 'GCN_T','GCN_FL','GCN_F'])
+        AllDf    = pd.concat([StatsParamsComb,GCNDF],axis=1)
+        AllDf.loc[(AllDf['GCN_FT']>=AllDf['GCN_T']) & (AllDf['GCN_FT']>=AllDf['GCN_F']) & (AllDf['GCN_FT']>=AllDf['GCN_FL']),'GCN_best'] = 'GCN_FT'
+
+        AllDf.loc[(AllDf['GCN_T']>=AllDf['GCN_FT']) & (AllDf['GCN_T']>=AllDf['GCN_F']) & (AllDf['GCN_T']>=AllDf['GCN_FL']),'GCN_best'] = 'GCN_T'
+        AllDf.loc[(AllDf['GCN_F']>=AllDf['GCN_FT']) & (AllDf['GCN_F']>=AllDf['GCN_T']) & (AllDf['GCN_F']>=AllDf['GCN_FL']),'GCN_best'] = 'GCN_F'
+        AllDf.loc[(AllDf['GCN_FL']>=AllDf['GCN_FT']) & (AllDf['GCN_FL']>=AllDf['GCN_T']) & (AllDf['GCN_FL']>=AllDf['GCN_F']),'GCN_best'] = 'GCN_FL'
+        AllDf.loc[(AllDf['GCN_FT']>=AllDf['GCN_T']) & (AllDf['GCN_FT']>=AllDf['GCN_F']) & (AllDf['GCN_FT']>=AllDf['GCN_FL']),'GCN_FT_best'] = 'True'
+        AllDf.loc[(AllDf['GCN_FT']<AllDf['GCN_T']) | (AllDf['GCN_FT']<AllDf['GCN_F']) | (AllDf['GCN_FT']<AllDf['GCN_FL']),'GCN_FT_best'] = 'False'
+
+
+        AllDf.to_csv(folderPath + '/StatsParamsGCNComb.csv')
+
+
+        colNames = list(AllDf)
         params = colNames[11:]
         properties = colNames[:11]
 
