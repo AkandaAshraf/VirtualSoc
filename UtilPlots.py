@@ -156,21 +156,51 @@ def plotNetPreds(folderPath):
         AllDf.loc[(AllDf['GCN_FL']>=AllDf['GCN_FT']) & (AllDf['GCN_FL']>=AllDf['GCN_T']) & (AllDf['GCN_FL']>=AllDf['GCN_F']),'GCN_best'] = 'GCN_FL'
         AllDf.loc[(AllDf['GCN_FT']>=AllDf['GCN_T']) & (AllDf['GCN_FT']>=AllDf['GCN_F']) & (AllDf['GCN_FT']>=AllDf['GCN_FL']),'GCN_FT_best'] = 'True'
         AllDf.loc[(AllDf['GCN_FT']<AllDf['GCN_T']) | (AllDf['GCN_FT']<AllDf['GCN_F']) | (AllDf['GCN_FT']<AllDf['GCN_FL']),'GCN_FT_best'] = 'False'
-
-
+        AllDf['diff_FT_T'] = AllDf['GCN_FT'] - AllDf['GCN_T']
+        AllDf['diff_FT_FL'] = AllDf['GCN_FT'] - AllDf['GCN_FL']
+        AllDf['diff_FT_F'] = AllDf['GCN_FT'] - AllDf['GCN_F']
         AllDf.to_csv(folderPath + '/StatsParamsGCNComb.csv')
 
+        params  =  ['explorationProbability',
+                    'popularityPreferenceIntensity',
+                    'connectionPercentageWithMatchedNodes',
+                    'mutualPreferenceIntensity2',
+                    'mutualPreferenceIntensity3',
+                    'mutualPreferenceIntensity4']
 
-        colNames = list(AllDf)
-        params = colNames[11:]
-        properties = colNames[:11]
+
+        for param in params :
+            g = sns.pairplot(AllDf[[param,'diff_FT_T']],
+                                                      kind="scatter", height=8)
+
+                                     plt.figure(figsize=(100,100))
+                                     plt.margins(x=0.1, y=0.1, tight=True)
+
+                                     g.savefig(folderPath + '/plots/'+param+'_diff_FT_T.eps', format='eps' ,bbox_inches='tight')
+
+        for param in params :
+            g = sns.pairplot(AllDf[[param,'diff_FT_FL']],
+                                                      kind="scatter", height=8)
+
+                                     plt.figure(figsize=(100,100))
+                                     plt.margins(x=0.1, y=0.1, tight=True)
+
+                                     g.savefig(folderPath + '/plots/'+param+'diff_FT_FL.eps', format='eps' ,bbox_inches='tight')
+
+        for param in params:
+            g = sns.pairplot(AllDf[[param, 'diff_FT_F']],
+                             kind="scatter", height=8)
+
+            plt.figure(figsize=(100, 100))
+            plt.margins(x=0.1, y=0.1, tight=True)
+            g.savefig(folderPath + '/plots/' + param + 'diff_FT_F.eps', format='eps', bbox_inches='tight')
 
     # for param in params:
     #     for property in properties:
     #         sns.set_context("notebook", font_scale=2, rc={"lines.linewidth": 50})
     #
     #         g = sns.pairplot(allStatsSortedWithParams[[param, property]],
-    #                          kind="scatter", height=8)
+    #                          kind="scatter", height=8)aa
     #
     #         plt.figure(figsize=(100,100))
     #         plt.margins(x=0.1, y=0.1, tight=True)
