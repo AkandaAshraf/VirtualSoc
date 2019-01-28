@@ -173,19 +173,18 @@ def plotNetPreds(folderPath):
             g = sns.pairplot(AllDf[[param,'diff_FT_T']],
                                                       kind="scatter", height=8)
 
-                                     plt.figure(figsize=(100,100))
-                                     plt.margins(x=0.1, y=0.1, tight=True)
+            plt.figure(figsize=(100,100))
+            plt.margins(x=0.1, y=0.1, tight=True)
 
-                                     g.savefig(folderPath + '/plots/'+param+'_diff_FT_T.eps', format='eps' ,bbox_inches='tight')
-
+            g.savefig(folderPath + '/plots/'+param+'_diff_FT_T.eps', format='eps' ,bbox_inches='tight')
         for param in params :
             g = sns.pairplot(AllDf[[param,'diff_FT_FL']],
                                                       kind="scatter", height=8)
 
-                                     plt.figure(figsize=(100,100))
-                                     plt.margins(x=0.1, y=0.1, tight=True)
+            plt.figure(figsize=(100,100))
+            plt.margins(x=0.1, y=0.1, tight=True)
 
-                                     g.savefig(folderPath + '/plots/'+param+'diff_FT_FL.eps', format='eps' ,bbox_inches='tight')
+            g.savefig(folderPath + '/plots/'+param+'diff_FT_FL.eps', format='eps' ,bbox_inches='tight')
 
         for param in params:
             g = sns.pairplot(AllDf[[param, 'diff_FT_F']],
