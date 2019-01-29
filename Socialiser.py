@@ -227,17 +227,22 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
 
         nodesCombination = list(set(itertools.combinations(nodes, 2)))
+        # tempSameEntryCheck =collections.defaultdict(lambda: None)
+        indicesToBeDeltedtemp = []
         if resocialising:
             l = 0
             for nodes in nodesCombination:
+                # tempSameEntryCheck[nodes[0].ID,nodes[1].ID] =1
                 if  self.graph.checkSameEntryAdj(nodes[0], nodes[1],
                                                warning=False) or  self.graph.checkSameEntryAdj(nodes[1],
                                                                                              nodes[0],
-                                                                                             warning=False):
-                     del nodesCombination[l]
+                                                                                             warning=False) or nodes[0].ID==nodes[1].ID:
+                     # del nodesCombination[l]
+                     indicesToBeDeltedtemp.append(l)
+
                 l +=1
 
-
+        nodesCombination = [x for i, x in enumerate(nodesCombination) if i not in indicesToBeDeltedtemp]
         np.random.shuffle(nodesCombination)
         np.random.shuffle(nodesCombination)
         np.random.shuffle(nodesCombination)

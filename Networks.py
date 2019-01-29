@@ -107,9 +107,11 @@ class Graph:
 
     def checkSameEntryAdj(self, node1, node2,warning = True):
         if self.adjMatDict[node1.ID, node2.ID] == 1 or self.adjMatDict[node1.ID, node2.ID] is not None:
+        #if set((node1.ID, node2.ID)) <= set(self.adjMatDict):
+
             if warning:
                 warnings.warn(
-                    "multiple edge connection detected and ignored!",
+                    "multiple edge connection detected!"+str(node1.ID)+":"+str(node2.ID),
 
                 )
             return True

@@ -121,10 +121,10 @@ if __name__ == '__main__':
     file = 'H:/testEdgesEvolution/'
     # os.makedirs(file)
 
-    G2 = RandomSocialGraphAdvanced(labelSplit=[5,10,15,20],connectionPercentageWithMatchedNodes=5,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=1000, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=True,useGPU = False,numberofProcesses=None,createInGPUMem=False)
+    G2 = RandomSocialGraphAdvanced(labelSplit=[50,100,150,200],connectionPercentageWithMatchedNodes=5,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=1000, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=True,useGPU = False,numberofProcesses=None,createInGPUMem=False)
     G2.socialise()
-    G2.socialise()
-    G2.socialise()
+
+
 
     WriteToFile(G2).easySaveEverything(file)
     # file = 'H:/testEvolution2/'

@@ -50,6 +50,7 @@ class Node:
         self.selfConnected=False
         self.selfConnectionsNumber = 0
         self.Graph.nodeCount += 1
+        self.MultipleEdgeSafeGraph = True
 
     def __del__(self):
         '''
@@ -87,7 +88,8 @@ class Node:
 
                 other.inDegree += 1
                 other.outDegree += 1
-
+                if self.MultipleEdgeSafeGraph:
+                    self.Graph.checkSameEntryAdj(self,other)
                 self.Graph.adjMatDict[self.ID, other.ID] = 1
                 self.Graph.adjMatDict[other.ID, self.ID] = 1
 
