@@ -53,8 +53,8 @@ class Graph:
 
 
     def adjPower(self,P,useGPU=False):
-        if self.adj is None:
-            self.A()
+        # if self.adj is None:
+        self.A()
         i = 2
         if useGPU and cp.cuda.is_available():
             for p in P:
@@ -397,6 +397,7 @@ class RandomSocialGraphAdvanced(Graph):
                                                addTraidtionalFeatures=self.addTraidtionalFeatures, npDistFunc=self.npDistFunc, labelSplit=self.labelSplit,DnaObjType=DNAadvanced)
         if socialiseOnCreation:
             self.socialise()
+            self.Socialised = True
 
         # if self.keepHistory:
         #   self.evolutionHistory.append(self.__EvolutionHistory(adjMat=self.adjMatDict, explorationProbability=explorationProbability, connectionPercentageWithMatchedNodes=connectionPercentageWithMatchedNodes, DNA=DNA,
@@ -480,7 +481,11 @@ class RandomSocialGraphAdvanced(Graph):
 
         __SocialiserObj = randomSocialwithDNAadvanced(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability,mutualPreferenceIntensity=self.mutualPreferenceIntensity,popularityPreferenceIntensity=self.popularityPreferenceIntensity,pathLenghtLimit=self.pathLenghtLimit)
         # if self.numberofProcesses is not None:
-        __SocialiserObj.simpleRandomSocialiserSingleEdgeMultiProcessed(self.numberofProcesses)
+        if not self.Socialised:
+            __SocialiserObj.simpleRandomSocialiserSingleEdgeMultiProcessed(self.numberofProcesses)
+        else:
+            __SocialiserObj.simpleRandomSocialiserSingleEdgeMultiProcessed(self.numberofProcesses,resocialising=True)
+
         # else:
         #     __SocialiserObj.simpleRandomSocialiserSingleEdge()
 

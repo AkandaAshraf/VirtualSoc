@@ -231,11 +231,11 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
             l = 0
             for nodes in nodesCombination:
                 if  self.graph.checkSameEntryAdj(nodes[0], nodes[1],
-                                               warning=False) or  self.graph.checkSameEntryAdj(nodes[0],
-                                                                                             nodes[1],
+                                               warning=False) or  self.graph.checkSameEntryAdj(nodes[1],
+                                                                                             nodes[0],
                                                                                              warning=False):
                      del nodesCombination[l]
-                     l +=1
+                l +=1
 
 
         np.random.shuffle(nodesCombination)
@@ -253,7 +253,6 @@ class randomSocialwithDNAadvanced(randomSocialwithDNA):
 
         self._bar = pyprind.ProgBar(len(nodesCombination), stream=sys.stdout)
         if numberofProcesses is not None:
-
             pool = Pool(numberofProcesses)
             print('Calculating node scores!')
             # cp.cuda.MemoryPool(allocator=_malloc)
