@@ -20,7 +20,7 @@ sys.setrecursionlimit(100000000)
 #
 
 
-newParam_values = SalibPreprocessGetParamsForSobol(numberOfSamples=100,folderPathToSaveParamsAndProblem='/home/akanda/sobolDynamic')
+newParam_values = SalibPreprocessGetParamsForSobol(numberOfSamples=100,folderPathToSaveParamsAndProblem='/home/akanda/sobolDynamic2')
 
 
 if __name__ == '__main__':
