@@ -105,16 +105,16 @@ class DNA:
         probablityMutationCount = 0
 
         for i in range(0,l,2):
-            if self.value[i]!=0 and self.value[i]!=1:
+            if self.value[i]!=-1 and self.value[i]!=1:
                 raise ValueError('invalid dna, first index is not Preference')
             else:
                 if mutatePreference:
                     if 1.0 - intensity <= np.random.uniform(low=0.0, high=1.0, size=None):
                         rand1 = np.random.uniform(low=0.0, high=1.0, size=None)
                         if rand1 > 0.5:
-                            self.value[i] = 1
+                            self.value[i] = -1
                         else:
-                            self.value[i] = 0
+                            self.value[i] = 1
                         preferenceMutationCount +=1
                 if mutatePreferenceProbability:
                     if 1.0 - intensity <= np.random.uniform(low=0.0, high=1.0, size=None):
@@ -123,7 +123,7 @@ class DNA:
             i +=1
 
         if preferenceMutationCount>0 or probablityMutationCount > 0:
-           warnings.warn("mutation occured in %s preference(s) and %s probablity(ies)!" % (preferenceMutationCount, probablityMutationCount))
+           warnings.warn("mutation occured in %s preference(s) and %s preference weights(s)!" % (preferenceMutationCount, probablityMutationCount))
         else:
             warnings.warn("mutateDNA called but no mutation detected, try increasing intensity / changing mutatePreferenceProbability and/or mutatePreference = true!")
         if cp.cuda.is_available() and self.useGPU:

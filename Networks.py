@@ -411,7 +411,7 @@ class RandomSocialGraphAdvanced(Graph):
     #     __SocialiserObj = randomSocialwithDNA(graph=self, percentageOfConnectionNodes=self.percentageOfConnectionNodes, p=self.explorationProbability)
     #     __SocialiserObj.simpleRandomSocialiserSingleEdge()
     #
-    def mutateDNA(self, mutationIntensity=None, mutatePreference=None, mutatePreferenceProbability=None):
+    def mutateDNA(self, mutationIntensity, mutatePreference, mutatePreferenceProbability):
 
         if mutationIntensity is not None:
             self.mutationIntensity =mutationIntensity
