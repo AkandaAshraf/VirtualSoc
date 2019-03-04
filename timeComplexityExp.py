@@ -119,40 +119,48 @@ if __name__ == '__main__':
     #
     # WriteToFile(G2).easySaveEverything(file)
 
-    file = 'H:/timeExpVirtualSoc/'
-    # os.makedirs(file)
-    Features = range(100,10000,100)
-    cpuTime = []
-    gpuTime = []
-    featureNo = []
-
-    for f in Features:
-        print('cpu')
-        tempStart = time.time()
-        RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=f, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = False,numberofProcesses=None,createInGPUMem=False)
-        tempEnd = time.time()
-        cpuTime.append(tempEnd-tempStart)
-        cupy.cuda.set_allocator(MemoryPool().malloc)
-        print('gpu')
-        tempStart = time.time()
-        RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=f, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=None,createInGPUMem=True)
-        tempEnd = time.time()
-        gpuTime.append(tempEnd-tempStart)
-        featureNo.append(f)
-        cupy.cuda.MemoryPool().free_all_blocks()
-    with open(file+'expResults.txt', 'w') as f:
-        f.write('cpu_time,gpu_time,numberOfFeatures \n')
-        i = 0
-        for feat in featureNo:
-            f.write(str(cpuTime[i])+','+str(gpuTime[i])+','+str(feat)+'\n')
-            i +=1
+    file = '/home/akanda/timeExp/'
+    # # os.makedirs(file)
+    # Features = range(100,10000,100)
+    # cpuTime = []
+    # gpuTime = []
+    # featureNo = []
+    #
+    # for f in Features:
+    #     print('cpu')
+    #     tempStart = time.time()
+    #     RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=f, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = False,numberofProcesses=None,createInGPUMem=False)
+    #     tempEnd = time.time()
+    #     cpuTime.append(tempEnd-tempStart)
+    #     cupy.cuda.set_allocator(MemoryPool().malloc)
+    #     print('gpu')
+    #     tempStart = time.time()
+    #     RandomSocialGraphAdvanced(labelSplit=[100,200,300],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=f, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=False,useGPU = True,numberofProcesses=None,createInGPUMem=True)
+    #     tempEnd = time.time()
+    #     gpuTime.append(tempEnd-tempStart)
+    #     featureNo.append(f)
+    #     cupy.cuda.MemoryPool().free_all_blocks()
+    # with open(file+'expResults.txt', 'w') as f:
+    #     f.write('cpu_time,gpu_time,numberOfFeatures \n')
+    #     i = 0
+    #     for feat in featureNo:
+    #         f.write(str(cpuTime[i])+','+str(gpuTime[i])+','+str(feat)+'\n')
+    #         i +=1
         # os.makedirs(file)
-    Features = range(10000, 100000, 1000)
+    # Features = range(10000, 100000, 1000)
+    Features = np.logspace(2, 6, num=100,dtype=np.int)
     cpuTime = []
     gpuTime = []
     featureNo = []
+    f = open(file + 'expResults3.txt', 'w')
+    f.write('cpu_time,gpu_time,numberOfFeatures \n')
+
+    f.close()
 
     for f in Features:
+        fl = open(file + 'expResults3.txt', 'a')
+
+
         print('cpu')
         tempStart = time.time()
         RandomSocialGraphAdvanced(labelSplit=[100, 200, 300], connectionPercentageWithMatchedNodes=30,
@@ -174,9 +182,12 @@ if __name__ == '__main__':
                                   keepHistory=False, useGPU=True, numberofProcesses=None, createInGPUMem=True)
         tempEnd = time.time()
         gpuTime.append(tempEnd - tempStart)
+
         featureNo.append(f)
+        fl.write(str(cpuTime[-1]) + ',' + str(gpuTime[-1]) + ',' + str(featureNo[-1]) + '\n')
         cupy.cuda.MemoryPool().free_all_blocks()
-    with open(file + 'expResults2.txt', 'w') as f:
+        fl.close()
+    with open(file + 'expResults4.txt', 'w') as f:
         f.write('cpu_time,gpu_time,numberOfFeatures \n')
         i = 0
         for feat in featureNo:
