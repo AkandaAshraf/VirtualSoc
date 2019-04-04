@@ -1,6 +1,6 @@
 import numpy as np
 import warnings
-import cupy as cp
+# import cupy as cp
 
 
 class DNA:
@@ -126,10 +126,10 @@ class DNA:
            warnings.warn("mutation occured in %s preference(s) and %s preference weights(s)!" % (preferenceMutationCount, probablityMutationCount))
         else:
             warnings.warn("mutateDNA called but no mutation detected, try increasing intensity / changing mutatePreferenceProbability and/or mutatePreference = true!")
-        if cp.cuda.is_available() and self.useGPU:
-            if self.createInGPUMem:
-                self.valueWeight = cp.asarray(self.value[1::2], dtype=np.float64)
-                self.valuePreference = cp.asarray(self.value[0::2], dtype=np.float64)
+        # if cp.cuda.is_available() and self.useGPU:
+        #     if self.createInGPUMem:
+        #         self.valueWeight = cp.asarray(self.value[1::2], dtype=np.float64)
+        #         self.valuePreference = cp.asarray(self.value[0::2], dtype=np.float64)
     def getDnaType(self, *args, **kwargs):
         '''
 
@@ -189,11 +189,11 @@ class DNAadvanced(DNA):
               self.value = self._autoGenDNA(len=len)
         elif self.value == 'autoWeightless':
             self.value = self._autoGenDNA2(len=len)
-
-        if cp.cuda.is_available() and  self.useGPU :
-            if self.createInGPUMem:
-                self.valueWeight = cp.asarray(self.value[1::2],dtype=np.float64)
-                self.valuePreference = cp.asarray(self.value[0::2], dtype=np.float64)
+        #
+        # if cp.cuda.is_available() and  self.useGPU :
+        #     if self.createInGPUMem:
+        #         self.valueWeight = cp.asarray(self.value[1::2],dtype=np.float64)
+        #         self.valuePreference = cp.asarray(self.value[0::2], dtype=np.float64)
 
 
     def _autoGenDNA(self, len):

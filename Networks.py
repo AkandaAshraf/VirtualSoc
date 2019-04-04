@@ -56,7 +56,7 @@ class Graph:
         # if self.adj is None:
         self.A()
         i = 2
-        if useGPU and cp.cuda.is_available():
+        if useGPU:
             for p in P:
                 cpAdj = cp.asarray(self.adj.toarray())
                 if i == 2:
