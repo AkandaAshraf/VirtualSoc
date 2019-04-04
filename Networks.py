@@ -8,8 +8,8 @@ from scipy.sparse import dok_matrix
 from scipy.sparse import linalg
 import warnings
 import collections
-import copy
-import cupy as cp
+# import copy
+# import cupy as cp
 
 class Graph:
 
