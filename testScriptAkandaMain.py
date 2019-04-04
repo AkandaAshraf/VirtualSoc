@@ -118,7 +118,7 @@ if __name__ == '__main__':
     #
     # WriteToFile(G2).easySaveEverything(file)
 
-    file = '/home/akanda/test/'
+    file = 'H:/Networksim_test/'
     # os.makedirs(file)
 
     G2 = RandomSocialGraphAdvanced(labelSplit=[10,20,30,40],connectionPercentageWithMatchedNodes=5,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=1000, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=True,useGPU = False,numberofProcesses=None,createInGPUMem=False)

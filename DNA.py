@@ -189,6 +189,7 @@ class DNAadvanced(DNA):
               self.value = self._autoGenDNA(len=len)
         elif self.value == 'autoWeightless':
             self.value = self._autoGenDNA2(len=len)
+
         if cp.cuda.is_available() and  self.useGPU :
             if self.createInGPUMem:
                 self.valueWeight = cp.asarray(self.value[1::2],dtype=np.float64)
