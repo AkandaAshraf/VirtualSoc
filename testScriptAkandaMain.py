@@ -122,7 +122,7 @@ if __name__ == '__main__':
 
     # os.makedirs(file)
 
-    params = SalibPreprocessGetParamsForSobol(numberOfSamples=10,folderPathToSaveParamsAndProblem=file,labelSplit=[100, 200, 300], npDistFunc=['np.random.randint(18, high=80)', 'np.random.binomial(2, 0.5)'])
+    params = SalibPreprocessGetParamsForSobol(numberOfSamples=10,folderPathToSaveParamsAndProblem=file,labelSplit=[100, 200, 300], npDistFunc=['np.random.randint(18, high=80)', 'np.random.binomial(2, 0.5)'],bounds=[[0.1,1.0], [0.1, 10], [1, 80],[0.7, 0.9], [0.3, 0.6],[0.1, 0.2]])
     if __name__ == '__main__':
          Simulate(processes=6,params=params)
 
