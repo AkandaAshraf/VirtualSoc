@@ -2,28 +2,14 @@
 <project version="4">
   <component name="PublishConfigData">
     <serverData>
-      <paths name="akanda@10.48.23.23:22">
+      <paths name="akanda@10.120.40.17:22">
         <serverdata>
           <mappings>
-            <mapping deploy="/virtualSoc" local="$PROJECT_DIR$" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
       <paths name="akanda@dec251.bmth.ac.uk:22">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="akanda@dec251.bmth.ac.uk:22 (1)">
-        <serverdata>
-          <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
-          </mappings>
-        </serverdata>
-      </paths>
-      <paths name="akanda@dec251.bmth.ac.uk:22 (22)">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

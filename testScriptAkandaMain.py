@@ -1,6 +1,6 @@
 
 from Transfer import *
-
+from MultipleNetworksSimulation import SalibPreprocessGetParamsForSobol, Simulate
 from HighLevelForSALib import *
 import multiprocess.context as ctx
 from sys import platform
@@ -118,21 +118,27 @@ if __name__ == '__main__':
     #
     # WriteToFile(G2).easySaveEverything(file)
 
-    file = 'H:/Networksim_test/'
+    file = 'H:/Networksim_test_multiprocess/'
+
     # os.makedirs(file)
 
-    G2 = RandomSocialGraphAdvanced(labelSplit=[10,20,30,40],connectionPercentageWithMatchedNodes=5,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=1000, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=True,useGPU = False,numberofProcesses=None,createInGPUMem=False)
-    G2.mutateDNA(mutationIntensity=0.0001, mutatePreference=True,mutatePreferenceProbability=True)
-    G2.mutateDNA(mutationIntensity=0.01, mutatePreference=True,mutatePreferenceProbability=True)
-
-    G2.socialise()
-    G2.socialise()
-    G2.socialise()
+    params = SalibPreprocessGetParamsForSobol(numberOfSamples=10,folderPathToSaveParamsAndProblem=file,labelSplit=[100, 200, 300], npDistFunc=['np.random.randint(18, high=80)', 'np.random.binomial(2, 0.5)'])
+    if __name__ == '__main__':
+         Simulate(processes=6,params=params)
 
 
+    # G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300,400],connectionPercentageWithMatchedNodes=5,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=50, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=True,useGPU = True,numberofProcesses=None,createInGPUMem=True)
+    # G2.mutateDNA(mutationIntensity=0.0001, mutatePreference=True,mutatePreferenceProbability=True)
+    # G2.mutateDNA(mutationIntensity=0.01, mutatePreference=True,mutatePreferenceProbability=True)
+    #
+    # G2.socialise()
+    # G2.socialise()
+    # G2.socialise()
 
 
-    WriteToFile(G2).easySaveEverything(file)
+
+
+    # WriteToFile(G2).easySaveEverything(file)
     # file = 'H:/testEvolution2/'
     # os.makedirs(file)
     #
