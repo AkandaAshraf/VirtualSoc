@@ -118,6 +118,18 @@ if __name__ == '__main__':
     #
     # WriteToFile(G2).easySaveEverything(file)
 
+
+    file = 'H:/Networksim_test_multiprocess/'
+
+    # os.makedirs(file)
+
+    params = SalibPreprocessGetParamsForSobol(numberOfSamples=1000,folderPathToSaveParamsAndProblem=
+    'H:/Networksim_test_multiprocess/',labelSplit=[100, 200, 300], npDistFunc=['np.random.randint(18, high=80)',
+    'np.random.binomial(2, 0.5)'],bounds=[[0.1,1.0], [0.1, 10], [1, 80],[0.7, 0.9], [0.3, 0.6],[0.1, 0.2]] )
+    if __name__ == '__main__':
+         Simulate(processes=6,params=params,evalParam='graph.socialise()')
+
+
     file = 'H:/Networksim_test/'
     # os.makedirs(file)
 
@@ -133,6 +145,13 @@ if __name__ == '__main__':
 
 
     WriteToFile(G2).easySaveEverything(file)
+
+
+
+
+
+
+
     # file = 'H:/testEvolution2/'
     # os.makedirs(file)
     #
