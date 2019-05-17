@@ -139,7 +139,7 @@ if __name__ == '__main__':
 
 
 
-    WriteToFile(G2).easySaveEverything(file)
+    # WriteToFile(G2).easySaveEverything(file)
 
 
 
