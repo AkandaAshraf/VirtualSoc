@@ -1,30 +1,14 @@
-import Networks as ntk
-import numpy as np
 import os
 import Transfer as tp
-from Node import *
-from DNA import *
-from Socialiser import *
-from PetriDish import *
+
 from Networks import *
-import numpy as np
 from SALib.sample import saltelli
-from SALib.sample import fast_sampler
-from SALib.sample import latin
-from SALib.sample import morris
-from SALib.sample import ff
-from SALib.analyze import sobol
-from SALib.analyze import rbd_fast
-from SALib.analyze import fast
-from SALib.analyze import delta
-from SALib.test_functions import Ishigami
+
 import numpy as np
-from multiprocessing.dummy import Pool as ThreadPool
-import pandas as pd
+
 import multiprocessing
 import pickle as pk
 import pandas as pd
-from contextlib import redirect_stdout
 
 
 def iter_rows(params, useGPU, numberofProcesses, createInGPUMem,evalParam):

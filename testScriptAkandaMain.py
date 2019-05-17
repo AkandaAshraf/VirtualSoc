@@ -1,14 +1,12 @@
-
-from Transfer import *
+from Transfer import WriteToFile
 from MultipleNetworksSimulation import SalibPreprocessGetParamsForSobol, Simulate
-from HighLevelForSALib import *
 import multiprocess.context as ctx
 from sys import platform
 import time
 import sys
 from multiprocessing import Pool
 sys.setrecursionlimit(100000000)
-
+from Networks import RandomSocialGraphAdvanced
 #
 # folderPath = 'D:\\sensitivityAnalaysisVirtualSoc\\'
 # modelOutputFolder = 'D:\\outputTest\\'
@@ -39,17 +37,17 @@ sys.setrecursionlimit(100000000)
 # import threading
 # from threading import Thread
 # # #
-# G2 = RandomSocialGraphAdvanced(labelSplit=[20,40,60],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False)
-#
-#
-# G2.mutateDNA(mutationIntensity=0.9,mutatePreference=True)
-# G2.mutateDNAandSocialise(mutationIntensity=0.9)
-# G2.socialise()
+G2 = RandomSocialGraphAdvanced(labelSplit=[20,40,60],connectionPercentageWithMatchedNodes=30,connectionPercentageWithMatchedNodesWithRandomness=0.5,explorationProbability=0.3,addTraidtionalFeatures=True,additionalFeatureLen=2, npDistFunc=['np.random.randint(10, high=20)','np.random.binomial(2, 0.5)'],popularityPreferenceIntensity=1,mutualPreferenceIntensity=[3,2,1],genFeaturesFromSameDistforAllLabel=False)
+
+
+G2.mutateDNA(mutationIntensity=0.9,mutatePreference=True)
+G2.mutateDNAandSocialise(mutationIntensity=0.9)
+G2.socialise()
 #
 #
 # # G2.writeFileA('D:\\testVirtualSoc\\testAdjFile.txt')
 # #
-# WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\soc1')
+WriteToFile(G2).easySaveEverything('D:\\VirtualSocGCN\soc1')
 
 
 # # #
@@ -122,14 +120,16 @@ if __name__ == '__main__':
 
     # os.makedirs(file)
 
-    params = SalibPreprocessGetParamsForSobol(numberOfSamples=10,folderPathToSaveParamsAndProblem=file,labelSplit=[100, 200, 300], npDistFunc=['np.random.randint(18, high=80)', 'np.random.binomial(2, 0.5)'],bounds=[[0.1,1.0], [0.1, 10], [1, 80],[0.7, 0.9], [0.3, 0.6],[0.1, 0.2]])
+    params = SalibPreprocessGetParamsForSobol(numberOfSamples=1000,folderPathToSaveParamsAndProblem=
+    'H:/Networksim_test_multiprocess/',labelSplit=[100, 200, 300], npDistFunc=['np.random.randint(18, high=80)',
+    'np.random.binomial(2, 0.5)'],bounds=[[0.1,1.0], [0.1, 10], [1, 80],[0.7, 0.9], [0.3, 0.6],[0.1, 0.2]] )
     if __name__ == '__main__':
-         Simulate(processes=6,params=params)
+         Simulate(processes=6,params=params,evalParam='graph.socialise()')
 
 
-    # G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300,400],connectionPercentageWithMatchedNodes=5,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=50, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=True,useGPU = True,numberofProcesses=None,createInGPUMem=True)
-    # G2.mutateDNA(mutationIntensity=0.0001, mutatePreference=True,mutatePreferenceProbability=True)
-    # G2.mutateDNA(mutationIntensity=0.01, mutatePreference=True,mutatePreferenceProbability=True)
+    G2 = RandomSocialGraphAdvanced(labelSplit=[100,200,300,400],connectionPercentageWithMatchedNodes=5,connectionPercentageWithMatchedNodesWithRandomness=1,explorationProbability=0.3,addTraidtionalFeatures=False,additionalFeatureLen=50, npDistFunc=['np.random.randint(3, high=500)'],popularityPreferenceIntensity=0.5,mutualPreferenceIntensity=[0.9,0.3,0.1],genFeaturesFromSameDistforAllLabel=False,keepHistory=True,useGPU = True,numberofProcesses=None,createInGPUMem=True)
+    G2.mutateDNA(mutationIntensity=0.0001, mutatePreference=True,mutatePreferenceProbability=True)
+    G2.mutateDNA(mutationIntensity=0.01, mutatePreference=True,mutatePreferenceProbability=True)
     #
     # G2.socialise()
     # G2.socialise()
