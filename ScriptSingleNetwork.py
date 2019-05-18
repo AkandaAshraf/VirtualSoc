@@ -3,7 +3,6 @@ from Networks import RandomSocialGraphAdvanced
 from MultipleNetworksSimulation import Simulate, SalibPreprocessGetParamsForSobol
 import os
 import sys
-
 sys.setrecursionlimit(100000000)  # this is needed for a large network
 # if keep history is true and   WriteToFile(G).easySaveEverything(folder)
 # is needed. This is due to python's deep copy problems. One way to avoid this is to write to file
