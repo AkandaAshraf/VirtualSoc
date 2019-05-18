@@ -58,14 +58,13 @@ class Graph:
         i = 2
         if useGPU:
             for p in P:
-                cpAdj = cp.asarray(self.adj.toarray())
+                cpAdj = np.asarray(self.adj.toarray())
                 if i == 2:
-                    self.adjP2 = dok_matrix(np.asmatrix(cp.asnumpy(cp.matmul(cpAdj,cpAdj))))
+                    self.adjP2 = dok_matrix(np.asmatrix(np.asarray(np.matmul(cpAdj,cpAdj))))
                 if i == 3:
-                    self.adjP3 = dok_matrix(np.asmatrix(cp.asnumpy(cp.matmul(cp.asarray(self.adjP2.toarray()),cpAdj))))
+                    self.adjP3 = dok_matrix(np.asmatrix(np.asarray(np.matmul(np.asarray(self.adjP2.toarray()),cpAdj))))
                 if i == 4:
-                    self.adjP4 = dok_matrix(np.asmatrix(cp.asnumpy(cp.matmul(cp.asarray(self.adjP3.toarray()),cpAdj))))
-                i += 1
+                    self.adjP4 = dok_matrix(np.asmatrix(np.asarray(np.matmul(np.asarray(self.adjP3.toarray()),cpAdj))))
         else:
             for p in P:
                  if i == 2:
