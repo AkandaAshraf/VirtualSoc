@@ -14,7 +14,8 @@ if __name__ == '__main__':
     params = SalibPreprocessGetParamsForSobol(numberOfSamples=3, # number of samples. To generate sample parameters SALib's sobol
                                               # method is used (https://salib.readthedocs.io/en/latest/) N * (D + 2) , where D is the number of parameters and N = numberOfSamples
                                               folderPathToSaveParamsAndProblem=folder, # the path where the params will be generated and the graph will also be generated there
-                                              labelSplit=[100, 200, 300], #
+                                              labelSplit=[100, 200, 300], ## 1st 100 with the same sDNA-1, 2nd 200 with the same sDNA-2 (each 100 with
+                                  # same sDNA)
                                               features= 15,
                                               npDistFunc=['np.random.randint(18, high=80)',
                                                           'np.random.binomial(2, 0.5)'],# the distribution function
