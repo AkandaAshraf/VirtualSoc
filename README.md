@@ -13,9 +13,9 @@ If you have an NVIDIA GPU with CUDA, use the
 
 #GPU branch, 
 
-otherwise the # CPU branch
+otherwise the #CPU branch
 
-(i.e. not the Master and ignore the other branches for now) 
+#(i.e. not the Master and ignore the other branches for now) 
 
 
 
