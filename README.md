@@ -1,7 +1,7 @@
 # VirtualSoc
 Required packages:
 
-numpy, pandas, scipy, SALib, pathos 
+numpy, pandas, scipy, SALib, pathos, pyprind 
 
 cupy and CUDA for the GPU version. 
 
