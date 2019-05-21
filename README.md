@@ -1,4 +1,8 @@
+
+
 # VirtualSoc
+# Simulate Dynamic Social Networks with ground truth labels and features.
+
 Required packages:
 
 numpy, pandas, scipy, SALib, pathos, pyprind 
