@@ -5,7 +5,7 @@
 
 Required packages:
 
-numpy, pandas, scipy, SALib, pathos, pyprind 
+numpy, pandas, SciPy, SALib, pathos, PyPrind 
 
 cupy and CUDA for the GPU version. 
 
