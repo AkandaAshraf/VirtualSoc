@@ -16,7 +16,7 @@ If you have an NVIDIA GPU with CUDA, use the GPU branch, otherwise the CPU branc
 
 Thanks and happy simulation. 
 
-## The paper will be linked soon.
+## The paper (preprint) : https://arxiv.org/abs/1905.09087 (Simulation and Augmentation of Social Networks for Building Deep Learning Models)
 
 
 p.s. to calculate the generated network's properties and statistics: 
