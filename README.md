@@ -25,4 +25,4 @@ To calculate network statistics and properties for the generated networks you ca
 The R script is provided for calculating graph properties but not a part of the VirtualSoc project)
 
 ## Few generated sample datasets are uploaded to the repo. data_sample.zip 
-## Many more generated datasets from VirtualSocwill soon be shared! 
+## Many more generated datasets from VirtualSoc will be shared soon! 
