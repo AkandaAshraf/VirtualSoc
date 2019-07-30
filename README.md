@@ -27,4 +27,3 @@ The R script is provided for calculating graph properties but not a part of the 
 ## Few generated sample datasets are uploaded to the repo. data_sample.zip 
 ## Many more generated datasets from VirtualSoc will be shared soon! 
 
-My current email: aashraf@bournemouth.ac.uk 
