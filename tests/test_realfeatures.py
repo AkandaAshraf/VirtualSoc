@@ -151,6 +151,53 @@ def test_dynamic_evolution_still_works():
     assert G.edgeCount >= edges_before
 
 
+def test_path_length_terms_are_added_after_first_socialise():
+    """Regression: the Eq. 9 path-length scores must contribute additively
+    in the default (non-multiplicative) mode -- for both the typed node and
+    the original NodeSocial."""
+    from scipy.sparse import dok_matrix
+    from Node import NodeSocial
+
+    schema = RealFeatureSchema([
+        FeatureSpec("age", "numeric", age_sampler, value_range=(0, 100)),
+    ])
+
+    def prepared_pair(node_builder):
+        g = make_graph_shell()
+        dna = DNAadvanced([-1, 0.0], len=1, useGPU=False, createInGPUMem=False)
+        dna.preferPopularityIntensity = 0.0
+        dna.preferShorterPathIntensity = [0.5, 0.2, 0.1]
+        a = node_builder(g, dna, 30)
+        b = node_builder(g, dna, 40)
+        n = g.nodeCount
+        g.adjP2 = dok_matrix((n, n), dtype=int)
+        g.adjP3 = dok_matrix((n, n), dtype=int)
+        g.adjP4 = dok_matrix((n, n), dtype=int)
+        g.adjP2[a.ID, b.ID] = 1  # one 2-path between a and b
+        g.Socialised = True
+        return a, b
+
+    def typed(g, dna, age):
+        return NodeSocialReal(label=0, DNA=dna, Graph=g, schema=schema,
+                              featureValues=[age])
+
+    def plain(g, dna, age):
+        return NodeSocial(label=0, DNA=dna, Graph=g,
+                          additionalFeatures=[age])
+
+    for builder in (typed, plain):
+        a, b = prepared_pair(builder)
+        with_path = a.getScoreAdvanced(
+            b, popularityPreferenceIntensity=0.0,
+            mutualPreferenceIntensity=[0.9, 0.3, 0.1])
+        without = a.getScoreAdvanced(
+            b, popularityPreferenceIntensity=0.0,
+            mutualPreferenceIntensity=None)
+        # feature weight is 0 and popularity intensity 0, so the only
+        # difference must be the 2-path term: mpi * k2 = 0.9 * 0.5
+        assert with_path == pytest.approx(without + 0.9 * 0.5), builder.__name__
+
+
 def test_homophily_emerges_for_similarity_preferring_dna():
     """With all-sDNA forced to prefer-similar on a single categorical
     feature, connected pairs should share the category more often than

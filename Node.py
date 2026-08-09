@@ -327,7 +327,8 @@ class NodeSocial(Node):
                         sumScore = sumScore * tempPath3
                     if tempPath4 != 0:
                         sumScore = sumScore * tempPath4
-                # else:
+                else:
+                    # additive path-length preference (paper Eq. 9: s = phi + r*delta + c^T*pi)
                     sumScore = sumScore + tempPath2 + tempPath3 + tempPath4
 
         # if self.DNA.

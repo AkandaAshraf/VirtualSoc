@@ -305,6 +305,8 @@ class NodeSocialReal(NodeSocial):
                         sumScore = sumScore * tempPath3
                     if tempPath4 != 0:
                         sumScore = sumScore * tempPath4
+                else:
+                    # additive path-length preference (paper Eq. 9)
                     sumScore = sumScore + tempPath2 + tempPath3 + tempPath4
 
         return sumScore
