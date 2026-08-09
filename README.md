@@ -17,6 +17,29 @@ CPU automatically (install `cupy-cuda12x` to enable the GPU score path).
 
 Thanks and happy simulation. 
 
+## New: web-based simulation suite
+
+Researchers can generate privacy-safe simulated social networks — with
+ground-truth labels, realistic attributes and dynamic snapshots — from
+the browser or over HTTP, to test algorithms and theories without
+accessing real social networks:
+
+```bash
+pip install -r requirements.txt flask
+python webapp.py          # open http://127.0.0.1:5000
+```
+
+Set the number of people, time steps (snapshots with sDNA preference
+drift between them), and attributes (realistic preset or custom typed
+features), hit **Simulate**, watch live progress, and download the
+dataset: per-snapshot edge lists, node labels, typed attributes, a
+GCN-ready numeric feature matrix, and summary statistics (incl. per-
+attribute homophily). The same functionality is available as a JSON API
+(`POST /api/simulate`, `GET /api/jobs/<id>`, `.../result`,
+`.../download`) — see the docstring in `webapp.py`. The web layer never
+evaluates user-supplied code (unlike the legacy `npDistFunc` strings,
+schemas are built from validated JSON).
+
 ## New: realistic, typed features (age, gender, city, ...)
 
 Besides abstract numeric features, networks can now be simulated with

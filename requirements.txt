@@ -2,6 +2,7 @@ numpy
 scipy
 pyprind
 pathos
+flask
 # optional, for GPU-accelerated scoring:
 # cupy-cuda12x
 # development:
