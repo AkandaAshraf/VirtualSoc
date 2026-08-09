@@ -4,7 +4,7 @@ import DNA as d
 import warnings
 import collections
 import copy
-import cupy as cp
+from gpu import cp, GPU_AVAILABLE
 class Node:
     ''' This is a root/parent class which creates objects with the basic structure of nodes. It does not have an features.'''
 
@@ -145,7 +145,7 @@ class NodeSocial(Node):
             self.gender = gender
             self.features.append(gender)
 
-        if gender is not None:
+        if location is not None:
              self.location = location
              self.features.append(location)
 
@@ -158,7 +158,7 @@ class NodeSocial(Node):
         if additionalFeatures is not None:
             for value in additionalFeatures:
                 self.features.append(value)
-        if Graph._useGPU and Graph.createInGPUMem:
+        if GPU_AVAILABLE and Graph._useGPU and Graph.createInGPUMem:
             self.featuresCP = cp.asarray(self.features)
 
     def __del__(self):
@@ -275,7 +275,7 @@ class NodeSocial(Node):
         #     i = i+2
         useGPU = self.Graph._useGPU
         createInGPUMem = self.Graph.createInGPUMem
-        if cp.cuda.is_available() and useGPU:
+        if GPU_AVAILABLE and useGPU:
             if createInGPUMem:
                 sumScore = cp.asnumpy(cp.sum(cp.multiply(
                     cp.multiply(cp.absolute(cp.subtract(self.featuresCP, other.featuresCP)), self.DNA.valueWeight),

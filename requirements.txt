@@ -1,0 +1,8 @@
+numpy
+scipy
+pyprind
+pathos
+# optional, for GPU-accelerated scoring:
+# cupy-cuda12x
+# development:
+# pytest

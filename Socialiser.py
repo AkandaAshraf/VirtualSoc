@@ -1,7 +1,6 @@
 import numpy as np
 import concurrent.futures
 import operator
-from cupy.cuda import MemoryPool
 import pyprind
 import sys
 import itertools

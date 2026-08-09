@@ -9,7 +9,8 @@ from scipy.sparse import linalg
 import warnings
 import collections
 import copy
-import cupy as cp
+from gpu import cp, GPU_AVAILABLE
+import RealFeatures
 
 class Graph:
 
@@ -31,7 +32,7 @@ class Graph:
     def A(self, externalAdjDict = None, nodeCount=None):
 
         if externalAdjDict is None:
-            adj = dok_matrix((self.nodeCount, self.nodeCount),dtype=np.int)
+            adj = dok_matrix((self.nodeCount, self.nodeCount),dtype=int)
             for key1,key2 in self.adjMatDict:
                 if self.adjMatDict[key1,key2] is not None:
                     adj[key1,key2] = 1
@@ -39,7 +40,7 @@ class Graph:
             return adj
 
         else:
-            adj = dok_matrix((nodeCount, nodeCount),dtype=np.int)
+            adj = dok_matrix((nodeCount, nodeCount),dtype=int)
             for key1,key2 in externalAdjDict:
                 if externalAdjDict[key1, key2] is not None:
                     adj[key1,key2] = 1
@@ -56,7 +57,7 @@ class Graph:
         # if self.adj is None:
         self.A()
         i = 2
-        if useGPU and cp.cuda.is_available():
+        if useGPU and GPU_AVAILABLE:
             for p in P:
                 cpAdj = cp.asarray(self.adj.toarray())
                 if i == 2:
@@ -342,7 +343,7 @@ class RandomSocialGraph(Graph):
 
 class RandomSocialGraphAdvanced(Graph):
 
-    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=None,connectionPercentageWithMatchedNodesWithRandomness=None,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True,shuffledDNA=True,useGPU=True,createInGPUMem=True,numberofProcesses=None):
+    def __init__(self, labelSplit,popularityPreferenceIntensity=1,mutualPreferenceIntensity=None,connectionPercentageWithMatchedNodesWithRandomness=None,pathLenghtLimit=4, explorationProbability=0.9, connectionPercentageWithMatchedNodes=20 , n='auto', dna='auto', p=None, undirected=True, selfConncetions=False, keepHistory = True,addTraidtionalFeatures=True,npDistFunc=None,additionalFeatureLen=0,genFeaturesFromSameDistforAllLabel=True,socialiseOnCreation=True,shuffledDNA=True,useGPU=True,createInGPUMem=True,numberofProcesses=None,realFeatureSchema=None,realFeatureSeed=None):
         super(RandomSocialGraphAdvanced, self).__init__(undirected=undirected, selfConncetions=selfConncetions)
         self.DNA = []
         self.dna =dna
@@ -370,7 +371,15 @@ class RandomSocialGraphAdvanced(Graph):
 
 
 
-        if genFeaturesFromSameDistforAllLabel:
+        if realFeatureSchema is not None:
+            # Typed, realistic features (age, gender, city, ...) with
+            # type-aware sDNA scoring -- see RealFeatures.py
+            self.realFeatureSchema = realFeatureSchema
+            self.N = RealFeatures.createSocialNodesRealFeatures(
+                Graph=self, labelSplit=self.labelSplit,
+                schema=realFeatureSchema, DnaObjType=DNAadvanced,
+                dna=self.dna, shuffledDNA=shuffledDNA, seed=realFeatureSeed)
+        elif genFeaturesFromSameDistforAllLabel:
             for i in range(0,len(self.labelSplit)):
                 # we will gen using createSocialNodesThreeFeatures which has three features thus len =3
                 featureLen = 0
