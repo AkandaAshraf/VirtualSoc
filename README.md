@@ -1,50 +1,50 @@
-
-
 # VirtualSoc
-# Simulate Dynamic Social Networks with ground truth labels and features.
 
-Required packages:
+**Simulate dynamic social networks — with ground-truth labels and realistic
+node features — so researchers can test algorithms and theories without
+accessing real social-network data.**
 
-numpy, pandas, SciPy, SALib, pathos, PyPrind 
+VirtualSoc is the open-source simulation library of the paper
+[*Simulation and Augmentation of Social Networks for Building Deep Learning
+Models*](https://arxiv.org/abs/1905.09087). Network topology is driven by
+latent node preferences (the **social DNA, sDNA**) which double as
+ground-truth class labels; features, labels and structure are generated
+*coupled together*, the way they are entangled in real social networks.
 
-cupy and CUDA for the GPU version. 
+## The simulation suite (web UI + API)
 
-For a single network simulation follow the ScriptSingleNetwork.py  
-For multiple networks simulation follow the ScriptMultiNetwork.py 
-
-CuPy/CUDA is now optional: without CuPy installed everything runs on the
-CPU automatically (install `cupy-cuda12x` to enable the GPU score path).
-
-Thanks and happy simulation. 
-
-## New: web-based simulation suite
-
-Researchers can generate privacy-safe simulated social networks — with
-ground-truth labels, realistic attributes and dynamic snapshots — from
-the browser or over HTTP, to test algorithms and theories without
-accessing real social networks:
+![VirtualSoc simulation suite](docs/simulation-suite.png)
 
 ```bash
-pip install -r requirements.txt flask
+pip install -r requirements.txt
 python webapp.py          # open http://127.0.0.1:5000
 ```
 
-Set the number of people, time steps (snapshots with sDNA preference
-drift between them), and attributes (realistic preset or custom typed
-features), hit **Simulate**, watch live progress, and download the
-dataset: per-snapshot edge lists, node labels, typed attributes, a
-GCN-ready numeric feature matrix, and summary statistics (incl. per-
-attribute homophily). The same functionality is available as a JSON API
-(`POST /api/simulate`, `GET /api/jobs/<id>`, `.../result`,
-`.../download`) — see the docstring in `webapp.py`. The web layer never
-evaluates user-supplied code (unlike the legacy `npDistFunc` strings,
-schemas are built from validated JSON).
+Set the number of people, preference groups, time steps (snapshots with
+sDNA preference drift between them) and attributes — hit **Simulate** —
+watch live progress — download the dataset. Every download is a
+ready-to-use research bundle:
 
-## New: realistic, typed features (age, gender, city, ...)
+| file | contents |
+|---|---|
+| `edges_t{K}.csv` | undirected edge list of snapshot K (dynamic networks) |
+| `labels.csv` | ground-truth node labels (sDNA groups) |
+| `features_typed.json` | realistic attribute values per node |
+| `features_encoded.csv` | numeric feature matrix (GCN-ready) |
+| `stats.json` | per-snapshot statistics incl. per-attribute homophily |
 
-Besides abstract numeric features, networks can now be simulated with
-**typed real-world features** compared by type-aware dissimilarities
-inside the sDNA score — see `RealFeatures.py`:
+The same functionality is scriptable over HTTP — `POST /api/simulate`,
+`GET /api/jobs/<id>` (progress), `.../result`, `.../download` — see the
+docstring in [`webapp.py`](webapp.py) for the request format. The web
+layer never executes user-supplied code and enforces hard parameter
+limits. All generated data is simulated: it contains no real
+individuals and is safe to share.
+
+## Realistic, typed features
+
+Networks can be simulated with **typed real-world attributes** compared by
+type-aware dissimilarities inside the sDNA score (see
+[`RealFeatures.py`](RealFeatures.py)):
 
 | type | example | dissimilarity |
 |---|---|---|
@@ -65,20 +65,34 @@ G = RandomSocialGraphAdvanced(labelSplit=[50, 100, 150, 200],
 ```
 
 sDNA semantics are unchanged (per-feature prefer-similar/dissimilar and
-weight, mutation, labels), and every node still exposes a flat numeric
-encoding (`node.features`: normalised numerics, one-hot categoricals,
-0/1 interest vectors) so exports and GCN training work as before.
-Custom features are one `FeatureSpec(name, kind, sampler, ...)` each.
-Full example: `ScriptRealFeaturesNetwork.py`; tests: `tests/`.
+weight, mutation for dynamics, labels), and every node also carries a flat
+numeric encoding (`node.features`) so exports and GCN training work as
+before. A custom feature is one `FeatureSpec(name, kind, sampler, ...)`.
+Full example: [`ScriptRealFeaturesNetwork.py`](ScriptRealFeaturesNetwork.py).
 
-## The paper (preprint) : https://arxiv.org/abs/1905.09087 (Simulation and Augmentation of Social Networks for Building Deep Learning Models)
+## Library usage
 
+- Abstract-feature simulation (as in the paper): `ScriptSingleNetwork.py`
+  (single network) and `ScriptMultiNetwork.py` (batches).
+- CuPy/CUDA is optional: without CuPy everything runs on the CPU
+  automatically; install `cupy-cuda12x` to enable GPU-accelerated scoring.
+- Tests: `python -m pytest tests` (19 tests).
 
-p.s. to calculate the generated network's properties and statistics: 
-To calculate network statistics and properties for the generated networks you can use the R script. Use the function pipeNetworkStats("D:/VirtualSocPP1/", threads=7) , and pass the root directory path to the function and number of threads you want it to use. There are dependencies for the r script and they need to be installed to run the script. 
-(This R script is separate from this project and relies heavily on other libraries for graph properties algorithm. 
-The R script is provided for calculating graph properties but not a part of the VirtualSoc project)
+Sample generated datasets: `data_sample.zip` in this repo and many more on
+[Kaggle](https://www.kaggle.com/akandaashraf/virtualsoc1). To compute
+graph statistics for generated networks, the standalone `rscript` is
+included (R, with its own dependencies; not part of the library).
 
-## Few generated sample datasets are uploaded to the repo. data_sample.zip 
-## Many more generated datasets from VirtualSoc https://www.kaggle.com/akandaashraf/virtualsoc1
+## The paper
 
+> A. Wahid-Ul-Ashraf, M. Budka, K. Musial,
+> *Simulation and Augmentation of Social Networks for Building Deep
+> Learning Models*, [arXiv:1905.09087](https://arxiv.org/abs/1905.09087).
+
+Related: the gravitational link-prediction method by the same authors has
+its reference implementation at
+[AkandaAshraf/akanda-method](https://github.com/AkandaAshraf/akanda-method)
+— including the GCN augmentation from this paper evaluated on Cora.
+
+This work comes from the author's PhD research, funded by Bournemouth
+University, supervised by the paper's co-authors.
